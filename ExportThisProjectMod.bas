@@ -1,6 +1,6 @@
 Attribute VB_Name = "ExportThisProjectMod"
 ' working great!
-Public Sub export_this_project()
+Private Sub export_this_project()
     
     Dim VBProj As VBIDE.VBProject
     Dim VBComp As VBIDE.VBComponent
