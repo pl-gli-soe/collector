@@ -3,6 +3,59 @@ Public Sub del_conf_pivot(ictrl As IRibbonControl)
     new_pivot
 End Sub
 
+Public Sub pn_pivot(ictrl As IRibbonControl)
+    inner_pn_pivot
+End Sub
+
+
+Public Sub inner_pn_pivot()
+    
+    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet, ph As PivotHandler
+    Dim source_range As Range
+    Dim p As Range
+    Dim k As Range
+    
+    
+    
+    
+    
+    With ThisWorkbook
+        Application.DisplayAlerts = False
+        On Error Resume Next
+        .Sheets(XWiz.PN_PIVOT_SHEET_NAME).Delete
+        Application.DisplayAlerts = True
+        Set pivotsh = .Sheets.Add
+        pivotsh.Name = XWiz.PN_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+    End With
+    
+    Set p = pivotsourcesh.Range("A1")
+    Set k = pivotsourcesh.Range("A1")
+    
+    Do
+        Set k = k.Offset(1, 0)
+    Loop Until k = ""
+    
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    
+    If source_range.Count > 1 Then
+    
+    
+        Set ph = New PivotHandler
+        
+        With ph
+            ' -------------------------------------------------
+            .init source_range, XWiz.PN_PIVOT_SHEET_NAME
+            .config_pivot "PN"
+            .add_slicers
+            ' -------------------------------------------------
+        End With
+        
+        Set ph = Nothing
+    End If
+    
+End Sub
+
 Public Sub new_pivot()
     
     Dim pivotsh As Worksheet, pivotsourcesh As Worksheet, ph As PivotHandler
@@ -40,8 +93,8 @@ Public Sub new_pivot()
         
         With ph
             ' -------------------------------------------------
-            .init source_range
-            .config_pivot
+            .init source_range, XWiz.PIVOT_SHEET_NAME
+            .config_pivot "DEL CONF"
             .add_slicers
             ' -------------------------------------------------
         End With

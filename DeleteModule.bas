@@ -52,6 +52,7 @@ Private Sub inner_clear_old_data()
                 Sh.Name <> XWiz.REP_FUP_SHEET_NAME And _
                 Sh.Name <> XWiz.PIVOT_SHEET_NAME And _
                 Sh.Name <> XWiz.PIVOT_SOURCE_SHEET_NAME And _
+                Sh.Name <> XWiz.PN_PIVOT_SHEET_NAME And _
                 Sh.Name <> XWiz.ALL_SHEET_NAME Then
                     Sh.Delete
                 End If
@@ -78,6 +79,15 @@ Private Sub inner_clear_old_data()
         End With
         
         With ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+            Set r = .Range("a1")
+            Set r = .Range(r, r.Offset(100000, 1000))
+            
+            r.ClearComments
+            r.Clear
+        
+        End With
+        
+        With ThisWorkbook.Sheets(XWiz.PN_PIVOT_SHEET_NAME)
             Set r = .Range("a1")
             Set r = .Range(r, r.Offset(100000, 1000))
             

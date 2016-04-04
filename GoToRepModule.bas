@@ -27,6 +27,10 @@ Public Sub go_to_rep_fup(ictrl As IRibbonControl)
     ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME).Activate
 End Sub
 
+Public Sub go_to_rep_all(ictrl As IRibbonControl)
+    ThisWorkbook.Sheets(XWiz.ALL_SHEET_NAME).Activate
+End Sub
+
 Public Sub go_to_config(ictrl As IRibbonControl)
     ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Activate
 End Sub
@@ -34,6 +38,18 @@ End Sub
 Public Sub go_to_through_selection(ictrl As IRibbonControl)
     inner_go_to_through_selection ActiveCell
 End Sub
+
+
+' pivots
+' ===============================================
+Public Sub go_to_del_conf_pivot(ictrl As IRibbonControl)
+    ThisWorkbook.Sheets(XWiz.PIVOT_SHEET_NAME).Activate
+End Sub
+
+Public Sub go_to_rep_pn_pivot(ictrl As IRibbonControl)
+    ThisWorkbook.Sheets(XWiz.PN_PIVOT_SHEET_NAME).Activate
+End Sub
+' ===============================================
 
 
 Public Sub inner_go_to_through_selection(target As Range)
