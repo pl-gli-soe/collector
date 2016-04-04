@@ -41,7 +41,7 @@ Private slajser_cache5 As SlicerCache
 
 
 
-Public Sub init(sr As Range)
+Public Sub init(sr As Range, pivot_sh_nm As String)
 
 
     Set source_range = sr
@@ -51,14 +51,14 @@ Public Sub init(sr As Range)
     
     Set source_sh = ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
     
-    Set pivot_sh = ThisWorkbook.Sheets(XWiz.PIVOT_SHEET_NAME)
+    Set pivot_sh = ThisWorkbook.Sheets(CStr(pivot_sh_nm))
 
     
     Set pivot_table = pivot_sh.PivotTables.Add(PivotCache:=pivot_cache, TableDestination:=Range("B4"))
     
 End Sub
 
-Public Sub config_pivot()
+Public Sub config_pivot(ctxt As String)
 
 
 
@@ -78,8 +78,8 @@ Public Sub config_pivot()
     Dim pivot_field As PivotField
     
     With pivot_table
-        .PivotFields("DEL CONF").Orientation = xlRowField
-        .PivotFields("DEL CONF").Position = 1
+        .PivotFields(CStr(ctxt)).Orientation = xlRowField
+        .PivotFields(CStr(ctxt)).Position = 1
         
         '.PivotFields("PROJ").Orientation = xlRowField
         '.PivotFields("PROJ").Position = 2
