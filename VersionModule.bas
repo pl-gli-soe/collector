@@ -22,6 +22,7 @@ Attribute VB_Name = "VersionModule"
 '
 ''
 ' pierwsze proby z githubem
+' dodam teraz tekst by sprawdzic jak branche dzialaja
 ' ======================================================
 
 ' ======================================================
