@@ -47,8 +47,13 @@ Private Sub import_this_project()
     Dim objFile As Scripting.File
     Set objFSO = New Scripting.FileSystemObject
     
+    Dim VBProj As VBIDE.VBProject
+    Dim VBComp As VBIDE.VBComponent
     Dim VBComps As VBIDE.VBComponents
-    dun VBComps = ThisWorkbook.VBProject.VBComponents
+    Dim CodeMod As VBIDE.CodeModule
+    
+    Set VBProj = ThisWorkbook.VBProject
+    Set VBComps = VBProj.VBComponents
     
     For Each objFile In objFSO.GetFolder(XWiz.REPO_PATH).Files
         ' body
@@ -88,6 +93,9 @@ Private Sub remove_current_implementation()
             txt = VBComp.Name
             Debug.Print txt & " zostaje"
 
+        ElseIf CStr(VBComp.Name) = "ExportThisProjectMod" Then
+            txt = VBComp.Name
+            Debug.Print txt & " zostaje"
         Else
             
             VBComps.Remove VBComp
@@ -95,6 +103,6 @@ Private Sub remove_current_implementation()
          
     Next VBComp
     
-    MsgBox "ready!"
+    ' MsgBox "ready!"
 
 End Sub
