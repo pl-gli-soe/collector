@@ -87,11 +87,7 @@ Private Sub remove_current_implementation()
         ElseIf VBComp.Type = vbext_ct_ActiveXDesigner Then
             txt = VBComp.Name
             Debug.Print txt & " zostaje"
-            
-        ElseIf VBComp.Type = vbext_ct_MSForm Then
-            txt = VBComp.Name & ".frm"
-            VBComp.Export CStr(XWiz.REPO_PATH) & txt
-            Debug.Print txt
+
         Else
             
             VBComps.Remove VBComp
