@@ -17,6 +17,23 @@ Attribute VB_Name = "VersionModule"
 ' WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+' ======================================================
+' wersja 2.88 - scaffold dla all 2016-04-05
+'
+''
+' udostepnienie - ostatnie szlify
+' w tej wersji przesuwanie
+' z repow do repow fupow i side'ow
+' dziala tylko i wylacznie per arkusz side
+' takie zalozenie nieco burzy harmonie dzialania
+' ale zakladam ze ta funkcjonalnosc nie bedzie juz tak
+' popularna jak raport all dla pivotow
+' ======================================================
+
+
+
+
 ' ======================================================
 ' wersja 2.87 - scaffold dla all 2016-04-04
 '

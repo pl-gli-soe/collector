@@ -46,7 +46,7 @@ Private Sub inner_z_rep_do_rep_fup()
         .setEFup E_FUP_FILTER_YES
         .setSideWrksh Nothing
         .wyczysc_arkusz_rep_fup
-        .zRepDoRepFup rep, rep_fup
+        .ZRepDoRepFup rep, rep_fup
     End With
     
     Set wh = Nothing

@@ -732,7 +732,7 @@ End Sub
 
 
 
-Public Sub zRepDoRepFup(rep As Worksheet, rep_fup As Worksheet)
+Public Sub ZRepDoRepFup(rep As Worksheet, rep_fup As Worksheet)
 
 
     ' nieco inne wejscie na sub'a

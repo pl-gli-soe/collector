@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 ' FORREST SOFTWARE
 ' Copyright (c) 2015 Mateusz Forrest Milewski
 '
