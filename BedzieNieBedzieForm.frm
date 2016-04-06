@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 ' FORREST SOFTWARE
 ' Copyright (c) 2015 Mateusz Forrest Milewski
 '
@@ -153,15 +154,21 @@ End Sub
 
 Private Sub BtnFiltruj3Usun_Click()
     
-    ' Me.ListBoxRep.Clear
-    Me.ListBoxSource.Clear
+    'Me.ListBoxRep.Clear
+    'Me.ListBoxSource.Clear
     
     With p_wh
         For Each s In .getCollection
             If Not (Replace(s, Me.TextBoxWorkPath.Value, "") Like "*" & Me.TextBoxPattern3Usun.Value & "*") Then
                 ' Me.ListBoxRep.AddItem Replace(s, Me.TextBoxWorkPath.Value, "")
-                On Error Resume Next
-                Me.ListBoxRep.RemoveItem x
+                For x = 0 To Me.ListBoxRep.ListCount
+                    On Error Resume Next
+                    If (Me.ListBoxRep.List(x) Like "*" & Me.TextBoxPattern3Usun.Value & "*") Then
+                        Me.ListBoxRep.RemoveItem x
+                        Me.ListBoxSource.AddItem Replace(s, Me.TextBoxWorkPath.Value, "")
+                    End If
+                Next x
+                
             Else
                 Me.ListBoxSource.AddItem Replace(s, Me.TextBoxWorkPath.Value, "")
             End If
@@ -178,7 +185,13 @@ Private Sub BtnFiltruj4Zostaw_Click()
         For Each s In .getCollection
             If (Replace(s, Me.TextBoxWorkPath.Value, "") Like "*" & Me.TextBoxPattern3Usun.Value & "*") Then
                 ' Me.ListBoxRep.AddItem Replace(s, Me.TextBoxWorkPath.Value, "")
-                Me.ListBoxRep.RemoveItem x
+                For x = 0 To Me.ListBoxRep.ListCount
+                    On Error Resume Next
+                    If Not (Me.ListBoxRep.List(x) Like "*" & Me.TextBoxPattern3Usun.Value & "*") Then
+                        Me.ListBoxRep.RemoveItem x
+                        Me.ListBoxSource.AddItem Replace(s, Me.TextBoxWorkPath.Value, "")
+                    End If
+                Next x
             Else
                 Me.ListBoxSource.AddItem Replace(s, Me.TextBoxWorkPath.Value, "")
             End If

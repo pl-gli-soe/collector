@@ -92,6 +92,7 @@ Global Const G_CMNT_HEIGHT = 40
 ' najwazniejsza zmienna stala globalna dla poczatku projekt XWiz
 ' =====================================================================
 Global Const XWIZ_PATH_FOR_SEARCHING = "X:\PLGLI-Exchange\SoE\FMA\"
+Global Const REPO_PATH = "C:\WORKSPACE\macros\Wizard\Collector\repo\"
 Global Const G_TEST_NA_DYSKU_LOKALNYM As Boolean = False
 
 Global Const XWIZ_FILE_PREFIX = "M"
