@@ -41,6 +41,16 @@ Public del_conf As String
 
 Public cmnts As String
 
+Public supp_nm As String
+Public total_qty As String
+Public ordered_date As String
+Public ppap_status As String
+Public ppap_gate As String
+Public ordered_qty As String
+Public confirmed_qty As String
+Public fst_pickup_date As String
+
+
 Public mrd As String
 Public mrdd As String
 Public unique_id As String

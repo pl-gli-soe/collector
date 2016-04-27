@@ -46,16 +46,34 @@ Public Sub init(sr As Range, pivot_sh_nm As String)
 
     Set source_range = sr
     
+    
+    ' Debug.Print source_range.Rows.Count
+    
+    ' example
+    ' Create the Cache
+    'Set PTCache = ActiveWorkbook.PivotCaches.Create(SourceType:=xlDatabase, _
+    '    SourceData:=Range("Dynamic_Field_Summary"))
+    
     ' Set source_range = sr
-    Set pivot_cache = ThisWorkbook.PivotCaches.Create(xlDatabase, source_range)
+    Set pivot_cache = Nothing
+    On Error Resume Next
+    Set pivot_cache = _
+        ThisWorkbook.PivotCaches.Create(SourceType:=xlDatabase, _
+            SourceData:="pivotSource!R1C1:R" & CStr(source_range.Rows.Count) & "C" & CStr(OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
-    Set source_sh = ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
     
-    Set pivot_sh = ThisWorkbook.Sheets(CStr(pivot_sh_nm))
-
+    If pivot_cache Is Nothing Then
+        MsgBox "cos poszlonie tak z proba utworzenia pivota"
+        End
+    Else
     
-    Set pivot_table = pivot_sh.PivotTables.Add(PivotCache:=pivot_cache, TableDestination:=Range("B4"))
+        Set source_sh = ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        
+        Set pivot_sh = ThisWorkbook.Sheets(CStr(pivot_sh_nm))
     
+        
+        Set pivot_table = pivot_sh.PivotTables.Add(PivotCache:=pivot_cache, TableDestination:=Range("B4"))
+    End If
 End Sub
 
 Public Sub config_pivot(ctxt As String)

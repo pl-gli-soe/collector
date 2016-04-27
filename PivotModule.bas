@@ -27,6 +27,7 @@ Public Sub inner_pn_pivot()
         Set pivotsh = .Sheets.Add
         pivotsh.Name = XWiz.PN_PIVOT_SHEET_NAME
         Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        ActiveWindow.Zoom = 80
     End With
     
     Set p = pivotsourcesh.Range("A1")
@@ -75,6 +76,7 @@ Public Sub new_pivot()
         Set pivotsh = .Sheets.Add
         pivotsh.Name = XWiz.PIVOT_SHEET_NAME
         Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        ActiveWindow.Zoom = 80
     End With
     
     Set p = pivotsourcesh.Range("A1")
