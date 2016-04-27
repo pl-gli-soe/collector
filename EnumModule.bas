@@ -172,7 +172,7 @@ Public Enum E_NEW_PROJECT_ITEM
     PHAZE
     bom
     PICKUP_DATE
-    PPAP_GATE
+    ppap_gate
     mrd
     BUILD_START
     BUILD_END
@@ -199,11 +199,11 @@ Public Enum E_MASTER_MANDATORY_COLUMNS
     Responsibility
     fup_code
     SQ
-    PPAP_Status
+    ppap_status
     SQ_Comments
     MRD1_QTY
     MRD2_QTY
-    Total_QTY
+    total_qty
     ADD_to_T_slash_D
     MRD1_Ordered_Date
     MRD1_Ordered_QTY

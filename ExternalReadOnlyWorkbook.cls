@@ -1474,6 +1474,23 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
         
         rhaa.cmnts = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments))
         
+        With wrkbk.Sheets(XWiz.MASTER_SHEET_NAME)
+                
+            rhaa.supp_nm = Trim(.Cells(x, XWiz.Supplier_Name))
+            rhaa.total_qty = Trim(.Cells(x, XWiz.total_qty))
+            
+            ' mrd1
+            rhaa.ordered_date = Trim(.Cells(x, XWiz.MRD1_Ordered_Date))
+            rhaa.ordered_qty = Trim(.Cells(x, XWiz.MRD1_Ordered_QTY))
+            rhaa.confirmed_qty = Trim(.Cells(x, XWiz.MRD1_confirmed_qty))
+            
+            rhaa.ppap_status = Trim(.Cells(x, XWiz.ppap_status))
+            rhaa.ppap_gate = Trim(.Cells(x, XWiz.ppap_gate))
+            
+            rhaa.fst_pickup_date = Trim(.Cells(x, XWiz.First_Confirmed_PUS_Date))
+            
+        End With
+        
         
         ' ----------------------
         kolekcja_obiektow_typu_RecordHandlerAllApproach.Add rhaa
@@ -1555,7 +1572,7 @@ Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, ar
             ' podreczna pamiec w cfg dla calych stringow dla phase
             ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("U" & CStr(r.Row)) = Result
             r.Offset(0, x - 1).Value = Left(CStr(Result), XWiz.G_CUT_PHAZE)
-        ElseIf x = XWiz.PICKUP_DATE Or x = XWiz.PPAP_GATE Then
+        ElseIf x = XWiz.PICKUP_DATE Or x = XWiz.ppap_gate Then
             On Error Resume Next
             r.Offset(0, x - 1).Value = Format(CStr(Result), "yyyy-mm-dd")
         Else
