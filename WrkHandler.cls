@@ -180,7 +180,19 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
             .Cells(x, 10) = "FUP"
             .Cells(x, 11) = "PN"
             .Cells(x, 12) = "DEL CONF"
-            .Cells(x, 13) = "Comment"
+            .Cells(x, 13) = "Comments"
+            .Cells(x, 14) = "DUNS"
+            .Cells(x, 15) = "SUPP NM"
+            .Cells(x, 16) = "Total QTY"
+            .Cells(x, 17) = "Ordered Date"
+            .Cells(x, 18) = "PPAP Status"
+            .Cells(x, 19) = "PPAP GATE"
+            .Cells(x, 20) = "Ordered Qty"
+            .Cells(x, 21) = "Conf Qty"
+            .Cells(x, 22) = "Fst Pickup Date"
+            
+            
+            
             
         End With
         
@@ -202,6 +214,15 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
                 .Cells(x, 11) = rhaa.pn
                 .Cells(x, 12) = rhaa.del_conf
                 .Cells(x, 13) = rhaa.cmnts
+                .Cells(x, 14) = rhaa.duns
+                .Cells(x, 15) = rhaa.supp_nm
+                .Cells(x, 16) = rhaa.total_qty
+                .Cells(x, 17) = rhaa.ordered_date
+                .Cells(x, 18) = rhaa.ppap_status
+                .Cells(x, 19) = rhaa.ppap_gate
+                .Cells(x, 20) = rhaa.ordered_qty
+                .Cells(x, 21) = rhaa.confirmed_qty
+                .Cells(x, 22) = rhaa.fst_pickup_date
                 
             End With
             ' ============================

@@ -1,6 +1,6 @@
 Attribute VB_Name = "VersionModule"
 ' FORREST SOFTWARE
-' Copyright (c) 2015 Mateusz Forrest Milewski
+' Copyright (c) 2016 Mateusz Forrest Milewski
 '
 ' Permission is hereby granted, free of charge,
 ' to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -17,6 +17,47 @@ Attribute VB_Name = "VersionModule"
 ' WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+' ======================================================
+' wersja 2.90 - scaffold dla all 2016-04-27
+'
+' rozszerzenie rep all
+'
+''
+' ' .Cells(x, 1) = "PLT"
+' ' .Cells(x, 2) = "PROJ"
+' ' .Cells(x, 3) = "BG"
+' ' .Cells(x, 4) = "MY"
+' ' .Cells(x, 5) = "FAZA"
+' ' .Cells(x, 6) = "MRD"
+' ' .Cells(x, 7) = "MRDd"
+' ' .Cells(x, 8) = "COORD"
+' ' .Cells(x, 9) = "RESP"
+' ' .Cells(x, 10) = "FUP"
+' ' .Cells(x, 11) = "PN"
+' ' .Cells(x, 12) = "DEL CONF"
+' ' .Cells(x, 13) = "Comments"
+' ' .Cells(x, 14) = "DUNS"
+' ' .Cells(x, 15) = "SUPP NM"
+' ' .Cells(x, 16) = "Total QTY"
+' ' .Cells(x, 17) = "Ordered Date"
+' ' .Cells(x, 18) = "PPAP Status"
+' ' .Cells(x, 19) = "Ordered Qty"
+' ' .Cells(x, 20) = "Conf Qty"
+' ' .Cells(x, 21) = "Fst Pickup Date"
+' ======================================================
+
+' ======================================================
+' wersja 2.89 - scaffold dla all 2016-04-21
+'
+''
+' 1. rozszerzony modul usuwania
+' 2. jak madrzej sobie radzic z danymi wizarda?
+' 3. narazie na dzien 21 04 2016 jeszcze nie udostepniam
+' tej wersji z powodu tylko i wylacznie nowej grupy del
+' musi byc cos wiecej...
+' zmiany lagodzace zle zaciagane dane.
+' ======================================================
 
 ' ======================================================
 ' wersja 2.88 - scaffold dla all 2016-04-05

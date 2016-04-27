@@ -1423,7 +1423,7 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
         'strRng = Cells(x, XWiz.MRD1_Ordered_STATUS).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation)
+        Result = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
         
         nok_counter = nok_counter + 1
         If (nok_counter Mod 20) = 0 Then
@@ -1452,33 +1452,58 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
         ' E_PLATFORM
         ' E_TRANSPORTATION_ACCOUNT_NUMBER
         ' E_UNIQUE_ID
-        rhaa.plt = rr
-        rhaa.proj = rr.Offset(0, XWiz.PROJECT - 1)
-        rhaa.bg = rr.Offset(0, XWiz.BIW_GA - 1)
-        rhaa.my = rr.Offset(0, XWiz.my - 1)
-        rhaa.faza = rr.Offset(0, XWiz.PHAZE - 1)
         
-        rhaa.mrd = Trim(rr.Offset(0, XWiz.mrd - 1))
-        rhaa.mrdd = Trim(rr.Offset(0, XWiz.E_MRD_DATE - 1))
+        On Error GoTo ErrHandler:
+        With rhaa
+            .plt = rr
+            .proj = rr.Offset(0, XWiz.PROJECT - 1)
+            .bg = rr.Offset(0, XWiz.BIW_GA - 1)
+            .my = rr.Offset(0, XWiz.my - 1)
+            .faza = rr.Offset(0, XWiz.PHAZE - 1)
+            
+            .mrd = Trim(rr.Offset(0, XWiz.mrd - 1))
+            .mrdd = Trim(rr.Offset(0, XWiz.E_MRD_DATE - 1))
+            
+            .koordynator = Trim(rr.Offset(0, XWiz.koordynator - 1))
+            
+            .unique_id = Trim(rr.Offset(0, XWiz.E_UNIQUE_ID - 1))
+            
+            .del_conf = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
+            
+            .duns = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.duns))
+            .pn = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn))
+            .resp = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility))
+            .fup = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code))
+            
+            .cmnts = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments))
+        End With
         
-        rhaa.koordynator = Trim(rr.Offset(0, XWiz.koordynator - 1))
+        On Error GoTo ErrHandler:
+        With wrkbk.Sheets(XWiz.MASTER_SHEET_NAME)
+                
+            rhaa.supp_nm = Trim(.Cells(x, XWiz.Supplier_Name))
+            rhaa.total_qty = Trim(.Cells(x, XWiz.total_qty))
+            
+            ' mrd1
+            rhaa.ordered_date = Trim(.Cells(x, XWiz.MRD1_Ordered_Date))
+            rhaa.ordered_qty = Trim(.Cells(x, XWiz.MRD1_Ordered_QTY))
+            rhaa.confirmed_qty = Trim(.Cells(x, XWiz.MRD1_confirmed_qty))
+            
+            rhaa.ppap_status = Trim(.Cells(x, XWiz.ppap_status))
+            rhaa.ppap_gate = Trim(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Cells(x, XWiz.ppap_gate))
+            
+            rhaa.fst_pickup_date = Trim(.Cells(x, XWiz.First_Confirmed_PUS_Date))
+            
+        End With
         
-        rhaa.unique_id = Trim(rr.Offset(0, XWiz.E_UNIQUE_ID - 1))
         
-        rhaa.del_conf = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
+        IDataFromWizard_addComment for_comment(step), nok_counter, x, sampath, filename, E_F_Delivery_confirmation
         
-        rhaa.duns = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.duns))
-        rhaa.pn = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn))
-        rhaa.resp = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility))
-        rhaa.fup = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code))
-        
-        rhaa.cmnts = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments))
-        
-        
+ErrHandler:
         ' ----------------------
         kolekcja_obiektow_typu_RecordHandlerAllApproach.Add rhaa
         
-        IDataFromWizard_addComment for_comment(step), nok_counter, x, sampath, filename, E_F_Delivery_confirmation
+        
         
     End If
 End Sub
@@ -1555,7 +1580,7 @@ Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, ar
             ' podreczna pamiec w cfg dla calych stringow dla phase
             ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("U" & CStr(r.Row)) = Result
             r.Offset(0, x - 1).Value = Left(CStr(Result), XWiz.G_CUT_PHAZE)
-        ElseIf x = XWiz.PICKUP_DATE Or x = XWiz.PPAP_GATE Then
+        ElseIf x = XWiz.PICKUP_DATE Or x = XWiz.ppap_gate Then
             On Error Resume Next
             r.Offset(0, x - 1).Value = Format(CStr(Result), "yyyy-mm-dd")
         Else
