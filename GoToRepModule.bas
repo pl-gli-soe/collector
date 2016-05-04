@@ -17,6 +17,9 @@ Attribute VB_Name = "GoToRepModule"
 ' WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+Public Sub go_to_source_pivot_sh(ictrl As IRibbonControl)
+    ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME).Activate
+End Sub
 
 Public Sub go_to_rep(ictrl As IRibbonControl)
     ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME).Activate
@@ -43,11 +46,25 @@ End Sub
 ' pivots
 ' ===============================================
 Public Sub go_to_del_conf_pivot(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWiz.DEL_CONF_PIVOT_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_rep_pn_pivot(ictrl As IRibbonControl)
     ThisWorkbook.Sheets(XWiz.PN_PIVOT_SHEET_NAME).Activate
+End Sub
+
+
+
+Public Sub go_to_rep_ppap_pivot(ictrl As IRibbonControl)
+    ThisWorkbook.Sheets(XWiz.PPAP_PIVOT_SHEET_NAME).Activate
+End Sub
+
+Public Sub go_to_rep_fup_pivot(ictrl As IRibbonControl)
+    ThisWorkbook.Sheets(XWiz.FUP_PIVOT_SHEET_NAME).Activate
+End Sub
+
+Public Sub go_to_rep_resp_pivot(ictrl As IRibbonControl)
+    ThisWorkbook.Sheets(XWiz.RESP_PIVOT_SHEET_NAME).Activate
 End Sub
 ' ===============================================
 

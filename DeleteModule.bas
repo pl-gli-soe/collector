@@ -1,6 +1,6 @@
 Attribute VB_Name = "DeleteModule"
 ' FORREST SOFTWARE
-' Copyright (c) 2015 Mateusz Forrest Milewski
+' Copyright (c) 2016 Mateusz Forrest Milewski
 '
 ' Permission is hereby granted, free of charge,
 ' to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -52,32 +52,22 @@ Public Sub clear_pivot_sheets()
     answer = MsgBox("Czy jestes pewien akcji pozbycia sie arkuszy pivotowych!?", vbYesNo, "!")
     
     If answer = vbYes Then
-
-        With ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
-        
-            On Error Resume Next
-            .ShowAllData
-            
-            Set r = .Range("a1")
-            Set r = .Range(r, r.Offset(100000, 1000))
-            
-            r.ClearComments
-            r.Clear
-        
-        End With
-        
-        With ThisWorkbook.Sheets(XWiz.PN_PIVOT_SHEET_NAME)
-            
-            .ShowAllData
-        
-            Set r = .Range("a1")
-            Set r = .Range(r, r.Offset(100000, 1000))
-            
-            r.ClearComments
-            r.Clear
-        
-        End With
     
+        Application.DisplayAlerts = False
+
+        Dim psh As Worksheet
+        y = ThisWorkbook.Sheets.Count
+        For x = 1 To y
+        
+            Set psh = ThisWorkbook.Sheets(x)
+            If psh.Name Like "*_PIVOT*" Then
+                psh.Delete
+                x = 0
+                y = ThisWorkbook.Sheets.Count
+            End If
+        Next x
+    
+        Application.DisplayAlerts = True
     Else
         MsgBox "arkusze pivotowe nie zostaly usuniete"
     End If
@@ -119,20 +109,22 @@ Private Sub remove_side_sheets()
     answer = MsgBox("Czy jestes pewien akcji usuniecia arkuszy sideowych!?", vbYesNo, "!")
     
     If answer = vbYes Then
+    
+        Application.DisplayAlerts = False
 
         With ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
             For Each Sh In .Parent.Sheets
                 If Sh.Name <> XWiz.REP_SHEET_NAME And _
                 Sh.Name <> XWiz.CONFIG_SHEET_NAME And _
                 Sh.Name <> XWiz.REP_FUP_SHEET_NAME And _
-                Sh.Name <> XWiz.PIVOT_SHEET_NAME And _
                 Sh.Name <> XWiz.PIVOT_SOURCE_SHEET_NAME And _
-                Sh.Name <> XWiz.PN_PIVOT_SHEET_NAME And _
                 Sh.Name <> XWiz.ALL_SHEET_NAME Then
                     Sh.Delete
                 End If
             Next Sh
         End With
+        
+        Application.DisplayAlerts = True
     Else
         MsgBox "arkusze sideowe nie zostana usuniete"
     End If

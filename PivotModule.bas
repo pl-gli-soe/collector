@@ -1,6 +1,23 @@
 Attribute VB_Name = "PivotModule"
+' FORREST SOFTWARE
+' Copyright (c) 2016 Mateusz Forrest Milewski
+'
+' Permission is hereby granted, free of charge,
+' to any person obtaining a copy of this software and associated documentation files (the "Software"),
+' to deal in the Software without restriction, including without limitation the rights to
+' use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+' and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+'
+' The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+'
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+' INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+' IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+' WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Public Sub del_conf_pivot(ictrl As IRibbonControl)
-    new_pivot
+    inner_del_conf_pivot
 End Sub
 
 Public Sub pn_pivot(ictrl As IRibbonControl)
@@ -8,9 +25,224 @@ Public Sub pn_pivot(ictrl As IRibbonControl)
 End Sub
 
 
+Public Sub fup_pivot(ictrl As IRibbonControl)
+    inner_fup_pivot
+End Sub
+
+Public Sub ppap_pivot(ictrl As IRibbonControl)
+    inner_ppap_pivot
+End Sub
+
+Public Sub resp_pivot(ictrl As IRibbonControl)
+    inner_resp_pivot
+End Sub
+
+
+Public Sub inner_resp_pivot()
+
+
+    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet
+    Dim source_range As Range
+    Dim p As Range
+    Dim k As Range
+    
+    
+    
+    
+    
+    With ThisWorkbook
+        Application.DisplayAlerts = False
+        On Error Resume Next
+        .Sheets(XWiz.RESP_PIVOT_SHEET_NAME).Delete
+        Application.DisplayAlerts = True
+        Set pivotsh = .Sheets.Add
+        pivotsh.Name = XWiz.RESP_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        ActiveWindow.Zoom = 80
+    End With
+    
+    Set p = pivotsourcesh.Range("A1")
+    Set k = pivotsourcesh.Range("A1")
+    
+    Do
+        Set k = k.Offset(1, 0)
+    Loop Until k = ""
+    
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    
+    
+    
+    
+    If source_range.Count > 1 Then
+        
+        
+        Dim ww(16) As String, wk(16) As String, wc(16) As String, wp(16) As String
+        Dim slajsers(16) As String
+        
+        clear_arr_ slajsers, 16
+        
+        ww(1) = "RESP"
+        wk(1) = "COORD"
+        wc(1) = "PN"
+        
+        
+        
+        
+        Dim np As NewPivotHandler
+        Set np = New NewPivotHandler
+        np.init source_range, XWiz.RESP_PIVOT_SHEET_NAME
+        np.config_pivot ww, wk, wc, wp
+        'np.add_slicers slajsers
+        
+        np.add_totals
+        Set np = Nothing
+        
+        
+        add_slicers_for_resp
+    End If
+End Sub
+
+Public Sub inner_ppap_pivot()
+
+
+    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet
+    Dim source_range As Range
+    Dim p As Range
+    Dim k As Range
+    
+    
+    
+    
+    
+    With ThisWorkbook
+        Application.DisplayAlerts = False
+        On Error Resume Next
+        .Sheets(XWiz.PPAP_PIVOT_SHEET_NAME).Delete
+        Application.DisplayAlerts = True
+        Set pivotsh = .Sheets.Add
+        pivotsh.Name = XWiz.PPAP_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        ActiveWindow.Zoom = 80
+    End With
+    
+    Set p = pivotsourcesh.Range("A1")
+    Set k = pivotsourcesh.Range("A1")
+    
+    Do
+        Set k = k.Offset(1, 0)
+    Loop Until k = ""
+    
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    
+    
+    
+    
+    If source_range.Count > 1 Then
+        
+        
+        Dim ww(16) As String, wk(16) As String, wc(16) As String, wp(16) As String
+        Dim slajsers(16) As String
+        
+        clear_arr_ slajsers, 16
+        
+        ww(1) = "PROJ"
+        ww(2) = "PPAP Status"
+        wk(1) = "COORD"
+        wc(1) = "PN"
+        
+        
+        
+        
+        Dim np As NewPivotHandler
+        Set np = New NewPivotHandler
+        np.init source_range, XWiz.PPAP_PIVOT_SHEET_NAME
+        np.config_pivot ww, wk, wc, wp
+        ' np.add_slicers slajsers
+        np.add_totals
+        Set np = Nothing
+        
+        
+        add_slicers_for_ppap
+    End If
+End Sub
+
+Public Sub inner_fup_pivot()
+    
+    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet
+    Dim source_range As Range
+    Dim p As Range
+    Dim k As Range
+    
+    
+    
+    
+    
+    With ThisWorkbook
+        Application.DisplayAlerts = False
+        On Error Resume Next
+        .Sheets(XWiz.FUP_PIVOT_SHEET_NAME).Delete
+        Application.DisplayAlerts = True
+        Set pivotsh = .Sheets.Add
+        pivotsh.Name = XWiz.FUP_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        ActiveWindow.Zoom = 80
+    End With
+    
+    Set p = pivotsourcesh.Range("A1")
+    Set k = pivotsourcesh.Range("A1")
+    
+    Do
+        Set k = k.Offset(1, 0)
+    Loop Until k = ""
+    
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    
+    
+    
+    
+    If source_range.Count > 1 Then
+        
+        
+        Dim ww(16) As String, wk(16) As String, wc(16) As String, wp(16) As String
+        Dim slajsers(16) As String
+        
+        clear_arr_ slajsers, 16
+        
+        ww(1) = "PLT"
+        ww(2) = "PROJ"
+        ww(3) = "FAZA"
+        wk(1) = "FUP"
+        wc(1) = "PN"
+        
+        
+        
+        Dim np As NewPivotHandler
+        Set np = New NewPivotHandler
+        np.init source_range, XWiz.FUP_PIVOT_SHEET_NAME
+        np.config_pivot ww, wk, wc, wp
+        ' np.add_slicers slajsers
+        np.add_totals
+        Set np = Nothing
+        
+        
+        add_slicers_for_fup
+        add_timeline_for_fup
+    End If
+    
+End Sub
+
+Private Sub clear_arr_(arr() As String, ile)
+
+    For x = 0 To ile
+        On Error Resume Next
+        arr(x) = ""
+    Next x
+End Sub
+
+
 Public Sub inner_pn_pivot()
     
-    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet, ph As PivotHandler
+    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet
     Dim source_range As Range
     Dim p As Range
     Dim k As Range
@@ -39,27 +271,41 @@ Public Sub inner_pn_pivot()
     
     Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
+    
+    
+    
     If source_range.Count > 1 Then
-    
-    
-        Set ph = New PivotHandler
         
-        With ph
-            ' -------------------------------------------------
-            .init source_range, XWiz.PN_PIVOT_SHEET_NAME
-            .config_pivot "PN"
-            .add_slicers
-            ' -------------------------------------------------
-        End With
         
-        Set ph = Nothing
+        Dim ww(16) As String, wk(16) As String, wc(16) As String, wp(16) As String
+        Dim slajsers(16) As String
+        
+        ww(1) = "PN"
+        wk(1) = "MRD"
+        wc(1) = "PN"
+        
+        slajsers(1) = "PLT"
+        slajsers(2) = "PROJ"
+        slajsers(3) = "FAZA"
+        slajsers(4) = "BG"
+        
+        Dim np As NewPivotHandler
+        Set np = New NewPivotHandler
+        np.init source_range, XWiz.PN_PIVOT_SHEET_NAME
+        np.config_pivot ww, wk, wc, wp
+        np.add_slicers slajsers
+        Set np = Nothing
+        
+        
+        
     End If
     
 End Sub
 
-Public Sub new_pivot()
-    
-    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet, ph As PivotHandler
+
+Private Sub inner_del_conf_pivot()
+
+    Dim pivotsh As Worksheet, pivotsourcesh As Worksheet
     Dim source_range As Range
     Dim p As Range
     Dim k As Range
@@ -71,10 +317,10 @@ Public Sub new_pivot()
     With ThisWorkbook
         Application.DisplayAlerts = False
         On Error Resume Next
-        .Sheets(XWiz.PIVOT_SHEET_NAME).Delete
+        .Sheets(XWiz.DEL_CONF_PIVOT_SHEET_NAME).Delete
         Application.DisplayAlerts = True
         Set pivotsh = .Sheets.Add
-        pivotsh.Name = XWiz.PIVOT_SHEET_NAME
+        pivotsh.Name = XWiz.DEL_CONF_PIVOT_SHEET_NAME
         Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
         ActiveWindow.Zoom = 80
     End With
@@ -88,35 +334,36 @@ Public Sub new_pivot()
     
     Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
+    
     If source_range.Count > 1 Then
     
+        
+        Dim ww(16) As String, wk(16) As String, wc(16) As String, wp(16) As String
+        Dim slajsers(16) As String
+        
+        
+        ww(1) = "DEL CONF"
+        wk(1) = "MRD"
+        wc(1) = "PN"
+        
+        'slajsers(1) = "COORD"
+        'slajsers(2) = "FUP"
+        'slajsers(3) = "PLT"
+        'slajsers(4) = "PROJ"
+        'slajsers(5) = "FAZA"
+        'slajsers(6) = "PPAP Status"
+        
+        Dim np As NewPivotHandler
+        Set np = New NewPivotHandler
+        np.init source_range, XWiz.DEL_CONF_PIVOT_SHEET_NAME
+        np.config_pivot ww, wk, wc, wp
+        ' np.add_slicers slajsers
+        Set np = Nothing
+        
+        
+        add_slicers_for_del_conf
+        add_timeline_for_del_conf
     
-        Set ph = New PivotHandler
-        
-        With ph
-            ' -------------------------------------------------
-            .init source_range, XWiz.PIVOT_SHEET_NAME
-            .config_pivot "DEL CONF"
-            .add_slicers
-            ' -------------------------------------------------
-        End With
-        
-        Set ph = Nothing
     End If
-    
 End Sub
 
-' wykorzystanie z prio
-'Public Sub create_PRIO_pivot(e As pivot_layout)
-'    Dim ph As PivotHandler
-'    Set ph = New PivotHandler
-'
-'    Application.EnableEvents = False
-'
-'    ph.if_flat_table_prepare_source_range
-'    ph.init e
-'    ph.config_pivot
-'    ph.add_slicers e
-'
-'    Application.EnableEvents = True
-'End Sub

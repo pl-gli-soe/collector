@@ -28,9 +28,26 @@ Global Const G_KOLUMNA_PO_DELIVERY_CONFIRMATION_STATUS_W_ARKUSZU_REP = 25
 Global Const REP_SHEET_NAME = "rep"
 Global Const REP_FUP_SHEET_NAME = "rep_fup"
 Global Const ALL_SHEET_NAME = "all"
+
+' globals for PIVOT section
+' ----------------------------------------------------------------
+
 Global Const PIVOT_SOURCE_SHEET_NAME = "pivotSource"
+
 Global Const PIVOT_SHEET_NAME = "PIVOT"
+
+Global Const DEL_CONF_PIVOT_SHEET_NAME = "DEL_CONF_PIVOT"
+
 Global Const PN_PIVOT_SHEET_NAME = "PN_PIVOT"
+
+Global Const FUP_PIVOT_SHEET_NAME = "FUP_PIVOT"
+
+Global Const PPAP_PIVOT_SHEET_NAME = "PPAP_PIVOT"
+
+Global Const RESP_PIVOT_SHEET_NAME = "RESP_PIVOT"
+
+' ----------------------------------------------------------------
+
 Global Const MASTER_SHEET_NAME = "MASTER"
 Global Const CONFIG_SHEET_NAME = "config"
 Global Const REGISTER_SHEET_NAME = "register"
@@ -119,7 +136,7 @@ Global Const ILE_PODZIALOW_W_LECIMY_TUTAJ = 9
 Global Const DODATKOWE_POLA_OD_DETAILS = 5
 Global Const POD_MINI_PROGRES_DLA_REP_ALL = 5
 
-Global Const OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE = 22
+Global Const OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE = 24
 Global Const MNIEJSZA_ILOSC_DANYCH_DLA_PIVOTA_KOLUMNA_Z_SRODKA = 12
 
 
