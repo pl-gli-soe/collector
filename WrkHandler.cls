@@ -190,6 +190,8 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
             .Cells(x, 20) = "Ordered Qty"
             .Cells(x, 21) = "Conf Qty"
             .Cells(x, 22) = "Fst Pickup Date"
+            .Cells(x, 23) = "PICKUP DATE"
+            .Cells(x, 24) = "Country Code"
             
             
             
@@ -223,6 +225,8 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
                 .Cells(x, 20) = rhaa.ordered_qty
                 .Cells(x, 21) = rhaa.confirmed_qty
                 .Cells(x, 22) = rhaa.fst_pickup_date
+                .Cells(x, 23) = rhaa.pickup_date_from_details
+                .Cells(x, 24) = rhaa.country_code
                 
             End With
             ' ============================

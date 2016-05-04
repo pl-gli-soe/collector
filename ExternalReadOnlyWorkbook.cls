@@ -1464,9 +1464,16 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
             .mrd = Trim(rr.Offset(0, XWiz.mrd - 1))
             .mrdd = Trim(rr.Offset(0, XWiz.E_MRD_DATE - 1))
             
+            
+            .ppap_gate = Trim(rr.Offset(0, XWiz.ppap_gate - 1))
+            
+            
             .koordynator = Trim(rr.Offset(0, XWiz.koordynator - 1))
             
             .unique_id = Trim(rr.Offset(0, XWiz.E_UNIQUE_ID - 1))
+            
+            
+            .pickup_date_from_details = Trim(rr.Offset(0, XWiz.PICKUP_DATE - 1))
             
             .del_conf = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
             
@@ -1474,6 +1481,9 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
             .pn = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn))
             .resp = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility))
             .fup = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code))
+            
+            .country_code = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.country_code))
+            
             
             .cmnts = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments))
         End With
@@ -1490,7 +1500,7 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
             rhaa.confirmed_qty = Trim(.Cells(x, XWiz.MRD1_confirmed_qty))
             
             rhaa.ppap_status = Trim(.Cells(x, XWiz.ppap_status))
-            rhaa.ppap_gate = Trim(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Cells(x, XWiz.ppap_gate))
+            ' rhaa.ppap_gate = Trim(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Cells(x, XWiz.ppap_gate))
             
             rhaa.fst_pickup_date = Trim(.Cells(x, XWiz.First_Confirmed_PUS_Date))
             

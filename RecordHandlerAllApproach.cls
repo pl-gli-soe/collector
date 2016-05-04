@@ -8,7 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 ' FORREST SOFTWARE
-' Copyright (c) 2015 Mateusz Forrest Milewski
+' Copyright (c) 2016 Mateusz Forrest Milewski
 '
 ' Permission is hereby granted, free of charge,
 ' to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -49,6 +49,9 @@ Public ppap_gate As String
 Public ordered_qty As String
 Public confirmed_qty As String
 Public fst_pickup_date As String
+
+Public pickup_date_from_details As String
+Public country_code As String
 
 
 Public mrd As String

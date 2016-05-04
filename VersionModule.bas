@@ -17,6 +17,18 @@ Attribute VB_Name = "VersionModule"
 ' WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+' ======================================================
+' wersja 2.92 proste dodanie wylaczenia alertu podczas usuwania arkuszy side;owych
+' dodanie nowych pivotow na stale + ribbon button na uruchomienie jak i "go to"
+' ======================================================
+
+
+
+' ======================================================
+' wersja 2.91 - scaffold dla all 2016-04-27
+''
+' pod backup
+' ======================================================
 
 ' ======================================================
 ' wersja 2.90 - scaffold dla all 2016-04-27
