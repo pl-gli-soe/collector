@@ -59,6 +59,13 @@ Public mrdd As String
 Public unique_id As String
 
 
+' new in 2.93
+Public add_to_td As String
+Public build_start As String
+Public build_end As String
+Public bom_freeze As String
+
+
 Public Function convert_mrd_to_date(moja_data As Date) As Date
 
     If IsDate(mrdd) Then

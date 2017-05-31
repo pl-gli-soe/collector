@@ -23,6 +23,7 @@ End Sub
 
 Public Sub clear_data_for_pivot_logic(ictrl As IRibbonControl)
     clear_sheet_named_all
+    clear_sheet_named_pivot_source
     clear_pivot_sheets
 End Sub
 
@@ -96,6 +97,32 @@ Public Sub clear_sheet_named_all()
         End With
     Else
         MsgBox "arkusz all nie zostal wyczyszczony"
+    End If
+End Sub
+
+Public Sub clear_sheet_named_pivot_source()
+
+
+    
+    answer = MsgBox("Czy jestes pewien akcji wyczyszczenia arkusza pivot source!?", vbYesNo, "!")
+    
+    If answer = vbYes Then
+    
+    
+        With ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+            
+            On Error Resume Next
+            .ShowAllData
+        
+            Set r = .Range("a2")
+            Set r = .Range(r, r.Offset(100000, 1000))
+            
+            r.ClearComments
+            r.Clear
+        
+        End With
+    Else
+        MsgBox "arkusz pivot source nie zostal wyczyszczony"
     End If
 End Sub
 
@@ -183,6 +210,7 @@ Private Sub inner_clear_all_old_data()
         inner_clear_rep_type_sheet CStr(XWiz.REP_FUP_SHEET_NAME)
         
         clear_sheet_named_all
+        clear_sheet_named_pivot_source
         
         
         clear_pivot_sheets

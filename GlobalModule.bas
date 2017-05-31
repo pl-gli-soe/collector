@@ -22,7 +22,7 @@ Global Const COMBOBOX_SOURCE_DYN_DEL_CONF_OK = "always OK"
 Global Const COMBOBOX_SOURCE_DYN_DEL_CONF_NOK = "always NOK"
 Global Const COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT = "calc it"
 
-Global Const MAX_SHEET_NAME_LEN = 28
+Global Const MAX_SHEET_NAME_LEN = 25
 Global Const G_KOLUMNA_PO_DELIVERY_CONFIRMATION_STATUS_W_ARKUSZU_REP = 25
 
 Global Const REP_SHEET_NAME = "rep"
@@ -109,7 +109,7 @@ Global Const G_CMNT_HEIGHT = 40
 ' najwazniejsza zmienna stala globalna dla poczatku projekt XWiz
 ' =====================================================================
 Global Const XWIZ_PATH_FOR_SEARCHING = "X:\PLGLI-Exchange\SoE\FMA\"
-Global Const REPO_PATH = "C:\WORKSPACE\macros\Wizard\Collector\repo\"
+Global Const REPO_PATH = "C:\WORKSPACE\macros\LESS\Collector\repo\"
 Global Const G_TEST_NA_DYSKU_LOKALNYM As Boolean = False
 
 Global Const XWIZ_FILE_PREFIX = "M"
@@ -155,8 +155,8 @@ Global Const G_FUPCODE_LEN = 2
 Global Const G_DATES_CW_LEN = 12
 Global Const G_DEL_CONF_LEN = 20
 
-Global Const G_CUT_PROJECT = 9
-Global Const G_CUT_PHAZE = 6
+Global Const G_CUT_PROJECT = 4
+Global Const G_CUT_PHAZE = 1
 
 
 
@@ -263,6 +263,16 @@ Public Function remove_special_cases(nm)
     nm = Replace(nm, "\", "")
     nm = Replace(nm, ",", "")
     nm = Replace(nm, ";", "")
+    nm = Replace(nm, ":", "")
+    nm = Replace(nm, "(", "")
+    nm = Replace(nm, ")", "")
+    nm = Replace(nm, "[", "")
+    nm = Replace(nm, "]", "")
+    nm = Replace(nm, "{", "")
+    nm = Replace(nm, "}", "")
+    nm = Replace(nm, "|", "")
+    nm = Replace(nm, "<", "")
+    nm = Replace(nm, ">", "")
     nm = Replace(nm, "&", "")
     nm = Replace(nm, "*", "")
     nm = Replace(nm, "%", "")
@@ -275,6 +285,7 @@ Public Function remove_special_cases(nm)
     nm = Replace(nm, "_", "")
     nm = Replace(nm, " ", "")
     nm = Replace(nm, "M_", "")
+    nm = Replace(nm, """", "")
     
     
     remove_special_cases = nm

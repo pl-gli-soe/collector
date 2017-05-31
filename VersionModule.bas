@@ -18,6 +18,97 @@ Attribute VB_Name = "VersionModule"
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ' ======================================================
+' wersja 2.95 dev
+''
+''
+' 2016-09-15
+' wersja developerska - cos nie tak z usuwaniem arkusza pivot all
+'
+'
+
+' dodatkowa zmiana na:
+'Public Function remove_special_cases(nm)
+'
+'    nm = Replace(nm, ".xlsm", "")
+'    nm = Replace(nm, "/", "")
+'    nm = Replace(nm, "\", "")
+'    nm = Replace(nm, ",", "")
+'    nm = Replace(nm, ";", "")
+' to jest nowe - okazalo sie ze problem mismatchy i kasi dreji powaznie zaburza dzialanie na wielu frontach
+' najlepszym sposobem rozwiazania tego problemu byloby wyeliminowanie Kasi :) :P (just kidding)
+'    nm = Replace(nm, ":", "")
+'    nm = Replace(nm, "&", "")
+'    nm = Replace(nm, "*", "")
+'    nm = Replace(nm, "%", "")
+'    nm = Replace(nm, "#", "")
+'    nm = Replace(nm, "@", "")
+'    nm = Replace(nm, "!", "")
+'    nm = Replace(nm, "+", "")
+'    nm = Replace(nm, "=", "")
+'    nm = Replace(nm, "-", "")
+'    nm = Replace(nm, "_", "")
+'    nm = Replace(nm, " ", "")
+'    nm = Replace(nm, "M_", "")
+'
+'
+'    remove_special_cases = nm
+'End Function
+'
+'
+'
+' stabilizacja dzialania pivot source przez dodanie dodatkowej sprawdzajacej funkcji zanim dodamy do obiektu itemu RHAA
+' czy napweno nie ma jakiegos bleddu IsErr IsError czy nawet IsNa
+'
+' Private Function additional_check(ByRef r As Range) As String w module: ExternalReadOnlyWorkbook
+'
+' zmiany dotycza wersji 2.95
+
+'
+''
+'
+''
+''
+' ======================================================
+' ======================================================
+' wersja 2.94 dev
+''
+''
+' 2016-06-16
+' ta podwersja nie ma juz filtru fma pod rep all
+' nareszcie ma to wiele wspolnego z nazwa :)
+'
+' teraz testy jako tako czy to dziala...
+'
+'
+''
+'
+''
+''
+' ======================================================
+
+' ======================================================
+' wersja 2.93 dev
+''
+''
+' 2016-06-08
+' wersja ta ma byc wersja pod release w koncu
+' dodatkowo rozszserzamy czarny arkusz o nowe kolumny
+' mianowicie:
+' - ADD to TD
+' - Build start
+' - Build end
+' - BOM freeze
+'
+'
+''
+'
+''
+''
+' ======================================================
+
+
+
+' ======================================================
 ' wersja 2.92 proste dodanie wylaczenia alertu podczas usuwania arkuszy side;owych
 ' dodanie nowych pivotow na stale + ribbon button na uruchomienie jak i "go to"
 ' ======================================================

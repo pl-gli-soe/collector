@@ -54,6 +54,7 @@ Private fileCollection As Collection
 Private rep As Worksheet
 Private rep_fup As Worksheet
 Private rep_all As Worksheet
+Private pivot_source As Worksheet
 Private r As Range
 
 
@@ -192,6 +193,10 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
             .Cells(x, 22) = "Fst Pickup Date"
             .Cells(x, 23) = "PICKUP DATE"
             .Cells(x, 24) = "Country Code"
+            .Cells(x, 25) = "ADD to T/D"
+            .Cells(x, 26) = "BUILD START"
+            .Cells(x, 27) = "BUILD END"
+            .Cells(x, 28) = "BOM FREEZE"
             
             
             
@@ -227,6 +232,10 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
                 .Cells(x, 22) = rhaa.fst_pickup_date
                 .Cells(x, 23) = rhaa.pickup_date_from_details
                 .Cells(x, 24) = rhaa.country_code
+                .Cells(x, 25) = rhaa.add_to_td
+                .Cells(x, 26) = rhaa.build_start
+                .Cells(x, 27) = rhaa.build_end
+                .Cells(x, 28) = rhaa.bom_freeze
                 
             End With
             ' ============================
@@ -351,6 +360,7 @@ Private Sub Class_Initialize()
     Set rep = ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
     Set rep_fup = ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
     Set rep_all = ThisWorkbook.Sheets(XWiz.ALL_SHEET_NAME)
+    Set pivto_source = ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
     
 End Sub
 
@@ -532,6 +542,16 @@ Public Sub wyczysc_arkusz_rep_all()
     unhide_all_rows_and_all_columns rep_all
     
     With rep_all
+        .Range("A2:ZZ" & XWiz.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
+        .Range("A2:ZZ" & XWiz.DWA_DO_16).Clear
+    End With
+End Sub
+
+Public Sub wyczysc_arkusz_pivot_source()
+    
+    unhide_all_rows_and_all_columns ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+    
+     With ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
         .Range("A2:ZZ" & XWiz.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
         .Range("A2:ZZ" & XWiz.DWA_DO_16).Clear
     End With

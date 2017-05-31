@@ -342,7 +342,9 @@ Private Function special_treatment_for_delivery_confirmation(r, td As Workbook) 
             mrd_bez_txtu = Left(mrd_bez_txtu, 4) & "0" & Right(mrd_bez_txtu, 1)
         Else
             MsgBox "special_treatment_for_delivery_confirmation - MRD w ogole bez std!"
-            End
+            special_treatment_for_delivery_confirmation = True
+            Exit Function
+            ' End
         End If
     End If
     
@@ -1070,6 +1072,8 @@ Private Sub IDataFromWizard_podsumowanieSlownikaNaNwymArkuszu()
     Sh.Range("B1").addComment cmnt_txt
     Sh.Range("B1").Comment.Shape.TextFrame.AutoSize = True
     
+    ' Debug.Print d.Count
+    
     'kopia z create_cmnt_txt
     'y = LBound(lbls)
     '
@@ -1234,7 +1238,7 @@ Private Function create_cmnt_txt(sp, fn) As String
         y = y + 1
     Next x
 End Function
-Private Sub assign_sheet_name(ByRef Sh As Worksheet, nm, proba)
+Private Sub assign_sheet_name(ByRef Sh As Worksheet, ByRef nm, proba)
 
     If proba = 1 Then
         nm = remove_special_cases(nm)
@@ -1242,16 +1246,20 @@ Private Sub assign_sheet_name(ByRef Sh As Worksheet, nm, proba)
     
     nm = shorten_plt_proj_nm_phase(nm)
     
-    If Len(nm) > XWiz.MAX_SHEET_NAME_LEN Then nm = Left(nm, XWiz.MAX_SHEET_NAME_LEN)
+    If Len(nm & proba) > XWiz.MAX_SHEET_NAME_LEN Then nm = Left(nm & proba, XWiz.MAX_SHEET_NAME_LEN)
     
-    For Each s In Sh.Parent.Sheets
-        If s.Name = nm & proba Then
-            assign_sheet_name Sh, nm, proba + 1
-            Exit Sub
-        End If
-    Next s
-
+    
+    
+    ' cos jest mocno nie tak
+    On Error Resume Next
     Sh.Name = nm & proba
+    
+    
+    If Left(Sh.Name, 1) <> "." Then
+        On Error Resume Next
+        Sh.Name = "." & Left(Sh.Name, XWiz.MAX_SHEET_NAME_LEN)
+        
+    End If
 End Sub
 
 Private Function shorten_plt_proj_nm_phase(nm) As String
@@ -1281,7 +1289,7 @@ Private Function shorten_plt_proj_nm_phase(nm) As String
             If x = y + 1 Then
                 nm = nm & Left(a(x), XWiz.G_CUT_PROJECT) & "."
             ElseIf x = y + 4 Then
-                nm = nm & Left(a(x), XWiz.G_CUT_PHAZE) & "."
+                nm = nm & Left(a(x), XWiz.G_CUT_PHAZE) & Right(a(x), XWiz.G_CUT_PHAZE + 1) & "."
             Else
                 nm = nm & a(x) & "."
             End If
@@ -1410,12 +1418,38 @@ Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, Sh As Status
     
 End Sub
 
+Private Function additional_check(ByRef r As Range) As String
+    
+    additional_check = ""
+    
+    If Application.WorksheetFunction.IsErr(r) = True Then
+        ' nope
+        additional_check = "errIsErr"
+        Exit Function
+    End If
+    
+    If Application.WorksheetFunction.IsError(r) = True Then
+        ' nope
+        additional_check = "errIsError"
+        Exit Function
+    End If
+    
+    If Application.WorksheetFunction.IsNA(r) Then
+        ' nope
+        additional_check = "errIsNa"
+        Exit Function
+    End If
+    
+    additional_check = CStr(r)
+    
+End Function
+
 Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, rr As Range)
 
-    Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
+    'Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
     
     
-    If Result Like XWiz.FMA_WITH_STARS Then
+    'If Result Like XWiz.FMA_WITH_STARS Then
 
 
     
@@ -1453,56 +1487,68 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
         ' E_TRANSPORTATION_ACCOUNT_NUMBER
         ' E_UNIQUE_ID
         
-        On Error GoTo ErrHandler:
+        ' On Error GoTo ErrHandler:
         With rhaa
-            .plt = rr
-            .proj = rr.Offset(0, XWiz.PROJECT - 1)
-            .bg = rr.Offset(0, XWiz.BIW_GA - 1)
-            .my = rr.Offset(0, XWiz.my - 1)
-            .faza = rr.Offset(0, XWiz.PHAZE - 1)
+            .plt = additional_check(rr)
+            .proj = additional_check(rr.Offset(0, XWiz.PROJECT - 1))
+            .bg = additional_check(rr.Offset(0, XWiz.BIW_GA - 1))
+            .my = additional_check(rr.Offset(0, XWiz.my - 1))
+            .faza = additional_check(rr.Offset(0, XWiz.PHAZE - 1))
             
-            .mrd = Trim(rr.Offset(0, XWiz.mrd - 1))
-            .mrdd = Trim(rr.Offset(0, XWiz.E_MRD_DATE - 1))
-            
-            
-            .ppap_gate = Trim(rr.Offset(0, XWiz.ppap_gate - 1))
+            .mrd = additional_check(rr.Offset(0, XWiz.mrd - 1))
+            .mrdd = additional_check(rr.Offset(0, XWiz.E_MRD_DATE - 1))
             
             
-            .koordynator = Trim(rr.Offset(0, XWiz.koordynator - 1))
-            
-            .unique_id = Trim(rr.Offset(0, XWiz.E_UNIQUE_ID - 1))
+            .ppap_gate = additional_check(rr.Offset(0, XWiz.ppap_gate - 1))
             
             
-            .pickup_date_from_details = Trim(rr.Offset(0, XWiz.PICKUP_DATE - 1))
+            .koordynator = additional_check(rr.Offset(0, XWiz.koordynator - 1))
             
-            .del_conf = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
-            
-            .duns = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.duns))
-            .pn = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn))
-            .resp = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility))
-            .fup = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code))
-            
-            .country_code = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.country_code))
+            .unique_id = additional_check(rr.Offset(0, XWiz.E_UNIQUE_ID - 1))
             
             
-            .cmnts = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments))
+            .pickup_date_from_details = additional_check(rr.Offset(0, XWiz.PICKUP_DATE - 1))
+            
+            .del_conf = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
+            
+            .duns = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.duns))
+            .pn = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn))
+            .resp = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility))
+            .fup = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code))
+            
+            .country_code = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.country_code))
+            
+            
+            .cmnts = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments))
+            
+            
+            ' new in 2.93 dev - pierwsza implementacja nowych pol ma miejsce 2016-06-08
+            ' ---------------------------------------------------------------------------
+            
+            .add_to_td = additional_check(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.ADD_to_T_slash_D))
+            .build_start = additional_check(rr.Offset(0, XWiz.build_start - 1))
+            .build_end = additional_check(rr.Offset(0, XWiz.build_end - 1))
+            .bom_freeze = additional_check(rr.Offset(0, XWiz.bom - 1))
+            
+            ' ---------------------------------------------------------------------------
+            
         End With
         
-        On Error GoTo ErrHandler:
+        ' On Error GoTo ErrHandler:
         With wrkbk.Sheets(XWiz.MASTER_SHEET_NAME)
                 
-            rhaa.supp_nm = Trim(.Cells(x, XWiz.Supplier_Name))
-            rhaa.total_qty = Trim(.Cells(x, XWiz.total_qty))
+            rhaa.supp_nm = additional_check(.Cells(x, XWiz.Supplier_Name))
+            rhaa.total_qty = additional_check(.Cells(x, XWiz.total_qty))
             
             ' mrd1
-            rhaa.ordered_date = Trim(.Cells(x, XWiz.MRD1_Ordered_Date))
-            rhaa.ordered_qty = Trim(.Cells(x, XWiz.MRD1_Ordered_QTY))
-            rhaa.confirmed_qty = Trim(.Cells(x, XWiz.MRD1_confirmed_qty))
+            rhaa.ordered_date = additional_check(.Cells(x, XWiz.MRD1_Ordered_Date))
+            rhaa.ordered_qty = additional_check(.Cells(x, XWiz.MRD1_Ordered_QTY))
+            rhaa.confirmed_qty = additional_check(.Cells(x, XWiz.MRD1_confirmed_qty))
             
-            rhaa.ppap_status = Trim(.Cells(x, XWiz.ppap_status))
+            rhaa.ppap_status = additional_check(.Cells(x, XWiz.ppap_status))
             ' rhaa.ppap_gate = Trim(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Cells(x, XWiz.ppap_gate))
             
-            rhaa.fst_pickup_date = Trim(.Cells(x, XWiz.First_Confirmed_PUS_Date))
+            rhaa.fst_pickup_date = additional_check(.Cells(x, XWiz.First_Confirmed_PUS_Date))
             
         End With
         
@@ -1515,7 +1561,7 @@ ErrHandler:
         
         
         
-    End If
+    'End If
 End Sub
 
 

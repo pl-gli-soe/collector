@@ -222,6 +222,7 @@ Private Sub BtnRun_Click()
     
         If .get_e_run_type = NEW_RUN_ALL Then
             .wyczysc_arkusz_rep_all
+            .wyczysc_arkusz_pivot_source
         ElseIf .get_e_run_type < NEW_RUN_ALL Then
         
             If .get_e_fup = E_FUP_FILTER_NO Then

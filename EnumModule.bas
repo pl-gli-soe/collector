@@ -174,8 +174,8 @@ Public Enum E_NEW_PROJECT_ITEM
     PICKUP_DATE
     ppap_gate
     mrd
-    BUILD_START
-    BUILD_END
+    build_start
+    build_end
     koordynator
     E_ACTIVE
     CAPACITY_CHECK
