@@ -35,7 +35,7 @@ Attribute VB_Exposed = False
 
 Private Sub BtnSubmit_Click()
     hide
-    ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("fup_code") = TextBox1.Value
+    ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("fup_code") = TextBox1.Value
 End Sub
 
 Private Sub TextBox1_Change()

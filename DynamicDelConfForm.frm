@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} DynamicDelConfForm 
    Caption         =   "Dynamic Del Conf"
-   ClientHeight    =   6150
+   ClientHeight    =   7425
    ClientLeft      =   45
    ClientTop       =   375
-   ClientWidth     =   7635
+   ClientWidth     =   9360
    OleObjectBlob   =   "DynamicDelConfForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -60,11 +60,19 @@ Private Sub set_default_values_on_checkboxes()
     ' mrd stuff
     ' ====================================
     With Me
-        .ComboBoxALTMRD.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_NOK
-        .ComboBoxMRD.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
-        .ComboBoxMRDStaggered.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
-        .ComboBoxMRDTWO.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
-        .ComboBoxTWOStaggeredMRD.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
+        .ComboBoxALTMRD.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_NOK
+        .ComboBoxMRD.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
+        .ComboBoxMRDStaggered.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
+        
+        ' from now on obsolete treat as NOK
+        .ComboBoxMRDTWO.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_NOK
+        .ComboBoxTWOStaggeredMRD.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_NOK
+        
+        ' new
+        .ComboBoxMRDALTTWO.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
+        .ComboBoxMRDStaggeredALTTWO.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
+        .ComboBoxMRDONCOST.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
+        .ComboBoxMRDStaggeredONCOST.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT
     End With
     
     ' ====================================
@@ -73,7 +81,7 @@ End Sub
 Private Sub recalc_config_sheet_dyn_del_conf_table()
     
     Dim cfg As Worksheet
-    Set cfg = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+    Set cfg = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
     
     Dim r As Range
     
@@ -212,6 +220,28 @@ Private Sub recalc_config_sheet_dyn_del_conf_table()
         Set r = cfg.Range("N20")
         r = foo_get_value_from_combobox(.ComboBoxTWOStaggeredMRD)
         
+        
+        ' new
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ' alt two
+        Set r = cfg.Range("N21")
+        r = foo_get_value_from_combobox(.ComboBoxMRDALTTWO)
+        
+        ' staggered alt two
+        Set r = cfg.Range("N22")
+        r = foo_get_value_from_combobox(.ComboBoxMRDStaggeredALTTWO)
+        
+        
+        ' on cost
+        Set r = cfg.Range("N23")
+        r = foo_get_value_from_combobox(.ComboBoxMRDONCOST)
+        
+        ' staggered oncost
+        Set r = cfg.Range("N24")
+        r = foo_get_value_from_combobox(.ComboBoxMRDStaggeredONCOST)
+        
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ' --------------------------------------------------------------
         ' --------------------------------------------------------------
         
@@ -222,17 +252,17 @@ End Sub
 Private Function foo_get_value_from_combobox(cbbx As Variant) As E_DYNAMIC_CFG_FOR_DEL_CONF
 
 
-    If cbbx.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_NOK Then
+    If cbbx.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_NOK Then
     
-        foo_get_value_from_combobox = XWiz.E_DYNAMIC_CFG_FOR_DEL_CONF_NOK
+        foo_get_value_from_combobox = XWIZ.E_DYNAMIC_CFG_FOR_DEL_CONF_NOK
         
-    ElseIf cbbx.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_OK Then
+    ElseIf cbbx.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_OK Then
     
-        foo_get_value_from_combobox = XWiz.E_DYNAMIC_CFG_FOR_DEL_CONF_OK
+        foo_get_value_from_combobox = XWIZ.E_DYNAMIC_CFG_FOR_DEL_CONF_OK
         
-    ElseIf cbbx.Value = XWiz.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT Then
+    ElseIf cbbx.Value = XWIZ.COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT Then
     
-        foo_get_value_from_combobox = XWiz.E_DYNAMIC_CFG_FOR_DEL_CONF_CALC_WITH_MRD
+        foo_get_value_from_combobox = XWIZ.E_DYNAMIC_CFG_FOR_DEL_CONF_CALC_WITH_MRD
     Else
     
         MsgBox "to nie moze sie wydarzyc! - foo_get_value_from_combobox"

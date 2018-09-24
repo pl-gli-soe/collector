@@ -39,8 +39,8 @@ Private Sub inner_z_rep_do_rep_fup()
     
     
     
-    Set rep = ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
-    Set rep_fup = ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
+    Set rep = ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+    Set rep_fup = ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
     
     With wh
         .setEFup E_FUP_FILTER_YES

@@ -31,17 +31,17 @@ Private Sub export_this_project()
         
         If VBComp.Type = vbext_ct_StdModule Then
             txt = VBComp.Name & ".bas"
-            VBComp.Export CStr(XWiz.REPO_PATH) & txt
+            VBComp.Export CStr(XWIZ.REPO_PATH) & txt
             Debug.Print txt
             
         ElseIf VBComp.Type = vbext_ct_ClassModule Then
             txt = VBComp.Name & ".cls"
-            VBComp.Export CStr(XWiz.REPO_PATH) & txt
+            VBComp.Export CStr(XWIZ.REPO_PATH) & txt
             Debug.Print txt
             
         ElseIf VBComp.Type = vbext_ct_MSForm Then
             txt = VBComp.Name & ".frm"
-            VBComp.Export CStr(XWiz.REPO_PATH) & txt
+            VBComp.Export CStr(XWIZ.REPO_PATH) & txt
             Debug.Print txt
             
         End If
@@ -71,7 +71,7 @@ Private Sub import_this_project()
     Set VBProj = ThisWorkbook.VBProject
     Set VBComps = VBProj.VBComponents
     
-    For Each objFile In objFSO.GetFolder(XWiz.REPO_PATH).Files
+    For Each objFile In objFSO.GetFolder(XWIZ.REPO_PATH).Files
         ' body
         ' ==============================================================
         

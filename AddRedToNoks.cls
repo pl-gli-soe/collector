@@ -53,7 +53,7 @@ End Sub
 
 Public Sub prepare_range_and_colour_noks_red(arkusz_raportu As Worksheet)
     
-    Set r = arkusz_raportu.Range(XWiz.ADRES_POCZATKU_NOKOW_W_REP)
+    Set r = arkusz_raportu.Range(XWIZ.ADRES_POCZATKU_NOKOW_W_REP)
     
     r.Offset(0, -1).NumberFormat = "0"
     r.Offset(0, -2).NumberFormat = "0"
@@ -70,7 +70,7 @@ Public Sub prepare_range_and_colour_noks_red(arkusz_raportu As Worksheet)
 End Sub
 
 Public Sub colour_blue_this_week_on_bom_pus_date_mrd_and_build(arkusz_raportu As Worksheet)
-    Set r = arkusz_raportu.Range(XWiz.ADRES_POCZATKU_DAT_DETAILS)
+    Set r = arkusz_raportu.Range(XWIZ.ADRES_POCZATKU_DAT_DETAILS)
     
     
     If Trim(r.Offset(1, 0)) <> "" Then
@@ -211,8 +211,8 @@ End Function
 
 Private Sub Class_Initialize()
     
-    Set rep = ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
-    Set rep_fup = ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
+    Set rep = ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+    Set rep_fup = ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
 End Sub
 
 Private Sub Class_Terminate()

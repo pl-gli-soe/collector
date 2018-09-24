@@ -51,7 +51,7 @@ Private Sub inner_move_data_to_right_in_rep_sheet(ftrh As IToRight)
     
     Dim rep As Worksheet
     
-    Set rep = ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
+    Set rep = ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
     
     
     With ftrh
@@ -60,7 +60,7 @@ Private Sub inner_move_data_to_right_in_rep_sheet(ftrh As IToRight)
         
         Dim r As Range
         Set r = rep.Range("A2").End(xlToRight).Offset(0, 1)
-        r = XWiz.MGMT_CMNTS
+        r = XWIZ.MGMT_CMNTS
         
         
         .goThroughSideSheetsAndFillDicWithFupsNames

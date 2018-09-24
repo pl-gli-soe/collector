@@ -32,7 +32,7 @@ Implements IToRight
 Private md As MyDictionary
 Private wh As WrkHandler
 Private rep As Worksheet
-Private Sh As Worksheet
+Private sh As Worksheet
 Private r As Range
 Private content_ref As Range
 Private cr As Range
@@ -47,7 +47,7 @@ Private pns As Collection
 Private Sub Class_Initialize()
     Set md = New MyDictionary
     Set wh = New WrkHandler
-    Set rep = ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
+    Set rep = ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
     Set pns = New Collection
 End Sub
 
@@ -63,18 +63,18 @@ Private Sub IToRight_goThroughSideSheetsAndFillDicWithFupsNames()
     
     Set fups = New Collection
     
-    For Each Sh In ThisWorkbook.Sheets
-        If Left(Sh.Name, 1) = "." Then
+    For Each sh In ThisWorkbook.Sheets
+        If Left(sh.Name, 1) = "." Then
             ' pierwsza opcja sprawdzona ze istnieje szansa ze to sideowy arkusz
             ' druga instancja - na duzo procent jesli to przejdzie to raczej mamy do
             'czynienia z arkuszem side'owym
-            If Trim(Sh.Range("A2")) = "#" And Trim(Sh.Range("B2")) = "ROW" Then
+            If Trim(sh.Range("A2")) = "#" And Trim(sh.Range("B2")) = "ROW" Then
             
                 ' skoro tak to teraz po kolei dodajemy fupa jesli jest po co
-                If Trim(Sh.Range("A3")) <> "" Then
+                If Trim(sh.Range("A3")) <> "" Then
                     ' ost_wiersz = sh.Range("A2").End(xlDown).Row
                     
-                    Set r = Sh.Range("A2")
+                    Set r = sh.Range("A2")
                     Do
                         Set r = r.Offset(1, 0)
                     Loop Until Trim(CStr(r)) = ""
@@ -86,11 +86,11 @@ Private Sub IToRight_goThroughSideSheetsAndFillDicWithFupsNames()
                 
                 For x = 3 To ost_wiersz
                     
-                    proba_dodania_key_pn_narazie Sh.Cells(Int(x), Int(XWiz.E_SIDE_TB_PN)), pns
+                    proba_dodania_key_pn_narazie sh.Cells(Int(x), Int(XWIZ.E_SIDE_TB_PN)), pns
                 Next x
             End If
         End If
-    Next Sh
+    Next sh
 End Sub
 
 Private Sub proba_dodania_key_pn_narazie(rr As Range, ByRef c As Collection)
@@ -102,7 +102,7 @@ Private Sub proba_dodania_key_pn_narazie(rr As Range, ByRef c As Collection)
     If Len(Trim(CStr(rr))) > 0 Then
         txt_for_nm = Trim(CStr(rr))
     Else
-        txt_for_nm = XWiz.STR_BLANK
+        txt_for_nm = XWIZ.STR_BLANK
     End If
     
     
@@ -129,7 +129,7 @@ Private Function pn_exists(s As String, ByRef c As Collection) As MyDictionary
     Set pn_exists = Nothing
     
     For Each md In c
-        If Trim(s) = "" And UCase(CStr(Trim(md.nm))) = XWiz.STR_BLANK Then
+        If Trim(s) = "" And UCase(CStr(Trim(md.nm))) = XWIZ.STR_BLANK Then
         
             Set pn_exists = md
             Exit Function
@@ -152,7 +152,7 @@ Private Sub IToRight_kolorujLabelki()
             .Orientation = xlUpward
         End With
         Set r = r.Offset(0, -1)
-    Loop Until (Trim(r) = XWiz.MGMT_CMNTS)
+    Loop Until (Trim(r) = XWIZ.MGMT_CMNTS)
     
     r.Interior.Color = RGB(160, 180, 180)
 End Sub
@@ -218,7 +218,7 @@ Private Sub wypelnij_odpowiednio_ta_komorke(ByRef cr As Range, mtmp As Range, co
             On Error Resume Next
             uid_z_side = Trim(CStr(vr.Parent.Range("C1")))
             On Error Resume Next
-            uid = CStr(Trim(mtmp.Offset(0, XWiz.E_ACTIVE - 1).Comment.Text))
+            uid = CStr(Trim(mtmp.Offset(0, XWIZ.E_ACTIVE - 1).Comment.Text))
             
             If uid <> "" Then
             
@@ -228,7 +228,7 @@ Private Sub wypelnij_odpowiednio_ta_komorke(ByRef cr As Range, mtmp As Range, co
                     'If CStr(vr.Parent.Cells(vr.Row, e_side).Value) = CStr(XWiz.G_NOK) Then
                         meh = 0
                         wh.setEFup E_FUP_FILTER_NO
-                        wh.loop_to_fill_rh vr.Parent, meh, XWiz.STR_BLANK, XWiz.STR_BLANK, CStr(cr.Parent.Cells(2, cr.Column))
+                        wh.loop_to_fill_rh vr.Parent, meh, XWIZ.STR_BLANK, XWIZ.STR_BLANK, CStr(cr.Parent.Cells(2, cr.Column))
                         ' .Value = meh
                         .Value = 0
                         

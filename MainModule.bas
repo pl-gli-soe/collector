@@ -182,8 +182,8 @@ Public Sub wyjmij_dane_repa_po_fupie()
         
         Dim art As AddRedToNoks
         Set art = New AddRedToNoks
-        art.prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
-        art.colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
+        art.prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
+        art.colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
     End If
 End Sub
 
@@ -205,8 +205,8 @@ Public Sub wyjmij_dane_repa()
         
         Dim art As AddRedToNoks
         Set art = New AddRedToNoks
-        art.prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
-        art.colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
+        art.prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+        art.colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
     End If
 End Sub
 
@@ -231,81 +231,86 @@ End Function
 
 ' START JEST TUTAJ wlasciwie dla kazdej funkcjonalnosci run
 Public Sub inner_start(e As E_CREAT_COLLECTION_TYPE, e_fup As E_FUP_FILTER, e_run_type As E_RUN_REP_TYPE)
-    
-    
-    unhide_all_rows_and_all_columns ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
-    unhide_all_rows_and_all_columns ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
 
 
-
-    ' a oto najwazniejsza deklaracja
-    ' wh to zmienna typu WrkHandler
-    ' glowna klasa tej aplikacja sterujaca flow informacyjnym
-    Dim wh As WrkHandler
-    Set wh = New WrkHandler
+    If e_run_type = NEW_RUN_EXTENDED Then
     
-    With wh
+        ' go back to extended module - this is first time that i do it in this way
+        innerRunExtended
+    Else
     
-        ' to jest w sumie obsoletowa funkcja
-        ' potrzebna byla gdy jeszcze probowalem linkowac arkusze side'owe
-        ' z lista na rep lub rep fup
-        ' ale za racji tego ze nie pamietam czy nie bylo jakis akcji dodatkowych
-        ' side'owych w tej procedurze nie chce ryzykowac i usuwac jej
-        ' z racji tego ze kod tutaj pozostawia wiele do zyczenia
-        .wyczysc_cfg_sheet_i_jej_tmp_list_na_name_i_phase
         
+        unhide_all_rows_and_all_columns ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
+        unhide_all_rows_and_all_columns ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+    
+    
+    
+        ' a oto najwazniejsza deklaracja
+        ' wh to zmienna typu WrkHandler
+        ' glowna klasa tej aplikacja sterujaca flow informacyjnym
+        Dim wh As WrkHandler
+        Set wh = New WrkHandler
         
-        ' jest OK
-        ' .przejrzyjListe_TEST
-        CzekajForm.show vbModeless
-        Application.DisplayStatusBar = True
+        With wh
         
-        ' te status bary nie dzialaja do konca tak jakbym tego oczekiwal....
-        Application.StatusBar = "odnajduje pliki typu Wizard, ktore sa zgodne ze wzorcem..."
-        ' stworz kolekcje uruchomi sie podczas zmiany work_pathu ponizej
-        
-        
-        ' tutaj filtr pod rep fupa
-        .setEFup e_fup
-        
-        ' a tutaj rodzaj raportu ze wzgledu na to czy robimy po pn po duns, czy w ogole dziwnie
-        ' po wszystkim
-        .setRunType e_run_type
-        
-        
-        ' no i tutaj glowna jazda
-        ' sama literka "e" chowa logike ktora ustawia w jaki sposob dalej bedziemy sie poruszac
-        ' po dysku X
-        If e = E_DYNAMIC Then
-            ' std - na vpn cholernie dlugo to trwa
-            .stworz_kolekcje XWiz.XWIZ_PATH_FOR_SEARCHING
-        ElseIf e = E_STATIC Then
+            ' to jest w sumie obsoletowa funkcja
+            ' potrzebna byla gdy jeszcze probowalem linkowac arkusze side'owe
+            ' z lista na rep lub rep fup
+            ' ale za racji tego ze nie pamietam czy nie bylo jakis akcji dodatkowych
+            ' side'owych w tej procedurze nie chce ryzykowac i usuwac jej
+            ' z racji tego ze kod tutaj pozostawia wiele do zyczenia
+            .wyczysc_cfg_sheet_i_jej_tmp_list_na_name_i_phase
             
-            ' no i nasz problematyczny kawalek kodu, ktory dokad wprowadzilem
-            ' run all ma problemy z prawidlowym uruchomieniem
-            .stworz_kolekcje_na_podstawie_statycznych_pathow_z_arkusza_config
-        End If
-        CzekajForm.hide
-        
-        ' zgodnie z logika tego kodu
-        ' kolekcje sa juz uzupelnione i mozemy leciec z koksem
-        ' rozwiazanie jest to na tyle indywidualne ze dziwne ze kod sie zaafektowal
-        ' searching for bug!
-        ' investigation regarding static run!
-        '
-        With XWiz.BedzieNieBedzieForm
-            .connect_with_wrk_handler wh
-            .wypelnij_work_path
-            .wypelnij_listboxy
-            .show
+            
+            ' jest OK
+            ' .przejrzyjListe_TEST
+            CzekajForm.show vbModeless
+            Application.DisplayStatusBar = True
+            
+            ' te status bary nie dzialaja do konca tak jakbym tego oczekiwal....
+            Application.StatusBar = "odnajduje pliki typu Wizard, ktore sa zgodne ze wzorcem..."
+            ' stworz kolekcje uruchomi sie podczas zmiany work_pathu ponizej
+            
+            
+            ' tutaj filtr pod rep fupa
+            .setEFup e_fup
+            
+            ' a tutaj rodzaj raportu ze wzgledu na to czy robimy po pn po duns, czy w ogole dziwnie
+            ' po wszystkim
+            .setRunType e_run_type
+            
+            
+            ' no i tutaj glowna jazda
+            ' sama literka "e" chowa logike ktora ustawia w jaki sposob dalej bedziemy sie poruszac
+            ' po dysku X
+            If e = E_DYNAMIC Then
+                ' std - na vpn cholernie dlugo to trwa
+                .stworz_kolekcje XWIZ.XWIZ_PATH_FOR_SEARCHING
+            ElseIf e = E_STATIC Then
+                
+                ' no i nasz problematyczny kawalek kodu, ktory dokad wprowadzilem
+                ' run all ma problemy z prawidlowym uruchomieniem
+                .stworz_kolekcje_na_podstawie_statycznych_pathow_z_arkusza_config
+            End If
+            CzekajForm.hide
+            
+            ' zgodnie z logika tego kodu
+            ' kolekcje sa juz uzupelnione i mozemy leciec z koksem
+            ' rozwiazanie jest to na tyle indywidualne ze dziwne ze kod sie zaafektowal
+            ' searching for bug!
+            ' investigation regarding static run!
+            '
+            With XWIZ.BedzieNieBedzieForm
+                .connect_with_wrk_handler wh
+                .wypelnij_work_path
+                .wypelnij_listboxy
+                .show
+            End With
+            
+            
+            
         End With
-        
-        
-        
-    End With
-    
-    
-    
+    End If
 
     
 End Sub

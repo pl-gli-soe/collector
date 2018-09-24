@@ -30,13 +30,13 @@ Public Sub test()
         ' CzekajForm.show vbModeless
         Application.DisplayStatusBar = True
         Application.StatusBar = "odnajduje pliki typu Wizard, ktore sa zgodne ze wzorcem..."
-        .stworz_kolekcje XWiz.XWIZ_PATH_FOR_SEARCHING
+        .stworz_kolekcje XWIZ.XWIZ_PATH_FOR_SEARCHING
         ' CzekajForm.hide
         
         
-        Dim Sh As StatusHandler
-        Set Sh = New StatusHandler
-        Sh.init_statusbar .countCollection
+        Dim sh As StatusHandler
+        Set sh = New StatusHandler
+        sh.init_statusbar .countCollection
         
         
         Application.StatusBar = "czyszcze arkusz raportujacy"
@@ -44,9 +44,9 @@ Public Sub test()
         
         Application.StatusBar = "uruchamiono glowna logike"
         
-        Sh.show
-        .przejdz_po_kolei_przez_kolekcje_nazw_i_pobierz_dane Sh
-        Sh.hide
+        sh.show
+        .przejdz_po_kolei_przez_kolekcje_nazw_i_pobierz_dane sh
+        sh.hide
     End With
     
     

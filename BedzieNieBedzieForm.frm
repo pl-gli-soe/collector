@@ -43,7 +43,7 @@ End Sub
 
 
 Public Sub wypelnij_work_path()
-    Me.TextBoxWorkPath.Value = CStr(XWiz.XWIZ_PATH_FOR_SEARCHING)
+    Me.TextBoxWorkPath.Value = CStr(XWIZ.XWIZ_PATH_FOR_SEARCHING)
 End Sub
 
 Public Sub wypelnij_listboxy()
@@ -58,9 +58,25 @@ Public Sub wypelnij_listboxy()
     
             For Each s In .getCollection
                 
-                Me.ListBoxRep.AddItem Replace(s, Me.TextBoxWorkPath.Value, "")
+                
+                tmp = Replace(s, Me.TextBoxWorkPath.Value, "")
+                
+                If tmp Like "*" & XWIZ.XWIZ_FLE_POSTFIX_VERSION & "*" Then
+                    Me.ListBoxRep.AddItem tmp
+                ElseIf tmp Like "*" & XWIZ.XWIZ_FLE_OLD_POSTFIX_VERSION & "*" Then
+                    ' Me.ListBoxRep.AddItem "* " & tmp
+                    Me.ListBoxSource.AddItem tmp
+                End If
                 
             Next s
+            
+            
+            ' kolorwanie osobne nie bedzie dzialac poprawnie
+            'For x = 0 To Me.ListBoxRep.ListCount - 1
+            '    If Left(Me.ListBoxRep.List(x), 1) = "*" Then
+            '        Me.ListBoxRep.List(x).ForeColor = RGB(255, 0, 0)
+            '    End If
+            'Next x
         End If
     End With
     
@@ -85,7 +101,7 @@ Private Sub BtnCopyToConfig_Click()
     
     
         Dim c As Worksheet
-        Set c = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+        Set c = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
         
         Dim r As Range
         Set r = c.Range("B2:B256")
@@ -220,8 +236,11 @@ Private Sub BtnRun_Click()
     ' wyczysc arkusze
     With p_wh
     
-        If .get_e_run_type = NEW_RUN_ALL Then
+        If .get_e_run_type = NEW_RUN_EXTENDED Then
+            .wyczysc_arkusz_extended ' plus jest wyczyszczenie side arkuszy
+        ElseIf .get_e_run_type = NEW_RUN_ALL Then
             .wyczysc_arkusz_rep_all
+            .wyczysc_arkusz_pivot_source
         ElseIf .get_e_run_type < NEW_RUN_ALL Then
         
             If .get_e_fup = E_FUP_FILTER_NO Then
@@ -230,67 +249,74 @@ Private Sub BtnRun_Click()
                 .wyczysc_arkusz_rep_fup
             End If
         End If
-    
-        Set c = Nothing
-        Set c = New Collection
         
-    
-        For x = 0 To Me.ListBoxRep.ListCount - 1
-            c.Add CStr(Me.TextBoxWorkPath.Value) & CStr(Me.ListBoxRep.List(x))
-        Next x
-
-        .refreshCollection c
-    
-    
-    
-        If .countCollection > 0 Then
         
-            Dim Sh As StatusHandler
-            Set Sh = New StatusHandler
-            Sh.init_statusbar .countCollection
-                
-            
-            ' Application.StatusBar = "czyszcze arkusz raportujacy"
-            
-            
-            Application.StatusBar = "uruchamiono glowna logike"
-            
-            Sh.show
-            .przejdz_po_kolei_przez_kolekcje_nazw_i_pobierz_dane Sh
-            
-            
-            If .get_e_run_type < NEW_RUN_ALL Then
-            
-                ' .wyczysc_arkusze_rep
-            
-                Dim art As AddRedToNoks
-                Set art = New AddRedToNoks
-                With art
-                    .prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
-                    .colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
-                    
-                    
-                    .prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
-                    .colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
-                    
-                End With
-                
-                
-                
-                
-                zmien_format_na CStr(XWiz.REP_SHEET_NAME), "0"
-                zmien_format_na CStr(XWiz.REP_FUP_SHEET_NAME), "0"
-                
-                
-                
-                .oddaj_cale_nazwy_dla_project_i_faz
-            End If
-            
-            Sh.hide
-            MsgBox "Gotowe! " & CStr(Now)
+        If .get_e_run_type = NEW_RUN_EXTENDED Then
+            ' kolejny sub inner znajdujacy sie bezposrednio w module extended
+            innerRunAfterClickOnBedzieNieBedzieForm p_wh, c
         Else
+    
+            Set c = Nothing
+            Set c = New Collection
             
-            MsgBox "kolekcja byla pusta!"
+        
+            For x = 0 To Me.ListBoxRep.ListCount - 1
+                c.Add CStr(Me.TextBoxWorkPath.Value) & CStr(Me.ListBoxRep.List(x))
+            Next x
+    
+            .refreshCollection c
+        
+        
+        
+            If .countCollection > 0 Then
+            
+                Dim sh As StatusHandler
+                Set sh = New StatusHandler
+                sh.init_statusbar .countCollection
+                    
+                
+                ' Application.StatusBar = "czyszcze arkusz raportujacy"
+                
+                
+                Application.StatusBar = "uruchamiono glowna logike"
+                
+                sh.show
+                .przejdz_po_kolei_przez_kolekcje_nazw_i_pobierz_dane sh
+                
+                
+                If .get_e_run_type < NEW_RUN_ALL Then
+                
+                    ' .wyczysc_arkusze_rep
+                
+                    Dim art As AddRedToNoks
+                    Set art = New AddRedToNoks
+                    With art
+                        .prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+                        .colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+                        
+                        
+                        .prepare_range_and_colour_noks_red ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
+                        .colour_blue_this_week_on_bom_pus_date_mrd_and_build ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
+                        
+                    End With
+                    
+                    
+                    
+                    
+                    zmien_format_na CStr(XWIZ.REP_SHEET_NAME), "0"
+                    zmien_format_na CStr(XWIZ.REP_FUP_SHEET_NAME), "0"
+                    
+                    
+                    
+                    .oddaj_cale_nazwy_dla_project_i_faz
+                End If
+                
+                sh.hide
+                MsgBox "Gotowe! " & CStr(Now)
+            Else
+                
+                MsgBox "kolekcja byla pusta!"
+            End If
         End If
     End With
 End Sub
