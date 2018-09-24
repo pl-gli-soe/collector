@@ -18,24 +18,24 @@ Attribute VB_Name = "GoToRepModule"
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Public Sub go_to_source_pivot_sh(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_rep(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME).Activate
 End Sub
 
 
 Public Sub go_to_rep_fup(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_rep_all(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.ALL_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.ALL_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_config(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_through_selection(ictrl As IRibbonControl)
@@ -46,40 +46,40 @@ End Sub
 ' pivots
 ' ===============================================
 Public Sub go_to_del_conf_pivot(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.DEL_CONF_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.DEL_CONF_PIVOT_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_rep_pn_pivot(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.PN_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.PN_PIVOT_SHEET_NAME).Activate
 End Sub
 
 
 
 Public Sub go_to_rep_ppap_pivot(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.PPAP_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.PPAP_PIVOT_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_rep_fup_pivot(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.FUP_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.FUP_PIVOT_SHEET_NAME).Activate
 End Sub
 
 Public Sub go_to_rep_resp_pivot(ictrl As IRibbonControl)
-    ThisWorkbook.Sheets(XWiz.RESP_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.RESP_PIVOT_SHEET_NAME).Activate
 End Sub
 ' ===============================================
 
 
-Public Sub inner_go_to_through_selection(target As Range)
+Public Sub inner_go_to_through_selection(Target As Range)
 
     Dim r As Range
-    Set r = target.Offset(0, -1)
+    Set r = Target.Offset(0, -1)
 
     's = "." & remove_special_cases(CStr(r)) & _
     '    "*" & Left(remove_special_cases(CStr(r.Offset(0, 1))), XWiz.G_CUT_PROJECT) & _
     '    "*" & remove_special_cases(CStr(r.Offset(0, 2))) & _
     '    "*" & Left(remove_special_cases(CStr(r.Offset(0, 4))), XWiz.G_CUT_PHAZE) & "*"
 
-    Set r = r.Offset(0, XWiz.E_ACTIVE - 1)
+    Set r = r.Offset(0, XWIZ.E_ACTIVE - 1)
     s = ""
     On Error Resume Next
     s = Trim(CStr(r.Comment.Text))
@@ -88,15 +88,15 @@ Public Sub inner_go_to_through_selection(target As Range)
     If s <> "" Then
     
     
-        For Each Sh In ThisWorkbook.Sheets
+        For Each sh In ThisWorkbook.Sheets
         
-            shname = Sh.Name
-            If UCase(CStr(Sh.Range("C1"))) = UCase(CStr(s)) Then
+            shname = sh.Name
+            If UCase(CStr(sh.Range("C1"))) = UCase(CStr(s)) Then
                 ' Debug.Print sh.Name & " " & sh.Range("B1")
-                Sh.Activate
+                sh.Activate
                 Exit For
             End If
-        Next Sh
+        Next sh
     Else
         MsgBox "Brak Unique ID!"
     End If

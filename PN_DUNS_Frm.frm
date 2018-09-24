@@ -38,10 +38,10 @@ Private Sub BtnSubmit_Click()
     
     If Me.PNOptionButton.Value = True Then
         
-        ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("pns").Value = Me.TextBox1.Value
+        ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("pns").Value = Me.TextBox1.Value
     ElseIf Me.DUNSOptionButton.Value = True Then
     
-        ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("DUNSes").Value = Me.TextBox1.Value
+        ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("DUNSes").Value = Me.TextBox1.Value
     Else
         MsgBox "option button na pn duns frm - nigdy nie powinien sie pojawic ten msgbox"
     End If

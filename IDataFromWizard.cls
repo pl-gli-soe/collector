@@ -27,35 +27,35 @@ Attribute VB_Exposed = False
 
 
 
-Public Sub subMrd1PusStatus(count_pns, filename, sampath, r, ByRef Sh As StatusHandler)
+Public Sub subMrd1PusStatus(count_pns, filename, sampath, r, ByRef sh As StatusHandler)
 
 End Sub
 
-Public Sub subMrd2PusStatus(count_pns, filename, sampath, r, ByRef Sh As StatusHandler)
+Public Sub subMrd2PusStatus(count_pns, filename, sampath, r, ByRef sh As StatusHandler)
 
 End Sub
 
-Public Sub subTotalPusStatus(count_pns, filename, sampath, r, ByRef Sh As StatusHandler)
+Public Sub subTotalPusStatus(count_pns, filename, sampath, r, ByRef sh As StatusHandler)
 
 End Sub
 
-Public Sub mrd1ConfStatusLogic(count_pns, filename, sampath, r, ByRef Sh As StatusHandler)
+Public Sub mrd1ConfStatusLogic(count_pns, filename, sampath, r, ByRef sh As StatusHandler)
 
 End Sub
 
-Public Sub mrd2ConfStatusLogic(count_pns, filename, sampath, r, ByRef Sh As StatusHandler)
+Public Sub mrd2ConfStatusLogic(count_pns, filename, sampath, r, ByRef sh As StatusHandler)
 
 End Sub
 
-Public Sub mrd1StatusLogic(count_pns, filename, sampath, r, wypelnij_wstepnie_kolekcje_fma_resp As Boolean, ByRef Sh As StatusHandler)
+Public Sub mrd1StatusLogic(count_pns, filename, sampath, r, wypelnij_wstepnie_kolekcje_fma_resp As Boolean, ByRef sh As StatusHandler)
 
 End Sub
 
-Public Sub mrd2StatusLogic(count_pns, filename, sampath, r, ByRef Sh As StatusHandler)
+Public Sub mrd2StatusLogic(count_pns, filename, sampath, r, ByRef sh As StatusHandler)
 
 End Sub
 
-Public Sub deliveryConfirmationLogic(count_pns, sampath, r, td As Workbook, ByRef Sh As StatusHandler)
+Public Sub deliveryConfirmationLogic(count_pns, sampath, r, td As Workbook, ByRef sh As StatusHandler)
 
 End Sub
 
@@ -76,7 +76,7 @@ Public Sub podsumowanieSlownikaNaNwymArkuszu()
 
 End Sub
 
-Public Sub runMainLogic(r As Range, sampath As Variant, arr As Variant, Sh As StatusHandler, ByRef c As Collection)
+Public Sub runMainLogic(r As Range, sampath As Variant, arr As Variant, sh As StatusHandler, Optional ByRef c As Collection)
 
 End Sub
 

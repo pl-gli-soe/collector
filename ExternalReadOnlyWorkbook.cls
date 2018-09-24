@@ -47,7 +47,7 @@ Private rh As RecordsHandler
 ' wczesniej zapisac
 Private wrkbk As Workbook
 Private source_master As Worksheet
-Private source_detilas As Worksheet
+Private source_details As Worksheet
 Private source_pickups As Worksheet
 Private cfg As Worksheet
 
@@ -82,8 +82,8 @@ Private Sub IDataFromWizard_addComment(fcx As Variant, nok_counter As Variant, x
 
     ' hash & chr(10) & row
     fcx = fcx & _
-        XWiz.XWIZ_TXT_CMNT_HASH & dopelnij_spacjami(CStr(nok_counter), 5) & _
-        " | " & XWiz.XWIZ_TXT_CMNT_ROW & dopelnij_spacjami(CStr(x), 5) & " | "
+        XWIZ.XWIZ_TXT_CMNT_HASH & dopelnij_spacjami(CStr(nok_counter), 5) & _
+        " | " & XWIZ.XWIZ_TXT_CMNT_ROW & dopelnij_spacjami(CStr(x), 5) & " | "
 
 
     If Not d.Exists(x) Then
@@ -94,9 +94,9 @@ Private Sub IDataFromWizard_addComment(fcx As Variant, nok_counter As Variant, x
         'strRng = Cells(x, XWiz.pn).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'pn = CStr(ExecuteExcel4Macro(strRef))
-        pn = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn)
-        pn = dopelnij_spacjami(pn, XWiz.G_PN_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_PN_PREFIX & pn & " | "
+        pn = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.pn)
+        pn = dopelnij_spacjami(pn, XWIZ.G_PN_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_PN_PREFIX & pn & " | "
         
         
         
@@ -104,55 +104,55 @@ Private Sub IDataFromWizard_addComment(fcx As Variant, nok_counter As Variant, x
         'strRng = Cells(x, XWiz.PN_Name).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'pn_nm = CStr(ExecuteExcel4Macro(strRef))
-        pn_nm = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.PN_Name)
-        pn_nm = dopelnij_spacjami(pn_nm, XWiz.G_PN_NM_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_PN_NM_PREFIX & pn_nm & " | "
+        pn_nm = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.PN_Name)
+        pn_nm = dopelnij_spacjami(pn_nm, XWIZ.G_PN_NM_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_PN_NM_PREFIX & pn_nm & " | "
         
         
         ' DUNS
         'strRng = Cells(x, XWiz.duns).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'duns = CStr(ExecuteExcel4Macro(strRef))
-        duns = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.duns))
+        duns = Trim(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.duns))
         duns = dopelnij_spacjami(Trim(duns), 12)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_DUNS_PREFIX & duns & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_DUNS_PREFIX & duns & " | "
         
         ' supplier name
         'strRng = Cells(x, XWiz.Supplier_Name).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'supp_nm = CStr(ExecuteExcel4Macro(strRef))
-        supp_nm = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Supplier_Name)
-        supp_nm = dopelnij_spacjami(supp_nm, XWiz.G_SUPP_NM_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_SUPP_NM_PREFIX & supp_nm & " | "
+        supp_nm = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Supplier_Name)
+        supp_nm = dopelnij_spacjami(supp_nm, XWIZ.G_SUPP_NM_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_SUPP_NM_PREFIX & supp_nm & " | "
         
         ' RESP
         'strRng = Cells(x, XWiz.Responsibility).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'resp = CStr(ExecuteExcel4Macro(strRef))
-        resp = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
-        resp = dopelnij_spacjami(resp, XWiz.G_RESP_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_RESP_PREFIX & resp & " | "
+        resp = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Responsibility)
+        resp = dopelnij_spacjami(resp, XWIZ.G_RESP_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_RESP_PREFIX & resp & " | "
         
         ' FMA FUP
         'strRng = Cells(x, XWiz.fup_code).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'fma_fup = CStr(ExecuteExcel4Macro(strRef))
-        fma_fup = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code)
-        fma_fup = dopelnij_spacjami(fma_fup, XWiz.G_FUPCODE_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_FUP_PREFIX & fma_fup & " | "
+        fma_fup = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.fup_code)
+        fma_fup = dopelnij_spacjami(fma_fup, XWIZ.G_FUPCODE_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_FUP_PREFIX & fma_fup & " | "
         
         
-        del_conf = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation)
-        del_conf = dopelnij_spacjami(del_conf, XWiz.G_DEL_CONF_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_DEL_CONF_PREFIX & del_conf & " | "
+        del_conf = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Delivery_confirmation)
+        del_conf = dopelnij_spacjami(del_conf, XWIZ.G_DEL_CONF_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_DEL_CONF_PREFIX & del_conf & " | "
         
-        order_date = CStr(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD1_Ordered_Date))
-        order_date = dopelnij_spacjami(order_date, XWiz.G_DATES_CW_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX & CStr(order_date) & " | "
+        order_date = CStr(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD1_Ordered_Date))
+        order_date = dopelnij_spacjami(order_date, XWIZ.G_DATES_CW_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX & CStr(order_date) & " | "
         
         
-        cmnts = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_CMNTS_PREFIX & cmnts & " | "
+        cmnts = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Comments)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_CMNTS_PREFIX & cmnts & " | "
         
         
         rh.pn = pn
@@ -214,42 +214,42 @@ Private Sub IDataFromWizard_addComment(fcx As Variant, nok_counter As Variant, x
             End If
         End With
         
-        rh_pn = dopelnij_spacjami(rh.pn, XWiz.G_PN_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_PN_PREFIX & rh_pn & " | "
+        rh_pn = dopelnij_spacjami(rh.pn, XWIZ.G_PN_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_PN_PREFIX & rh_pn & " | "
         
-        rh_pn_nm = dopelnij_spacjami(rh.pn_nm, XWiz.G_PN_NM_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_PN_NM_PREFIX & rh_pn_nm & " | "
+        rh_pn_nm = dopelnij_spacjami(rh.pn_nm, XWIZ.G_PN_NM_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_PN_NM_PREFIX & rh_pn_nm & " | "
         
-        rh_duns = dopelnij_spacjami(Trim(rh.duns), XWiz.G_DUNS_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_DUNS_PREFIX & rh_duns & " | "
+        rh_duns = dopelnij_spacjami(Trim(rh.duns), XWIZ.G_DUNS_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_DUNS_PREFIX & rh_duns & " | "
         
         
-        rh_supp_nm = dopelnij_spacjami(rh.supp_nm, XWiz.G_SUPP_NM_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_SUPP_NM_PREFIX & rh_supp_nm & " | "
+        rh_supp_nm = dopelnij_spacjami(rh.supp_nm, XWIZ.G_SUPP_NM_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_SUPP_NM_PREFIX & rh_supp_nm & " | "
         
-        rh_resp = dopelnij_spacjami(rh.resp, XWiz.G_RESP_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_RESP_PREFIX & rh_resp & " | "
+        rh_resp = dopelnij_spacjami(rh.resp, XWIZ.G_RESP_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_RESP_PREFIX & rh_resp & " | "
         
-        rh_fup = dopelnij_spacjami(rh.fup, XWiz.G_FUPCODE_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_FUP_PREFIX & rh_fup & " | "
+        rh_fup = dopelnij_spacjami(rh.fup, XWIZ.G_FUPCODE_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_FUP_PREFIX & rh_fup & " | "
         
-        rh_del_conf = dopelnij_spacjami(rh.Delivery_confirmation, XWiz.G_DEL_CONF_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_DEL_CONF_PREFIX & rh_del_conf & " | "
+        rh_del_conf = dopelnij_spacjami(rh.Delivery_confirmation, XWIZ.G_DEL_CONF_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_DEL_CONF_PREFIX & rh_del_conf & " | "
         
-        rh_MRD1_Ordered_Date = dopelnij_spacjami(rh.MRD1_Ordered_Date, XWiz.G_DATES_CW_LEN)
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX & rh_MRD1_Ordered_Date & " | "
+        rh_MRD1_Ordered_Date = dopelnij_spacjami(rh.MRD1_Ordered_Date, XWIZ.G_DATES_CW_LEN)
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX & rh_MRD1_Ordered_Date & " | "
         
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_CMNTS_PREFIX & rh.Comments & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_CMNTS_PREFIX & rh.Comments & " | "
     End If
     
-    fcx = fcx & XWiz.XWIZ_TXT_CMNT_LINIA & Chr(10)
+    fcx = fcx & XWIZ.XWIZ_TXT_CMNT_LINIA & Chr(10)
     
     
     ' Debug.Print fcx
 End Sub
 
 
-Private Sub IDataFromWizard_deliveryConfirmationLogic(count_pns As Variant, sampath As Variant, r As Variant, td As Workbook, ByRef Sh As StatusHandler)
+Private Sub IDataFromWizard_deliveryConfirmationLogic(count_pns As Variant, sampath As Variant, r As Variant, td As Workbook, ByRef sh As StatusHandler)
     
     Dim count_noks_in_del_conf_status_with_fma_star_resp As Range
     Set count_noks_in_del_conf_status_with_fma_star_resp = r.Offset(0, 9)
@@ -267,7 +267,7 @@ Private Sub IDataFromWizard_deliveryConfirmationLogic(count_pns As Variant, samp
         'strRng = Cells(x, XWiz.MRD1_confirmed_qty_dot__Status).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation)
+        Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Delivery_confirmation)
         On Error Resume Next
         If Not Application.WorksheetFunction.IsNA(Result) Then
         
@@ -320,7 +320,7 @@ Private Function special_treatment_for_delivery_confirmation(r, td As Workbook) 
     special_treatment_for_delivery_confirmation = True
     Dim mrd_range As Range
     ' tutaj pobieramy date MRD prosto z Wizarda z arkusza DETAILS
-    Set mrd_range = td.Sheets(XWiz.DETAILS_SHEET_NAME).Range("mrd")
+    Set mrd_range = td.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("mrd")
     
     
     ' Set mrd_range = source_details.Range("mrd")
@@ -342,7 +342,9 @@ Private Function special_treatment_for_delivery_confirmation(r, td As Workbook) 
             mrd_bez_txtu = Left(mrd_bez_txtu, 4) & "0" & Right(mrd_bez_txtu, 1)
         Else
             MsgBox "special_treatment_for_delivery_confirmation - MRD w ogole bez std!"
-            End
+            special_treatment_for_delivery_confirmation = True
+            Exit Function
+            ' End
         End If
     End If
     
@@ -401,7 +403,26 @@ Private Function special_treatment_for_delivery_confirmation(r, td As Workbook) 
             If check_if_mrds_calc_is_taken_into_consideration(tmp) = 3 Then
         
         
-                tmp = Trim(Replace(Replace(Replace(Replace(Replace(tmp, "Staggered ", ""), "TWO/", ""), "CW", ""), "Y", ""), "ALT ", ""))
+                'tmp = Trim(Replace(Replace(Replace(Replace(Replace(tmp, "Staggered ", ""), "TWO", ""), "CW", ""), "Y", ""), "ALT ", ""))
+                ' new del confs - new logic
+                'tmp = Trim(Replace(Replace(tmp, "/", ""), "ONCOST", ""))
+                
+                
+                tmp = Trim(Replace(tmp, "/", ""))
+                tmp = Trim(Replace(tmp, "StaggeredONCOST", ""))
+                tmp = Trim(Replace(tmp, "ONCOST", ""))
+                tmp = Trim(Replace(tmp, "StaggeredALTTWO", ""))
+                tmp = Trim(Replace(tmp, "Staggered", ""))
+                
+                tmp = Trim(Replace(tmp, "ALTTWO", ""))
+                
+                tmp = Trim(Replace(tmp, "TWO", ""))
+                tmp = Trim(Replace(tmp, "ALT", ""))
+                
+                tmp = Trim(Replace(tmp, "CW", ""))
+                tmp = Trim(Replace(tmp, "Y", ""))
+                
+                
                 Dim licza_z_tmp As Long
                 liczba_z_tmp = CLng(tmp)
                 
@@ -423,7 +444,7 @@ Private Function special_treatment_for_delivery_confirmation(r, td As Workbook) 
         ' cos co napewno nie jest zwiazane z MRD
         ' ani z niczym innym
         Else
-            If ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("N19") = 1 Then
+            If ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("N19") = 1 Then
                 special_treatment_for_delivery_confirmation = True
             Else
             
@@ -446,9 +467,9 @@ Private Function blank_checked_on_form() As Boolean
     blank_checked_on_form = False
     
     
-    Set cfg = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+    Set cfg = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
     
-    If cfg.Range("N9").Value = XWiz.E_DYNAMIC_CFG_FOR_DEL_CONF_NOK Then
+    If cfg.Range("N9").Value = XWIZ.E_DYNAMIC_CFG_FOR_DEL_CONF_NOK Then
         blank_checked_on_form = True
     Else
         blank_checked_on_form = False
@@ -460,7 +481,7 @@ Private Function check_if_its_really_undefined(tmp) As Boolean
     check_if_its_really_undefined = True
     
     
-    Set cfg = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+    Set cfg = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
     ' lecimy pomijajac blanks - on ma osobna logike
     Set beg_of_del_conf_oknok_dyn = cfg.Range("M9")
     
@@ -487,7 +508,7 @@ Private Function dynamic_delivery_confirmation_get_content_look_for_oks() As Str
 
     ' Private beg_of_del_conf_oknok_dyn As Range
     
-    Set cfg = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+    Set cfg = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
     ' lecimy pomijajac blanks - on ma osobna logike
     Set beg_of_del_conf_oknok_dyn = cfg.Range("M9")
     
@@ -508,7 +529,7 @@ End Function
 Private Function check_if_mrds_calc_is_taken_into_consideration(tmp As String) As Integer
     check_if_mrds_calc_is_taken_into_consideration = -1
     
-    Set cfg = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+    Set cfg = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
     
     
     'Dim sum As Integer
@@ -528,31 +549,58 @@ Private Function check_if_mrds_calc_is_taken_into_consideration(tmp As String) A
     ' tmp = Trim(Replace(Replace(Replace(Replace(tmp, "Staggered ", ""), "TWO/", ""), "CW", ""), "Y", ""))
     
     'life hack - spradzam od razu two i staggered co by wczesniej nie zlapalo
-    If tmp Like "*TWO*Staggered*" Then
+    If tmp Like "*Staggered*ALT*TWO*" Then
+    
+        check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n22"))
+        
+        
+    ElseIf tmp Like "*Staggered*TWO*" Then
     
         check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n20"))
+        
+    ElseIf tmp Like "*Staggered*ONCOST*" Then
+    
+        check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n24"))
+        
+    ElseIf tmp Like "*ALT*TWO*" Then
+    
+        check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n21"))
+        
+
     
     ' staggered
     ElseIf tmp Like "*Staggered*" Then
     
     
         check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n12"))
+        
+        
+    ' oncost
+    ElseIf tmp Like "ONCOST*" Then
+    
+        check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n23"))
     
     'two
-    ElseIf tmp Like "*TWO*" Then
+    ElseIf tmp Like "TWO*" Then
     
         check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n15"))
         
         
     'alt
-    ElseIf tmp Like "*ALT*" Then
+    ElseIf tmp Like "ALT*" Then
     
         check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n18"))
     
     ' czyste mrd
+    ElseIf Len(tmp) = 9 And tmp Like "*Y*CW*" Then
+        check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n11"))
+        
+        
+    ' reszta jako blanki
     Else
     
-        check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n11"))
+        
+        check_if_mrds_calc_is_taken_into_consideration = Int(cfg.Range("n9"))
     End If
 End Function
 
@@ -573,10 +621,15 @@ Private Function IDataFromWizard_fooCountPns(szukaj_pustego As Variant, filename
 
 
     Dim r As Range
-    Set r = source_master.Cells(1, XWiz.pn)
+    Set r = source_master.Cells(1, XWIZ.pn)
     
     Do
         Set r = r.Offset(1, 0)
+        
+        If Trim(r) <> "" Then
+            Set r = r.Offset(-1, 0).End(xlDown)
+            Set r = r.Offset(1, 0)
+        End If
     Loop Until Trim(r) = ""
     
     IDataFromWizard_fooCountPns = r.Row - 1
@@ -585,16 +638,16 @@ End Function
 Private Sub IDataFromWizard_init(Optional mwrkbk As Workbook, Optional e As E_FUP_FILTER, Optional e2 As E_RUN_REP_TYPE)
 
     Set wrkbk = mwrkbk
-    Set source_master = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME)
-    Set source_details = wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME)
-    Set source_pickups = wrkbk.Sheets(XWiz.PICKUPS_SHEET_NAME)
+    Set source_master = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME)
+    Set source_details = wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME)
+    Set source_pickups = wrkbk.Sheets(XWIZ.PICKUPS_SHEET_NAME)
     
     e_fup = e
     e_run_type = e2
     
 End Sub
 
-Private Sub IDataFromWizard_mrd1ConfStatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, Sh As StatusHandler)
+Private Sub IDataFromWizard_mrd1ConfStatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, sh As StatusHandler)
     
     
     Dim count_noks_in_mrd1_c_status_with_fma_star_resp As Range
@@ -614,11 +667,11 @@ Private Sub IDataFromWizard_mrd1ConfStatusLogic(count_pns As Variant, filename A
         'strRng = Cells(x, XWiz.MRD1_confirmed_qty_dot__Status).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD1_confirmed_qty_dot__Status)
+        Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD1_confirmed_qty_dot__Status)
         
         On Error Resume Next
         If Not Application.WorksheetFunction.IsNA(Result) Then
-            If Result = XWiz.G_NOK Then
+            If Result = XWIZ.G_NOK Then
                 nok_counter = nok_counter + 1
                 If (nok_counter Mod 20 = 0) Then
                     step = step + 1
@@ -628,7 +681,7 @@ Private Sub IDataFromWizard_mrd1ConfStatusLogic(count_pns As Variant, filename A
             End If
         End If
         
-        Sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count))
+        sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count))
 
     Next x
     
@@ -659,7 +712,7 @@ Private Sub IDataFromWizard_mrd1ConfStatusLogic(count_pns As Variant, filename A
     End With
 End Sub
 
-Private Sub IDataFromWizard_mrd1StatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, wypelnij_wstepnie_kolekcje_fma_resp As Boolean, Sh As StatusHandler)
+Private Sub IDataFromWizard_mrd1StatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, wypelnij_wstepnie_kolekcje_fma_resp As Boolean, sh As StatusHandler)
 
 
     fn = CStr(filename)
@@ -689,18 +742,18 @@ Private Sub IDataFromWizard_mrd1StatusLogic(count_pns As Variant, filename As Va
     
         If e_run_type = RUN_STD Then
             really_important_iteration_inside_mrd1_status _
-                x, kolekcja_fma_resp_zeby_tylko_raz_przegladac, nok_counter, step, sampath, filename, Sh, count_pns
+                x, kolekcja_fma_resp_zeby_tylko_raz_przegladac, nok_counter, step, sampath, filename, sh, count_pns
         Else
         
             If e_run_type = RUN_DUNS Then
                 
                 really_important_iteration_inside_mrd1_status_only_dunses _
-                    x, kolekcja_fma_resp_zeby_tylko_raz_przegladac, nok_counter, step, sampath, filename, Sh, count_pns
+                    x, kolekcja_fma_resp_zeby_tylko_raz_przegladac, nok_counter, step, sampath, filename, sh, count_pns
                 
             ElseIf e_run_type = RUN_PN Then
             
                 really_important_iteration_inside_mrd1_status_only_pns _
-                    x, kolekcja_fma_resp_zeby_tylko_raz_przegladac, nok_counter, step, sampath, filename, Sh, count_pns
+                    x, kolekcja_fma_resp_zeby_tylko_raz_przegladac, nok_counter, step, sampath, filename, sh, count_pns
                     
             End If
         End If
@@ -744,29 +797,29 @@ Private Sub really_important_iteration_inside_mrd1_status_only_dunses(x, _
     ByRef step As Variant, _
     sampath As Variant, _
     filename As Variant, _
-    ByRef Sh As StatusHandler, _
+    ByRef sh As StatusHandler, _
     ByRef count_pns As Variant)
     
     
     'strRng = Cells(x, XWiz.Responsibility).Address(1, 1, xlR1C1)
     'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
     'Result = CStr(ExecuteExcel4Macro(strRef))
-    Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
+    Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Responsibility)
     
     
-    If Result Like XWiz.FMA_WITH_STARS Then
+    If Result Like XWIZ.FMA_WITH_STARS Then
     
         If e_fup = E_FUP_FILTER_YES Then
-            Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code)
+            Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.fup_code)
         ElseIf e_fup = E_FUP_FILTER_NO Then
-            Result = XWiz.XWIZ_FLAGA
+            Result = XWIZ.XWIZ_FLAGA
         End If
         
-        If (Result = XWiz.XWIZ_FLAGA) Or (UCase(Result) = UCase(ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("fup_code"))) Then
+        If (Result = XWIZ.XWIZ_FLAGA) Or (UCase(Result) = UCase(ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("fup_code"))) Then
         
-            Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.duns)
+            Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.duns)
             ' Debug.Print UCase(ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("DUNSes"))
-            txt = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("DUNSes")
+            txt = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("DUNSes")
             If InStr(1, CStr(txt), Result) > 0 Then
     
         
@@ -775,13 +828,13 @@ Private Sub really_important_iteration_inside_mrd1_status_only_dunses(x, _
                 'strRng = Cells(x, XWiz.MRD1_Ordered_STATUS).Address(1, 1, xlR1C1)
                 'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
                 'Result = CStr(ExecuteExcel4Macro(strRef))
-                Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD1_Ordered_STATUS)
+                Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD1_Ordered_STATUS)
                 
                 
                 On Error Resume Next
                 If Not Application.WorksheetFunction.IsNA(Result) Then
                 
-                    If Result = XWiz.G_NOK Then
+                    If Result = XWIZ.G_NOK Then
                         nok_counter = nok_counter + 1
                         If (nok_counter Mod 20) = 0 Then
                             step = step + 1
@@ -797,7 +850,7 @@ Private Sub really_important_iteration_inside_mrd1_status_only_dunses(x, _
         
     End If
     
-    Sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(count_pns))
+    sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(count_pns))
     
 End Sub
 
@@ -808,28 +861,28 @@ Private Sub really_important_iteration_inside_mrd1_status_only_pns(x, _
     ByRef step As Variant, _
     sampath As Variant, _
     filename As Variant, _
-    ByRef Sh As StatusHandler, _
+    ByRef sh As StatusHandler, _
     ByRef count_pns As Variant)
     
     'strRng = Cells(x, XWiz.Responsibility).Address(1, 1, xlR1C1)
     'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
     'Result = CStr(ExecuteExcel4Macro(strRef))
-    Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
+    Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Responsibility)
     
     
-    If Result Like XWiz.FMA_WITH_STARS Then
+    If Result Like XWIZ.FMA_WITH_STARS Then
     
         If e_fup = E_FUP_FILTER_YES Then
-            Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code)
+            Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.fup_code)
         ElseIf e_fup = E_FUP_FILTER_NO Then
-            Result = XWiz.XWIZ_FLAGA
+            Result = XWIZ.XWIZ_FLAGA
         End If
         
-        If (Result = XWiz.XWIZ_FLAGA) Or (UCase(Result) = UCase(ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("fup_code"))) Then
+        If (Result = XWIZ.XWIZ_FLAGA) Or (UCase(Result) = UCase(ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("fup_code"))) Then
         
-            Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn)
+            Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.pn)
             
-            If InStr(1, ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("pns"), Result) > 0 Then
+            If InStr(1, ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("pns"), Result) > 0 Then
     
         
                 kolekcja_fma_resp_zeby_tylko_raz_przegladac.Add x
@@ -837,13 +890,13 @@ Private Sub really_important_iteration_inside_mrd1_status_only_pns(x, _
                 'strRng = Cells(x, XWiz.MRD1_Ordered_STATUS).Address(1, 1, xlR1C1)
                 'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
                 'Result = CStr(ExecuteExcel4Macro(strRef))
-                Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD1_Ordered_STATUS)
+                Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD1_Ordered_STATUS)
                 
                 
                 On Error Resume Next
                 If Not Application.WorksheetFunction.IsNA(Result) Then
                 
-                    If Result = XWiz.G_NOK Then
+                    If Result = XWIZ.G_NOK Then
                         nok_counter = nok_counter + 1
                         If (nok_counter Mod 20) = 0 Then
                             step = step + 1
@@ -859,7 +912,7 @@ Private Sub really_important_iteration_inside_mrd1_status_only_pns(x, _
         
     End If
     
-    Sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(count_pns))
+    sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(count_pns))
     
 End Sub
 
@@ -869,25 +922,25 @@ Private Sub really_important_iteration_inside_mrd1_status(x, _
     ByRef step As Variant, _
     sampath As Variant, _
     filename As Variant, _
-    ByRef Sh As StatusHandler, _
+    ByRef sh As StatusHandler, _
     ByRef count_pns As Variant)
 
 
     'strRng = Cells(x, XWiz.Responsibility).Address(1, 1, xlR1C1)
     'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
     'Result = CStr(ExecuteExcel4Macro(strRef))
-    Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
+    Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Responsibility)
     
     
-    If Result Like XWiz.FMA_WITH_STARS Then
+    If Result Like XWIZ.FMA_WITH_STARS Then
     
         If e_fup = E_FUP_FILTER_YES Then
-            Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code)
+            Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.fup_code)
         ElseIf e_fup = E_FUP_FILTER_NO Then
-            Result = XWiz.XWIZ_FLAGA
+            Result = XWIZ.XWIZ_FLAGA
         End If
         
-        If (Result = XWiz.XWIZ_FLAGA) Or (UCase(Result) = UCase(ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("fup_code"))) Then
+        If (Result = XWIZ.XWIZ_FLAGA) Or (UCase(Result) = UCase(ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("fup_code"))) Then
     
         
             kolekcja_fma_resp_zeby_tylko_raz_przegladac.Add x
@@ -895,13 +948,13 @@ Private Sub really_important_iteration_inside_mrd1_status(x, _
             'strRng = Cells(x, XWiz.MRD1_Ordered_STATUS).Address(1, 1, xlR1C1)
             'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
             'Result = CStr(ExecuteExcel4Macro(strRef))
-            Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD1_Ordered_STATUS)
+            Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD1_Ordered_STATUS)
             
             
             On Error Resume Next
             If Not Application.WorksheetFunction.IsNA(Result) Then
             
-                If Result = XWiz.G_NOK Then
+                If Result = XWIZ.G_NOK Then
                     nok_counter = nok_counter + 1
                     If (nok_counter Mod 20) = 0 Then
                         step = step + 1
@@ -917,10 +970,10 @@ Private Sub really_important_iteration_inside_mrd1_status(x, _
         
     End If
     
-    Sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(count_pns))
+    sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(count_pns))
 End Sub
 
-Private Sub IDataFromWizard_mrd2ConfStatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, Sh As StatusHandler)
+Private Sub IDataFromWizard_mrd2ConfStatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, sh As StatusHandler)
 
 
     Dim count_noks_in_mrd2_c_status_with_fma_star_resp As Range
@@ -940,13 +993,13 @@ Private Sub IDataFromWizard_mrd2ConfStatusLogic(count_pns As Variant, filename A
         'strRng = Cells(x, XWiz.MRD2_confirmed_qty_dot__Status).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD2_confirmed_qty_dot__Status)
+        Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD2_confirmed_qty_dot__Status)
         
         
         On Error Resume Next
         If Not Application.WorksheetFunction.IsNA(Result) Then
         
-            If Result = XWiz.G_NOK Then
+            If Result = XWIZ.G_NOK Then
                 nok_counter = nok_counter + 1
                 If (nok_counter Mod 20 = 0) Then
                     step = step + 1
@@ -956,7 +1009,7 @@ Private Sub IDataFromWizard_mrd2ConfStatusLogic(count_pns As Variant, filename A
             End If
         End If
         
-        Sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count))
+        sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count))
 
     Next x
     
@@ -989,7 +1042,7 @@ Private Sub IDataFromWizard_mrd2ConfStatusLogic(count_pns As Variant, filename A
     
 End Sub
 
-Private Sub IDataFromWizard_mrd2StatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, Sh As StatusHandler)
+Private Sub IDataFromWizard_mrd2StatusLogic(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, sh As StatusHandler)
     
     
     Dim count_noks_in_mrd2_o_status_with_fma_star_resp As Range
@@ -1009,13 +1062,13 @@ Private Sub IDataFromWizard_mrd2StatusLogic(count_pns As Variant, filename As Va
         'strRng = Cells(x, XWiz.MRD2_Ordered_STATUS).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD2_Ordered_STATUS)
+        Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD2_Ordered_STATUS)
         
         
         On Error Resume Next
         If Not Application.WorksheetFunction.IsNA(Result) Then
             
-            If Result = XWiz.G_NOK Then
+            If Result = XWIZ.G_NOK Then
                 nok_counter = nok_counter + 1
                 If (nok_counter Mod 20 = 0) Then
                     step = step + 1
@@ -1025,7 +1078,7 @@ Private Sub IDataFromWizard_mrd2StatusLogic(count_pns As Variant, filename As Va
             End If
         End If
         
-        Sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count))
+        sh.mini_progress_increase (ILE_PODZIALOW_W_LECIMY_TUTAJ * CLng(kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count))
 
     Next x
     
@@ -1061,14 +1114,16 @@ End Sub
 Private Sub IDataFromWizard_podsumowanieSlownikaNaNwymArkuszu()
 
 
-    Dim Sh As Worksheet ', nie trzeba jest juz takie pole rh As RecordsHandler
-    Set Sh = ThisWorkbook.Sheets.Add
+    Dim sh As Worksheet ', nie trzeba jest juz takie pole rh As RecordsHandler
+    Set sh = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
     
-    Sh.Range("A1") = sp
-    Sh.Range("B1") = fn
+    sh.Range("A1") = sp
+    sh.Range("B1") = fn
     cmnt_txt = create_cmnt_txt(sp, fn)
-    Sh.Range("B1").addComment cmnt_txt
-    Sh.Range("B1").Comment.Shape.TextFrame.AutoSize = True
+    sh.Range("B1").addComment cmnt_txt
+    sh.Range("B1").Comment.Shape.TextFrame.AutoSize = True
+    
+    ' Debug.Print d.Count
     
     'kopia z create_cmnt_txt
     'y = LBound(lbls)
@@ -1078,17 +1133,17 @@ Private Sub IDataFromWizard_podsumowanieSlownikaNaNwymArkuszu()
     '    y = y + 1
     'Next x
     ' Split(fn, ".")
-    Sh.Range("C1") = Split(fn, ".")(UBound(Split(fn, ".")))
-    With Sh.Range("C1")
+    sh.Range("C1") = Split(fn, ".")(UBound(Split(fn, ".")))
+    With sh.Range("C1")
         .Font.Size = 1
     End With
     
-    assign_sheet_name Sh, fn, 1
+    assign_sheet_name sh, fn, 1
     
     
     Dim e As Range
     
-    Set e = Sh.Range("A2")
+    Set e = sh.Range("A2")
     With e
         .Value = "#"
         .Offset(0, 1) = "ROW"
@@ -1116,7 +1171,7 @@ Private Sub IDataFromWizard_podsumowanieSlownikaNaNwymArkuszu()
         .Offset(0, 18) = "Comments"
     End With
     
-    Set e = Sh.Range("A3")
+    Set e = sh.Range("A3")
     
     For Each Key In d.Keys
         
@@ -1135,55 +1190,55 @@ Private Sub IDataFromWizard_podsumowanieSlownikaNaNwymArkuszu()
             ' statusy now
             ' MRD1
             If rh.MRD1_Ordered_STATUS Then
-                e.Offset(0, 8) = XWiz.G_OK
+                e.Offset(0, 8) = XWIZ.G_OK
             Else
-                e.Offset(0, 8) = XWiz.G_NOK
+                e.Offset(0, 8) = XWIZ.G_NOK
             End If
             
             If rh.MRD1_confirmed_qty_Status Then
-                e.Offset(0, 9) = XWiz.G_OK
+                e.Offset(0, 9) = XWIZ.G_OK
             Else
-                e.Offset(0, 9) = XWiz.G_NOK
+                e.Offset(0, 9) = XWIZ.G_NOK
             End If
             
             If rh.MRD1_PUS_STATUS Then
-                e.Offset(0, 10) = XWiz.G_OK
+                e.Offset(0, 10) = XWIZ.G_OK
             Else
-                e.Offset(0, 10) = XWiz.G_NOK
+                e.Offset(0, 10) = XWIZ.G_NOK
             End If
             
             ' MRD2
             If rh.MRD2_Ordered_STATUS Then
-                e.Offset(0, 11) = XWiz.G_OK
+                e.Offset(0, 11) = XWIZ.G_OK
             Else
-                e.Offset(0, 11) = XWiz.G_NOK
+                e.Offset(0, 11) = XWIZ.G_NOK
             End If
             
             If rh.MRD2_confirmed_qty_Status Then
-                e.Offset(0, 12) = XWiz.G_OK
+                e.Offset(0, 12) = XWIZ.G_OK
             Else
-                e.Offset(0, 12) = XWiz.G_NOK
+                e.Offset(0, 12) = XWIZ.G_NOK
             End If
             
             If rh.MRD2_PUS_STATUS Then
-                e.Offset(0, 13) = XWiz.G_OK
+                e.Offset(0, 13) = XWIZ.G_OK
             Else
-                e.Offset(0, 13) = XWiz.G_NOK
+                e.Offset(0, 13) = XWIZ.G_NOK
             End If
             
             If rh.TOTAL_PUS_STATUS Then
-                e.Offset(0, 14) = XWiz.G_OK
+                e.Offset(0, 14) = XWIZ.G_OK
             Else
-                e.Offset(0, 14) = XWiz.G_NOK
+                e.Offset(0, 14) = XWIZ.G_NOK
             End If
             
             e.Offset(0, 15) = rh.Delivery_confirmation
             
             
             If rh.Delivery_confirmation_status Then
-                e.Offset(0, 16) = XWiz.G_OK
+                e.Offset(0, 16) = XWIZ.G_OK
             Else
-                e.Offset(0, 16) = XWiz.G_NOK
+                e.Offset(0, 16) = XWIZ.G_NOK
             End If
             
             e.Offset(0, 17) = rh.MRD1_Ordered_Date
@@ -1234,7 +1289,7 @@ Private Function create_cmnt_txt(sp, fn) As String
         y = y + 1
     Next x
 End Function
-Private Sub assign_sheet_name(ByRef Sh As Worksheet, nm, proba)
+Private Sub assign_sheet_name(ByRef sh As Worksheet, ByRef nm, proba)
 
     If proba = 1 Then
         nm = remove_special_cases(nm)
@@ -1242,16 +1297,20 @@ Private Sub assign_sheet_name(ByRef Sh As Worksheet, nm, proba)
     
     nm = shorten_plt_proj_nm_phase(nm)
     
-    If Len(nm) > XWiz.MAX_SHEET_NAME_LEN Then nm = Left(nm, XWiz.MAX_SHEET_NAME_LEN)
+    If Len(nm & proba) > XWIZ.MAX_SHEET_NAME_LEN Then nm = Left(nm & proba, XWIZ.MAX_SHEET_NAME_LEN)
     
-    For Each s In Sh.Parent.Sheets
-        If s.Name = nm & proba Then
-            assign_sheet_name Sh, nm, proba + 1
-            Exit Sub
-        End If
-    Next s
-
-    Sh.Name = nm & proba
+    
+    
+    ' cos jest mocno nie tak
+    On Error Resume Next
+    sh.Name = nm & proba
+    
+    
+    If Left(sh.Name, 1) <> "." Then
+        On Error Resume Next
+        sh.Name = "." & Left(sh.Name, XWIZ.MAX_SHEET_NAME_LEN)
+        
+    End If
 End Sub
 
 Private Function shorten_plt_proj_nm_phase(nm) As String
@@ -1279,9 +1338,9 @@ Private Function shorten_plt_proj_nm_phase(nm) As String
             End If
             
             If x = y + 1 Then
-                nm = nm & Left(a(x), XWiz.G_CUT_PROJECT) & "."
+                nm = nm & Left(a(x), XWIZ.G_CUT_PROJECT) & "."
             ElseIf x = y + 4 Then
-                nm = nm & Left(a(x), XWiz.G_CUT_PHAZE) & "."
+                nm = nm & Left(a(x), XWIZ.G_CUT_PHAZE) & Right(a(x), XWIZ.G_CUT_PHAZE + 1) & "."
             Else
                 nm = nm & a(x) & "."
             End If
@@ -1294,25 +1353,30 @@ Private Function shorten_plt_proj_nm_phase(nm) As String
     
 End Function
 
-Private Sub IDataFromWizard_runMainLogic(r As Range, sampath, arr, Sh As StatusHandler, ByRef c As Collection)
+'Private Sub IDataFromWizard_runMainLogic(r As Range, sampath, arr, sh As StatusHandler, ByRef c As Collection, Optional ByRef c As Collection)
+'
+'
+'
+'    If e_run_type = NEW_RUN_EXTENDED Then
+'
+'        jesli_run_type_jest_mniejszy_niz_new_run_all r, sampath, arr, sh
+'    ElseIf e_run_type < NEW_RUN_ALL Then
+'
+'        jesli_run_type_jest_mniejszy_niz_new_run_all r, sampath, arr, sh
+'
+'    ElseIf e_run_type = NEW_RUN_ALL Then
+'        ' tutaj robimy ujecie calosciowe - zupelenie niezalezna logika
+'
+'        Set kolekcja_obiektow_typu_RecordHandlerAllApproach = c
+'
+'
+'        jesli_run_type_to_new_run_all r, sampath, arr, sh
+'
+'        Set r = r.Parent.Cells(r.Row, 1)
+'    End If
+'End Sub
 
-   
-    If e_run_type < NEW_RUN_ALL Then
-    
-        jesli_run_type_jest_mniejszy_niz_new_run_all r, sampath, arr, Sh
-    
-    ElseIf e_run_type = NEW_RUN_ALL Then
-        ' tutaj robimy ujecie calosciowe - zupelenie niezalezna logika
-        
-        Set kolekcja_obiektow_typu_RecordHandlerAllApproach = c
-        
-        jesli_run_type_to_new_run_all r, sampath, arr, Sh
-        
-        Set r = r.Parent.Cells(r.Row, 1)
-    End If
-End Sub
-
-Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, Sh As StatusHandler)
+Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, sh As StatusHandler)
 
     ' Set all_sh = ThisWorkbook.Sheets(XWiz.ALL_SHEET_NAME)
     
@@ -1323,13 +1387,13 @@ Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, Sh As Status
     filename = arr(UBound(arr))
     
     ' 1 progres
-    Sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
+    sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
     
  
-    For x = XWiz.plt To XWiz.E_UNIQUE_ID
-        Result = wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Range("B" & CStr(x))
+    For x = XWIZ.plt To XWIZ.E_UNIQUE_ID
+        Result = wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("B" & CStr(x))
         
-        If Trim(Result) = "" And x = XWiz.plt Then
+        If Trim(Result) = "" And x = XWIZ.plt Then
             r.Clear
             r.ClearComments
             Set r = r.Offset(-1, 0)
@@ -1345,9 +1409,9 @@ Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, Sh As Status
     Next x
     
     ' 2 progres
-    Sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
+    sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
     
-    dalej = XWiz.E_UNIQUE_ID + 1
+    dalej = XWIZ.E_UNIQUE_ID + 1
     Set r = r.Offset(0, dalej - 1)
     ' r.Offset(0, x - 1)
     ' count pn's
@@ -1365,7 +1429,7 @@ Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, Sh As Status
     Next q
     
     ' 3 progres
-    Sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
+    sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
     
     
     For i = 2 To count_pns
@@ -1375,7 +1439,7 @@ Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, Sh As Status
     Next i
     
     ' 4 progres po iteracji
-    Sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
+    sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
     
     
     With r.Offset(0, 1)
@@ -1403,19 +1467,45 @@ Private Sub jesli_run_type_to_new_run_all(r As Range, sampath, arr, Sh As Status
     End With
     
     ' 5 progres
-    Sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
+    sh.mini_progress_increase POD_MINI_PROGRES_DLA_REP_ALL
         
     ' Debug.Print kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count
     ' sh.progress_increase
     
 End Sub
 
+Private Function additional_check(ByRef r As Range) As String
+    
+    additional_check = ""
+    
+    If Application.WorksheetFunction.IsErr(r) = True Then
+        ' nope
+        additional_check = "errIsErr"
+        Exit Function
+    End If
+    
+    If Application.WorksheetFunction.IsError(r) = True Then
+        ' nope
+        additional_check = "errIsError"
+        Exit Function
+    End If
+    
+    If Application.WorksheetFunction.IsNA(r) Then
+        ' nope
+        additional_check = "errIsNa"
+        Exit Function
+    End If
+    
+    additional_check = CStr(r)
+    
+End Function
+
 Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, rr As Range)
 
-    Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
+    'Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility)
     
     
-    If Result Like XWiz.FMA_WITH_STARS Then
+    'If Result Like XWiz.FMA_WITH_STARS Then
 
 
     
@@ -1423,7 +1513,7 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
         'strRng = Cells(x, XWiz.MRD1_Ordered_STATUS).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
+        Result = Trim(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Delivery_confirmation))
         
         nok_counter = nok_counter + 1
         If (nok_counter Mod 20) = 0 Then
@@ -1453,56 +1543,90 @@ Private Sub iteration_in_run_type_all(sampath, filename, x, nok_counter, step, r
         ' E_TRANSPORTATION_ACCOUNT_NUMBER
         ' E_UNIQUE_ID
         
-        On Error GoTo ErrHandler:
+        ' On Error GoTo ErrHandler:
         With rhaa
-            .plt = rr
-            .proj = rr.Offset(0, XWiz.PROJECT - 1)
-            .bg = rr.Offset(0, XWiz.BIW_GA - 1)
-            .my = rr.Offset(0, XWiz.my - 1)
-            .faza = rr.Offset(0, XWiz.PHAZE - 1)
+            .plt = additional_check(rr)
+            .proj = additional_check(rr.Offset(0, XWIZ.PROJECT - 1))
+            .bg = additional_check(rr.Offset(0, XWIZ.BIW_GA - 1))
+            .my = additional_check(rr.Offset(0, XWIZ.my - 1))
+            .faza = additional_check(rr.Offset(0, XWIZ.PHAZE - 1))
             
-            .mrd = Trim(rr.Offset(0, XWiz.mrd - 1))
-            .mrdd = Trim(rr.Offset(0, XWiz.E_MRD_DATE - 1))
-            
-            
-            .ppap_gate = Trim(rr.Offset(0, XWiz.ppap_gate - 1))
+            .mrd = additional_check(rr.Offset(0, XWIZ.mrd - 1))
+            .mrdd = additional_check(rr.Offset(0, XWIZ.E_MRD_DATE - 1))
             
             
-            .koordynator = Trim(rr.Offset(0, XWiz.koordynator - 1))
-            
-            .unique_id = Trim(rr.Offset(0, XWiz.E_UNIQUE_ID - 1))
+            .ppap_gate = additional_check(rr.Offset(0, XWIZ.ppap_gate - 1))
             
             
-            .pickup_date_from_details = Trim(rr.Offset(0, XWiz.PICKUP_DATE - 1))
+            .koordynator = additional_check(rr.Offset(0, XWIZ.koordynator - 1))
             
-            .del_conf = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Delivery_confirmation))
-            
-            .duns = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.duns))
-            .pn = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.pn))
-            .resp = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Responsibility))
-            .fup = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.fup_code))
-            
-            .country_code = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.country_code))
+            .unique_id = additional_check(rr.Offset(0, XWIZ.E_UNIQUE_ID - 1))
             
             
-            .cmnts = Trim(wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.Comments))
+            .pickup_date_from_details = additional_check(rr.Offset(0, XWIZ.PICKUP_DATE - 1))
+            
+            .del_conf = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Delivery_confirmation))
+            
+            .duns = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.duns))
+            .pn = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.pn))
+            .resp = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Responsibility))
+            .fup = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.fup_code))
+            
+            .country_code = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.country_code))
+            
+            
+            .cmnts = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Comments))
+            
+            
+            ' new in 2.93 dev - pierwsza implementacja nowych pol ma miejsce 2016-06-08
+            ' ---------------------------------------------------------------------------
+            
+            .add_to_td = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.ADD_to_T_slash_D))
+            .build_start = additional_check(rr.Offset(0, XWIZ.build_start - 1))
+            .build_end = additional_check(rr.Offset(0, XWIZ.build_end - 1))
+            .bom_freeze = additional_check(rr.Offset(0, XWIZ.bom - 1))
+            
+            ' ---------------------------------------------------------------------------
+            
+            
+            ' new in 3.01 dev - pierwsza implementacja nowych pol ma miejsce 2018-01-24
+            ' ---------------------------------------------------------------------------
+            
+            .unit_wt = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.BLANK3))
+            .cbal = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.BLANK4))
+            
+            ' ---------------------------------------------------------------------------
+            
+            
+            ' new in 3.05 dev - pierwsza implementacja nowych pol ma miejsce 2018-09-07
+            ' ---------------------------------------------------------------------------
+            .alternativePN = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.Alternative_PN))
+            .gpdsPnName = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.GPDS_PN_Name))
+            ' ---------------------------------------------------------------------------
+            
+            
+            ' new in 3.06 dev - pierwsza implementacja nowych pol ma miejsce 2018-09-10
+            ' ---------------------------------------------------------------------------
+            .pnName = additional_check(wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.PN_Name))
+            ' ---------------------------------------------------------------------------
+            
         End With
         
-        On Error GoTo ErrHandler:
-        With wrkbk.Sheets(XWiz.MASTER_SHEET_NAME)
+        ' On Error GoTo ErrHandler:
+        With wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME)
                 
-            rhaa.supp_nm = Trim(.Cells(x, XWiz.Supplier_Name))
-            rhaa.total_qty = Trim(.Cells(x, XWiz.total_qty))
+            rhaa.supp_nm = additional_check(.Cells(x, XWIZ.Supplier_Name))
+            rhaa.total_qty = additional_check(.Cells(x, XWIZ.total_qty))
             
             ' mrd1
-            rhaa.ordered_date = Trim(.Cells(x, XWiz.MRD1_Ordered_Date))
-            rhaa.ordered_qty = Trim(.Cells(x, XWiz.MRD1_Ordered_QTY))
-            rhaa.confirmed_qty = Trim(.Cells(x, XWiz.MRD1_confirmed_qty))
+            rhaa.ordered_date = additional_check(.Cells(x, XWIZ.MRD1_Ordered_Date))
+            rhaa.ordered_qty = additional_check(.Cells(x, XWIZ.MRD1_Ordered_QTY))
+            rhaa.confirmed_qty = additional_check(.Cells(x, XWIZ.MRD1_confirmed_qty))
             
-            rhaa.ppap_status = Trim(.Cells(x, XWiz.ppap_status))
+            rhaa.ppap_status = additional_check(.Cells(x, XWIZ.ppap_status))
             ' rhaa.ppap_gate = Trim(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Cells(x, XWiz.ppap_gate))
             
-            rhaa.fst_pickup_date = Trim(.Cells(x, XWiz.First_Confirmed_PUS_Date))
+            rhaa.fst_pickup_date = additional_check(.Cells(x, XWIZ.First_Confirmed_PUS_Date))
             
         End With
         
@@ -1515,11 +1639,11 @@ ErrHandler:
         
         
         
-    End If
+    'End If
 End Sub
 
 
-Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, arr, Sh As StatusHandler)
+Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, arr, sh As StatusHandler)
 
     For x = LBound(arr) To UBound(arr) - 1
         sampath = sampath & arr(x) & "\"
@@ -1528,23 +1652,23 @@ Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, ar
     filename = arr(UBound(arr))
     
     Dim strRng As String, strRef As String, Result As String
-    For x = XWiz.plt To XWiz.E_UNIQUE_ID
+    For x = XWIZ.plt To XWIZ.E_UNIQUE_ID
         'strRng = Range("B" & CStr(x)).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.DETAILS_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
         
-        Result = wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Range("B" & CStr(x))
+        Result = wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("B" & CStr(x))
         filename2 = filename2 & "." & Result
         
         
         
-        If x = XWiz.E_UNIQUE_ID Then
+        If x = XWIZ.E_UNIQUE_ID Then
             ctxt = ""
             
             ctxt = _
-                CStr(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Range("B" & CStr(x)))
+                CStr(wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("B" & CStr(x)))
             
-            With r.Offset(0, XWiz.E_ACTIVE - 1)
+            With r.Offset(0, XWIZ.E_ACTIVE - 1)
                 .ClearComments
                 .addComment CStr(ctxt)
                 .Comment.Shape.TextFrame.AutoSize = True
@@ -1552,28 +1676,28 @@ Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, ar
         End If
         
         
-        If x = XWiz.E_TRANSPORTATION_ACCOUNT_NUMBER Then
+        If x = XWIZ.E_TRANSPORTATION_ACCOUNT_NUMBER Then
         
             ctxt = ""
             
             ctxt = ctxt & "MRD Date: " & _
-                CStr(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Range("B" & CStr(x - 3))) & Chr(10)
+                CStr(wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("B" & CStr(x - 3))) & Chr(10)
             ctxt = ctxt & "MRD reg routes: " & _
-                CStr(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Range("B" & CStr(x - 2)))
+                CStr(wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("B" & CStr(x - 2)))
             
-            With r.Offset(0, XWiz.mrd - 1)
+            With r.Offset(0, XWIZ.mrd - 1)
                 .ClearComments
                 .addComment CStr(ctxt)
                 .Comment.Shape.TextFrame.AutoSize = True
             End With
             
-            ctxt = "Transportation account number: " & CStr(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Range("B" & CStr(x)))
+            ctxt = "Transportation account number: " & CStr(wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("B" & CStr(x)))
             ctxt = ctxt & Chr(10) & "Platform: " & _
-                CStr(wrkbk.Sheets(XWiz.DETAILS_SHEET_NAME).Range("B" & CStr(x - 1)))
-            r.Offset(0, XWiz.PHAZE - 1).ClearComments
-            r.Offset(0, XWiz.PHAZE - 1).addComment CStr(ctxt)
+                CStr(wrkbk.Sheets(XWIZ.DETAILS_SHEET_NAME).Range("B" & CStr(x - 1)))
+            r.Offset(0, XWIZ.PHAZE - 1).ClearComments
+            r.Offset(0, XWIZ.PHAZE - 1).addComment CStr(ctxt)
             
-            With r.Offset(0, XWiz.PHAZE - 1)
+            With r.Offset(0, XWIZ.PHAZE - 1)
                 .Comment.Shape.TextFrame.AutoSize = True
             End With
             
@@ -1582,15 +1706,15 @@ Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, ar
         
         
         
-        If x = XWiz.PROJECT Then
+        If x = XWIZ.PROJECT Then
             ' podreczna pamiec w cfg dla calych stringow dla project
-            ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("T" & CStr(r.Row)) = Result
-            r.Offset(0, x - 1).Value = Left(CStr(Result), XWiz.G_CUT_PROJECT)
-        ElseIf x = XWiz.PHAZE Then
+            ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("T" & CStr(r.Row)) = Result
+            r.Offset(0, x - 1).Value = Left(CStr(Result), XWIZ.G_CUT_PROJECT)
+        ElseIf x = XWIZ.PHAZE Then
             ' podreczna pamiec w cfg dla calych stringow dla phase
-            ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("U" & CStr(r.Row)) = Result
-            r.Offset(0, x - 1).Value = Left(CStr(Result), XWiz.G_CUT_PHAZE)
-        ElseIf x = XWiz.PICKUP_DATE Or x = XWiz.ppap_gate Then
+            ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("U" & CStr(r.Row)) = Result
+            r.Offset(0, x - 1).Value = Left(CStr(Result), XWIZ.G_CUT_PHAZE)
+        ElseIf x = XWIZ.PICKUP_DATE Or x = XWIZ.ppap_gate Then
             On Error Resume Next
             r.Offset(0, x - 1).Value = Format(CStr(Result), "yyyy-mm-dd")
         Else
@@ -1601,9 +1725,9 @@ Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, ar
     Next x
     
     
-    Set r = r.Offset(0, x - 1 - XWiz.DODATKOWE_POLA_OD_DETAILS) ' teraz juz 5
+    Set r = r.Offset(0, x - 1 - XWIZ.DODATKOWE_POLA_OD_DETAILS) ' teraz juz 5
     
-    Sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ
+    sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ
     
     ' count pn's
     count_pns = 0
@@ -1613,28 +1737,46 @@ Private Sub jesli_run_type_jest_mniejszy_niz_new_run_all(r As Range, sampath, ar
     
     r = count_pns - 1
     
-    Sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ
+    sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ
     
     ' mrd1 ordered status
     ' tutaj jedyna zmiana filename2 poniewaz ma wplyw na logike dzialania
-    IDataFromWizard_mrd1StatusLogic count_pns, filename2, sampath, r, True, Sh
-    IDataFromWizard_mrd1ConfStatusLogic count_pns, filename, sampath, r, Sh
-    IDataFromWizard_subMrd1PusStatus count_pns, filename, sampath, r, Sh
+    IDataFromWizard_mrd1StatusLogic count_pns, filename2, sampath, r, True, sh
+    IDataFromWizard_mrd1ConfStatusLogic count_pns, filename, sampath, r, sh
+    IDataFromWizard_subMrd1PusStatus count_pns, filename, sampath, r, sh
     
-    IDataFromWizard_mrd2StatusLogic count_pns, filename, sampath, r, Sh
-    IDataFromWizard_mrd2ConfStatusLogic count_pns, filename, sampath, r, Sh
-    IDataFromWizard_subMrd2PusStatus count_pns, filename, sampath, r, Sh
+    IDataFromWizard_mrd2StatusLogic count_pns, filename, sampath, r, sh
+    IDataFromWizard_mrd2ConfStatusLogic count_pns, filename, sampath, r, sh
+    IDataFromWizard_subMrd2PusStatus count_pns, filename, sampath, r, sh
     
-    IDataFromWizard_subTotalPusStatus count_pns, filename, sampath, r, Sh
+    IDataFromWizard_subTotalPusStatus count_pns, filename, sampath, r, sh
     
-    IDataFromWizard_deliveryConfirmationLogic count_pns, sampath, r, wrkbk, Sh
+    IDataFromWizard_deliveryConfirmationLogic count_pns, sampath, r, wrkbk, sh
     
     IDataFromWizard_podsumowanieSlownikaNaNwymArkuszu
     
 
 End Sub
 
-Private Sub IDataFromWizard_subMrd1PusStatus(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, Sh As StatusHandler)
+Private Sub IDataFromWizard_runMainLogic(r As Range, sampath As Variant, arr As Variant, sh As StatusHandler, Optional c As Collection)
+
+    If e_run_type < NEW_RUN_ALL Then
+
+        jesli_run_type_jest_mniejszy_niz_new_run_all r, sampath, arr, sh
+
+    ElseIf e_run_type = NEW_RUN_ALL Then
+        ' tutaj robimy ujecie calosciowe - zupelenie niezalezna logika
+
+        Set kolekcja_obiektow_typu_RecordHandlerAllApproach = c
+
+
+        jesli_run_type_to_new_run_all r, sampath, arr, sh
+
+        Set r = r.Parent.Cells(r.Row, 1)
+    End If
+End Sub
+
+Private Sub IDataFromWizard_subMrd1PusStatus(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, sh As StatusHandler)
 
 
 
@@ -1655,13 +1797,13 @@ Private Sub IDataFromWizard_subMrd1PusStatus(count_pns As Variant, filename As V
         'strRng = Cells(x, XWiz.MRD1_Total_PUS_STATUS).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD1_Total_PUS_STATUS)
+        Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD1_Total_PUS_STATUS)
         
         
         On Error Resume Next
         If Not Application.WorksheetFunction.IsNA(Result) Then
             
-            If Result = XWiz.G_NOK Then
+            If Result = XWIZ.G_NOK Then
                 nok_counter = nok_counter + 1
                 If (nok_counter Mod 20) = 0 Then
                     step = step + 1
@@ -1670,7 +1812,7 @@ Private Sub IDataFromWizard_subMrd1PusStatus(count_pns As Variant, filename As V
                 IDataFromWizard_addComment for_comment(step), nok_counter, x, sampath, filename, E_F_MRD1_PUS_STATUS
             End If
         End If
-        Sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ * kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count
+        sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ * kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count
 
     Next x
     
@@ -1703,7 +1845,7 @@ Private Sub IDataFromWizard_subMrd1PusStatus(count_pns As Variant, filename As V
     End With
 End Sub
 
-Private Sub IDataFromWizard_subMrd2PusStatus(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, Sh As StatusHandler)
+Private Sub IDataFromWizard_subMrd2PusStatus(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, sh As StatusHandler)
 
 
 
@@ -1724,12 +1866,12 @@ Private Sub IDataFromWizard_subMrd2PusStatus(count_pns As Variant, filename As V
         'strRng = Cells(x, XWiz.MRD2_Total_PUS_STATUS).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.MRD2_Total_PUS_STATUS)
+        Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.MRD2_Total_PUS_STATUS)
         
         
         On Error Resume Next
         If Not Application.WorksheetFunction.IsNA(Result) Then
-            If Result = XWiz.G_NOK Then
+            If Result = XWIZ.G_NOK Then
                 nok_counter = nok_counter + 1
                 If (nok_counter Mod 20) = 0 Then
                     step = step + 1
@@ -1739,7 +1881,7 @@ Private Sub IDataFromWizard_subMrd2PusStatus(count_pns As Variant, filename As V
             End If
         End If
         
-        Sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ * kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count
+        sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ * kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count
 
     Next x
     
@@ -1769,7 +1911,7 @@ Private Sub IDataFromWizard_subMrd2PusStatus(count_pns As Variant, filename As V
     End With
 End Sub
 
-Private Sub IDataFromWizard_subTotalPusStatus(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, Sh As StatusHandler)
+Private Sub IDataFromWizard_subTotalPusStatus(count_pns As Variant, filename As Variant, sampath As Variant, r As Variant, sh As StatusHandler)
 
 
 
@@ -1790,10 +1932,10 @@ Private Sub IDataFromWizard_subTotalPusStatus(count_pns As Variant, filename As 
         'strRng = Cells(x, XWiz.total_pus_status).Address(1, 1, xlR1C1)
         'strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
         'Result = CStr(ExecuteExcel4Macro(strRef))
-        Result = wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Cells(x, XWiz.TOTAL_PUS_STATUS)
+        Result = wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Cells(x, XWIZ.TOTAL_PUS_STATUS)
         On Error Resume Next
         If Not Application.WorksheetFunction.IsNA(Result) Then
-            If Result = XWiz.G_NOK Then
+            If Result = XWIZ.G_NOK Then
                 nok_counter = nok_counter + 1
                 If (nok_counter Mod 20) = 0 Then
                     step = step + 1
@@ -1803,7 +1945,7 @@ Private Sub IDataFromWizard_subTotalPusStatus(count_pns As Variant, filename As 
             End If
         End If
         
-        Sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ * kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count
+        sh.mini_progress_increase ILE_PODZIALOW_W_LECIMY_TUTAJ * kolekcja_fma_resp_zeby_tylko_raz_przegladac.Count
 
     Next x
     

@@ -21,7 +21,7 @@ Public Sub add_slicers_for_resp()
 
 
     ThisWorkbook.Activate
-    ThisWorkbook.Sheets(XWiz.RESP_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.RESP_PIVOT_SHEET_NAME).Activate
 
     Dim ptb As PivotTable, p As PivotTable
     Set p = Nothing
@@ -47,7 +47,7 @@ End Sub
 Public Sub add_slicers_for_ppap()
 
     ThisWorkbook.Activate
-    ThisWorkbook.Sheets(XWiz.PPAP_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.PPAP_PIVOT_SHEET_NAME).Activate
 
     Dim ptb As PivotTable, p As PivotTable
     Set p = Nothing
@@ -88,7 +88,7 @@ Sub add_slicers_for_del_conf()
     'slajsers(6) = "PPAP Status"
 
     ThisWorkbook.Activate
-    ThisWorkbook.Sheets(XWiz.DEL_CONF_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.DEL_CONF_PIVOT_SHEET_NAME).Activate
 
     Dim ptb As PivotTable, p As PivotTable
     Set p = Nothing
@@ -121,7 +121,7 @@ Sub add_slicers_for_fup()
 Attribute add_slicers_for_fup.VB_ProcData.VB_Invoke_Func = " \n14"
 
     ThisWorkbook.Activate
-    ThisWorkbook.Sheets(XWiz.FUP_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.FUP_PIVOT_SHEET_NAME).Activate
 
     Dim ptb As PivotTable, p As PivotTable
     Set p = Nothing
@@ -151,7 +151,7 @@ Sub add_timeline_for_fup()
 Attribute add_timeline_for_fup.VB_ProcData.VB_Invoke_Func = " \n14"
 
     ThisWorkbook.Activate
-    ThisWorkbook.Sheets(XWiz.FUP_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.FUP_PIVOT_SHEET_NAME).Activate
 
     Dim ptb As PivotTable, p As PivotTable
     Set p = Nothing
@@ -175,7 +175,7 @@ End Sub
 Sub add_timeline_for_del_conf()
 Attribute add_timeline_for_del_conf.VB_ProcData.VB_Invoke_Func = " \n14"
     ThisWorkbook.Activate
-    ThisWorkbook.Sheets(XWiz.DEL_CONF_PIVOT_SHEET_NAME).Activate
+    ThisWorkbook.Sheets(XWIZ.DEL_CONF_PIVOT_SHEET_NAME).Activate
 
     Dim ptb As PivotTable, p As PivotTable
     Set p = Nothing

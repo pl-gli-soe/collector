@@ -17,12 +17,13 @@ Attribute VB_Name = "GlobalModule"
 ' WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+Global Const G_SIDE_SIGNATURE = "extendedSide"
 
 Global Const COMBOBOX_SOURCE_DYN_DEL_CONF_OK = "always OK"
 Global Const COMBOBOX_SOURCE_DYN_DEL_CONF_NOK = "always NOK"
 Global Const COMBOBOX_SOURCE_DYN_DEL_CONF_CALC_IT = "calc it"
 
-Global Const MAX_SHEET_NAME_LEN = 28
+Global Const MAX_SHEET_NAME_LEN = 25
 Global Const G_KOLUMNA_PO_DELIVERY_CONFIRMATION_STATUS_W_ARKUSZU_REP = 25
 
 Global Const REP_SHEET_NAME = "rep"
@@ -32,7 +33,9 @@ Global Const ALL_SHEET_NAME = "all"
 ' globals for PIVOT section
 ' ----------------------------------------------------------------
 
-Global Const PIVOT_SOURCE_SHEET_NAME = "pivotSource"
+Global Const EXTENDED_SHEET_NAME = "extended"
+
+Global Const PIVOT_SOURCE_SHEET_NAME = "allSource"
 
 Global Const PIVOT_SHEET_NAME = "PIVOT"
 
@@ -108,13 +111,20 @@ Global Const G_CMNT_HEIGHT = 40
 
 ' najwazniejsza zmienna stala globalna dla poczatku projekt XWiz
 ' =====================================================================
-Global Const XWIZ_PATH_FOR_SEARCHING = "X:\PLGLI-Exchange\SoE\FMA\"
-Global Const REPO_PATH = "C:\WORKSPACE\macros\Wizard\Collector\repo\"
+
+Global Const XWIZ_PATH_FOR_SEARCHING = "X:\PLGLI-3-Exchange\SoE\FMA\"
+'Global Const XWIZ_PATH_FOR_SEARCHING = "C:\WORKSPACE\macros\LESS\wizard"
+
+
+Global Const REPO_PATH = "C:\WORKSPACE\macros\LESS\Collector\repo\"
 Global Const G_TEST_NA_DYSKU_LOKALNYM As Boolean = False
 
 Global Const XWIZ_FILE_PREFIX = "M"
 Global Const XWIZ_FILE_MIDFIX = "wizard"
-Global Const XWIZ_FLE_POSTFIX_VERSION = "3.9"
+Global Const XWIZ_FLE_OLD_POSTFIX_VERSION = "3.9"
+Global Const XWIZ_FLE_POSTFIX_VERSION = "4.0"
+
+Global Const XWIZ_BUILD_PLAN_POSTFIX = "_BP"
 
 
 Global Const XWIZ_TXT_CMNT_LINIA = "-----------"
@@ -153,10 +163,10 @@ Global Const G_SUPP_NM_LEN = 15
 Global Const G_RESP_LEN = 10
 Global Const G_FUPCODE_LEN = 2
 Global Const G_DATES_CW_LEN = 12
-Global Const G_DEL_CONF_LEN = 20
+Global Const G_DEL_CONF_LEN = 30
 
-Global Const G_CUT_PROJECT = 9
-Global Const G_CUT_PHAZE = 6
+Global Const G_CUT_PROJECT = 4
+Global Const G_CUT_PHAZE = 1
 
 
 
@@ -182,16 +192,16 @@ End Sub
 
 
 
-Public Sub Unhide_All_Rows(ByRef Sh As Worksheet)
+Public Sub Unhide_All_Rows(ByRef sh As Worksheet)
     On Error Resume Next
      'in case the sheet is protected
-    Sh.Cells.EntireRow.Hidden = False
+    sh.Cells.EntireRow.Hidden = False
 End Sub
  
-Public Sub Unhide_All_Columns(ByRef Sh As Worksheet)
+Public Sub Unhide_All_Columns(ByRef sh As Worksheet)
     On Error Resume Next
      'in case the sheet is protected
-    Sh.Cells.EntireColumn.Hidden = False
+    sh.Cells.EntireColumn.Hidden = False
 End Sub
 
 Public Function dopelnij_spacjami(ms As String, ile_znakow As Integer) As String
@@ -263,6 +273,16 @@ Public Function remove_special_cases(nm)
     nm = Replace(nm, "\", "")
     nm = Replace(nm, ",", "")
     nm = Replace(nm, ";", "")
+    nm = Replace(nm, ":", "")
+    nm = Replace(nm, "(", "")
+    nm = Replace(nm, ")", "")
+    nm = Replace(nm, "[", "")
+    nm = Replace(nm, "]", "")
+    nm = Replace(nm, "{", "")
+    nm = Replace(nm, "}", "")
+    nm = Replace(nm, "|", "")
+    nm = Replace(nm, "<", "")
+    nm = Replace(nm, ">", "")
     nm = Replace(nm, "&", "")
     nm = Replace(nm, "*", "")
     nm = Replace(nm, "%", "")
@@ -275,6 +295,7 @@ Public Function remove_special_cases(nm)
     nm = Replace(nm, "_", "")
     nm = Replace(nm, " ", "")
     nm = Replace(nm, "M_", "")
+    nm = Replace(nm, """", "")
     
     
     remove_special_cases = nm

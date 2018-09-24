@@ -34,10 +34,15 @@ Private detailsSourceSheetName As String
 Private parentPath As String
 Private parentPathBackup As String
 
-' klucz nazwy Quartera
+' klucz nazwy Wizarda
 Private prefixName As String
 Private midfixName As String
 Private postfixName As String
+Private oldpostfixName As String
+
+' klucz nazwy pliku zawierajacego build plan
+Private buildPlanPostfixName As String
+
 
 Private objFSO As Object
 Private objFolder As Object
@@ -54,6 +59,7 @@ Private fileCollection As Collection
 Private rep As Worksheet
 Private rep_fup As Worksheet
 Private rep_all As Worksheet
+Private pivot_source As Worksheet
 Private r As Range
 
 
@@ -90,20 +96,49 @@ Public Function get_e_fup() As E_FUP_FILTER
 End Function
 
 
-Public Sub przejdz_po_kolei_przez_kolekcje_nazw_i_pobierz_dane(ByRef Sh As StatusHandler)
+Public Sub przejdz_po_kolei_przez_kolekcje_nazw_i_pobierz_dane(ByRef sh As StatusHandler)
     ' for visibiity on macro progress
     
     If fileCollection.Count > 0 Then
         
-        ' Application.Visible = False
-        If e_run_type < NEW_RUN_ALL Then
+        
+        If e_run_type = NEW_RUN_EXTENDED Then
+        
+        
+            Set r = rep_all.Range("A2")
+        
+            For Each s In fileCollection
+            
+            
+                Set r = r.Parent.Cells(r.Row, 1)
+                On Error Resume Next
+                r.addComment s
+                With r
+                    '.Comment.Shape.Height = 20
+                    '.Comment.Shape.Width = 400
+                    
+                    With .Comment.Shape.TextFrame
+                        .Characters.Font.Name = "Consolas"
+                        .Characters.Font.Size = 10
+                        .AutoSize = True
+                    End With
+                End With
+                
+                
+               
+                Me.lecimy_tutaj_jawne_otwieranie_pliku CStr(s), r, sh
+                Set r = r.Offset(1, 0)
+                ' sh.progress_increase
+            Next s
+        
+        ElseIf e_run_type < NEW_RUN_ALL Then
             If e_fup = E_FUP_FILTER_NO Then
             
-                rep.Range("A1").Value = XWiz.DETAILS_SHEET_NAME
+                rep.Range("A1").Value = XWIZ.DETAILS_SHEET_NAME
                 Set r = rep.Range("A1").Offset(2, 0)
             ElseIf e_fup = E_FUP_FILTER_YES Then
             
-                rep_fup.Range("A1").Value = XWiz.DETAILS_SHEET_NAME
+                rep_fup.Range("A1").Value = XWIZ.DETAILS_SHEET_NAME
                 Set r = rep_fup.Range("A1").Offset(2, 0)
             End If
             
@@ -114,41 +149,47 @@ Public Sub przejdz_po_kolei_przez_kolekcje_nazw_i_pobierz_dane(ByRef Sh As Statu
         End If
         
         
-        Set kolekcja_obiektow_typu_RecordHandlerAllApproach = New Collection
-        
-        For Each s In fileCollection
+        If e_run_type < NEW_RUN_EXTENDED Then
         
         
-            Set r = r.Parent.Cells(r.Row, 1)
-            On Error Resume Next
-            r.addComment s
-            With r
-                '.Comment.Shape.Height = 20
-                '.Comment.Shape.Width = 400
-                
-                With .Comment.Shape.TextFrame
-                    .Characters.Font.Name = "Consolas"
-                    .Characters.Font.Size = 10
-                    .AutoSize = True
+            Set kolekcja_obiektow_typu_RecordHandlerAllApproach = New Collection
+            
+            For Each s In fileCollection
+            
+            
+                Set r = r.Parent.Cells(r.Row, 1)
+                On Error Resume Next
+                r.addComment s
+                With r
+                    '.Comment.Shape.Height = 20
+                    '.Comment.Shape.Width = 400
+                    
+                    With .Comment.Shape.TextFrame
+                        .Characters.Font.Name = "Consolas"
+                        .Characters.Font.Size = 10
+                        .AutoSize = True
+                    End With
                 End With
-            End With
+                
+                
+               
+                Me.lecimy_tutaj_jawne_otwieranie_pliku CStr(s), r, sh, kolekcja_obiektow_typu_RecordHandlerAllApproach
+                Set r = r.Offset(1, 0)
+                ' sh.progress_increase
+            Next s
             
             
-           
-            Me.lecimy_tutaj_jawne_otwieranie_pliku CStr(s), r, Sh, kolekcja_obiektow_typu_RecordHandlerAllApproach
-            Set r = r.Offset(1, 0)
-            ' sh.progress_increase
-        Next s
-        
-        
-        ' przygotowanie jednego duzego outputu
-        If e_run_type = NEW_RUN_ALL Then
-            prepare_onepager_for_all_files kolekcja_obiektow_typu_RecordHandlerAllApproach
+            ' przygotowanie jednego duzego outputu
+            If e_run_type = NEW_RUN_ALL Then
+                prepare_onepager_for_all_files kolekcja_obiektow_typu_RecordHandlerAllApproach
+            Else
+                
+            End If
+            
+            ' Application.Visible = True
         Else
-            
+            ' MsgBox "ta sekcja nie jest mozliwa do uruchomienia! e_run_type < NEW_RUN_EXTENDED WrkHandler linia 157 zawolaj Mateusza"
         End If
-        
-        ' Application.Visible = True
     Else
         MsgBox "nie ma czego przegladac"
     End If
@@ -161,7 +202,7 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
         ' rhaa jako element kolekcji
         ' lecimy iteracja
         Dim allDelConfs As Worksheet
-        Set allDelConfs = ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        Set allDelConfs = ThisWorkbook.Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
         
         clear_allDelConfs allDelConfs
          
@@ -192,6 +233,15 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
             .Cells(x, 22) = "Fst Pickup Date"
             .Cells(x, 23) = "PICKUP DATE"
             .Cells(x, 24) = "Country Code"
+            .Cells(x, 25) = "ADD to T/D"
+            .Cells(x, 26) = "BUILD START"
+            .Cells(x, 27) = "BUILD END"
+            .Cells(x, 28) = "BOM FREEZE"
+            .Cells(x, 29) = "UNIT WT"
+            .Cells(x, 30) = "BBAL"
+            .Cells(x, 31) = "Alternative PN"
+            .Cells(x, 32) = "GPDS PN Name"
+            .Cells(x, 33) = "PN Name"
             
             
             
@@ -227,6 +277,15 @@ Private Sub prepare_onepager_for_all_files(c As Collection)
                 .Cells(x, 22) = rhaa.fst_pickup_date
                 .Cells(x, 23) = rhaa.pickup_date_from_details
                 .Cells(x, 24) = rhaa.country_code
+                .Cells(x, 25) = rhaa.add_to_td
+                .Cells(x, 26) = rhaa.build_start
+                .Cells(x, 27) = rhaa.build_end
+                .Cells(x, 28) = rhaa.bom_freeze
+                .Cells(x, 29) = rhaa.unit_wt
+                .Cells(x, 30) = rhaa.cbal
+                .Cells(x, 31) = rhaa.alternativePN
+                .Cells(x, 32) = rhaa.gpdsPnName
+                .Cells(x, 33) = rhaa.pnName
                 
             End With
             ' ============================
@@ -257,7 +316,7 @@ End Sub
 Public Sub oddaj_cale_nazwy_dla_project_i_faz()
 
     Dim cfg As Worksheet, wsh As Worksheet, cr As Range, rr As Range
-    Set cfg = ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+    Set cfg = ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
     
     
     If e_fup = E_FUP_FILTER_NO Then
@@ -330,27 +389,31 @@ End Function
 
 Private Sub Class_Initialize()
     
-    parentPath = CStr(XWiz.XWIZ_PATH_FOR_SEARCHING)
-    Me.setDetailsShNm CStr(XWiz.DETAILS_SHEET_NAME)
-    Me.setMasterShNm CStr(XWiz.MASTER_SHEET_NAME)
+    parentPath = CStr(XWIZ.XWIZ_PATH_FOR_SEARCHING)
+    Me.setDetailsShNm CStr(XWIZ.DETAILS_SHEET_NAME)
+    Me.setMasterShNm CStr(XWIZ.MASTER_SHEET_NAME)
     
     
     
     ' init name
-    prefixName = CStr(XWiz.XWIZ_FILE_PREFIX)
-    midfixName = CStr(XWiz.XWIZ_FILE_MIDFIX)
-    postfixName = CStr(XWiz.XWIZ_FLE_POSTFIX_VERSION)
+    prefixName = CStr(XWIZ.XWIZ_FILE_PREFIX)
+    midfixName = CStr(XWIZ.XWIZ_FILE_MIDFIX)
+    postfixName = CStr(XWIZ.XWIZ_FLE_POSTFIX_VERSION)
+    oldpostfixName = CStr(XWIZ.XWIZ_FLE_OLD_POSTFIX_VERSION)
     
-    ' Q_Iza_postfix_catcher.xlsm
+    ' build plan postfix
+    buildPlanPostfixName = CStr(XWIZ.XWIZ_BUILD_PLAN_POSTFIX)
+    
     
     Set fileCollection = New Collection
     
     'Create an instance of the FileSystemObject
     Set objFSO = CreateObject("Scripting.FileSystemObject")
     
-    Set rep = ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
-    Set rep_fup = ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
-    Set rep_all = ThisWorkbook.Sheets(XWiz.ALL_SHEET_NAME)
+    Set rep = ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+    Set rep_fup = ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
+    Set rep_all = ThisWorkbook.Sheets(XWIZ.ALL_SHEET_NAME)
+    Set pivto_source = ThisWorkbook.Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
     
 End Sub
 
@@ -362,7 +425,9 @@ End Sub
 
 ' typowo testowy sub
 Public Sub przejrzyjListe_TEST()
-    rekurencyjne_przegladanie_katalogow CStr(parentPath), CStr(prefixName) & "*" & CStr(midfixName) & "*" & CStr(postfixName) & "*"
+    rekurencyjne_przegladanie_katalogow CStr(parentPath), _
+        CStr(prefixName) & "*" & CStr(midfixName) & "*" & CStr(postfixName) & "*", _
+        CStr(prefixName) & "*" & CStr(midfixName) & "*" & CStr(oldpostfixName) & "*"
     If fileCollection.Count > 0 Then
         
         Dim i As Variant
@@ -371,6 +436,48 @@ Public Sub przejrzyjListe_TEST()
         Next i
     Else
         MsgBox "collection of quarters is empty!"
+    End If
+End Sub
+
+
+Public Sub znajdz_build_plan(my_path)
+
+    
+    
+    Set fileCollection = New Collection
+    Set objFolder = Nothing
+    On Error Resume Next
+    Set objFolder = objFSO.GetFolder(CStr(my_path))
+
+    If Not objFolder Is Nothing Then
+    
+        rekurencyjne_przegladanie_katalogow CStr(my_path), "*" & CStr(buildPlanPostfixName) & ".*"
+    End If
+    
+    
+    
+End Sub
+
+Public Sub otowrzWszystkieBuildPlany()
+
+    If fileCollection.Count > 0 Then
+    
+        Dim shll As Object
+        Set shll = CreateObject("Shell.Application")
+        
+        For Each el In fileCollection
+            ' opener
+            ' --------------------------------------------------------------------------
+            
+            ' Debug.Print el
+            
+   
+            shll.Open (el)
+            
+            ' --------------------------------------------------------------------------
+        Next el
+    Else
+        MsgBox "Zaden Build Plan w wybranym katalogu projektu nie zostal odnaleziony"
     End If
 End Sub
 
@@ -385,7 +492,9 @@ Public Function stworz_kolekcje(my_path As String) As Boolean
     Set objFolder = objFSO.GetFolder(CStr(my_path))
 
     If Not objFolder Is Nothing Then
-        rekurencyjne_przegladanie_katalogow CStr(my_path), CStr(prefixName) & "*" & CStr(midfixName) & "*" & CStr(postfixName) & "*"
+        rekurencyjne_przegladanie_katalogow CStr(my_path), _
+        CStr(prefixName) & "*" & CStr(midfixName) & "*" & CStr(postfixName) & "*", _
+        CStr(prefixName) & "*" & CStr(midfixName) & "*" & CStr(oldpostfixName) & "*"
     End If
 End Function
 
@@ -457,7 +566,7 @@ Private Sub przejrzenie_jednego_katalogu(s As String, pattern As String)
     Next objFile
 End Sub
 
-Private Sub rekurencyjne_przegladanie_katalogow(s As String, pattern As String)
+Private Sub rekurencyjne_przegladanie_katalogow(s As String, pattern As String, Optional oldPattern As String)
 
 
     Dim objtmpfolder As Object
@@ -479,7 +588,15 @@ Private Sub rekurencyjne_przegladanie_katalogow(s As String, pattern As String)
         
         ' Debug.Print CStr(objFile.Path)
         ' ten warunek w przyszlosci ma zostac zmieniony
-        If CStr(objFile.Name) Like CStr(pattern) Then
+        Dim boolCondition As Boolean
+        
+        If oldPattern <> "" Then
+            boolCondition = (CStr(objFile.Name) Like CStr(pattern)) Or (CStr(objFile.Name) Like CStr(oldPattern))
+        Else
+            boolCondition = (CStr(objFile.Name) Like CStr(pattern))
+        End If
+        
+        If boolCondition Then
             ' Debug.Print CStr(objFile.Path)
             
             jest_juz_taki_i_go_nie_dodamy = False
@@ -505,7 +622,7 @@ Private Sub rekurencyjne_przegladanie_katalogow(s As String, pattern As String)
     If objFolder.SubFolders.Count > 0 Then
 
         For Each objtmpfolder In objFolder.SubFolders
-            rekurencyjne_przegladanie_katalogow CStr(s) & Application.PathSeparator & CStr(objtmpfolder.shortName), pattern
+            rekurencyjne_przegladanie_katalogow CStr(s) & Application.PathSeparator & CStr(objtmpfolder.shortName), pattern, oldPattern
         Next objtmpfolder
     End If
 
@@ -515,16 +632,16 @@ Public Sub wyczysc_arkusz_rep()
 
     unhide_all_rows_and_all_columns rep
     
-    rep.Range("A3:ZZ" & XWiz.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
-    rep.Range("A3:ZZ" & XWiz.DWA_DO_16).Clear
+    rep.Range("A3:ZZ" & XWIZ.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
+    rep.Range("A3:ZZ" & XWIZ.DWA_DO_16).Clear
 End Sub
 
 Public Sub wyczysc_arkusz_rep_fup()
     
     unhide_all_rows_and_all_columns rep_fup
     
-    rep_fup.Range("A3:ZZ" & XWiz.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
-    rep_fup.Range("A3:ZZ" & XWiz.DWA_DO_16).Clear
+    rep_fup.Range("A3:ZZ" & XWIZ.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
+    rep_fup.Range("A3:ZZ" & XWIZ.DWA_DO_16).Clear
 End Sub
 
 Public Sub wyczysc_arkusz_rep_all()
@@ -532,8 +649,44 @@ Public Sub wyczysc_arkusz_rep_all()
     unhide_all_rows_and_all_columns rep_all
     
     With rep_all
-        .Range("A2:ZZ" & XWiz.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
-        .Range("A2:ZZ" & XWiz.DWA_DO_16).Clear
+        .Range("A2:ZZ" & XWIZ.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
+        .Range("A2:ZZ" & XWIZ.DWA_DO_16).Clear
+    End With
+End Sub
+
+
+Public Sub wyczysc_arkusz_extended()
+
+
+    ' important!
+    remove_side_sheets
+
+    
+    Dim sh As Worksheet
+    Set sh = Nothing
+    On Error Resume Next
+    Set sh = ThisWorkbook.Sheets(XWIZ.EXTENDED_SHEET_NAME)
+    
+    
+    
+    If Not sh Is Nothing Then
+        Application.DisplayAlerts = False
+        sh.Delete
+        Application.DisplayAlerts = True
+    End If
+    
+    Set sh = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+    sh.Name = XWIZ.EXTENDED_SHEET_NAME
+    sh.Tab.ThemeColor = xlThemeColorDark1
+End Sub
+
+Public Sub wyczysc_arkusz_pivot_source()
+    
+    unhide_all_rows_and_all_columns ThisWorkbook.Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
+    
+     With ThisWorkbook.Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
+        .Range("A2:ZZ" & XWIZ.DWA_DO_16).Interior.Color = RGB(255, 255, 255)
+        .Range("A2:ZZ" & XWIZ.DWA_DO_16).Clear
     End With
 End Sub
 
@@ -573,7 +726,7 @@ Public Sub wyczysc_czesciowo_arkusz_rep()
         
         uid = ""
         On Error Resume Next
-        uid = Trim(r.Offset(0, XWiz.E_ACTIVE - 1).Comment.Text)
+        uid = Trim(r.Offset(0, XWIZ.E_ACTIVE - 1).Comment.Text)
         
         uid_z_side = ""
         uid_z_side = Trim(CStr(ktory_side_ma_zostac_zaktualizowany.Range("C1")))
@@ -618,7 +771,7 @@ Public Sub wyczysc_czesciowo_arkusz_rep_fup()
         
         uid = ""
         On Error Resume Next
-        uid = Trim(r.Offset(0, XWiz.E_ACTIVE - 1).Comment.Text)
+        uid = Trim(r.Offset(0, XWIZ.E_ACTIVE - 1).Comment.Text)
         
         uid_z_side = ""
         uid_z_side = Trim(CStr(ktory_side_ma_zostac_zaktualizowany.Range("C1")))
@@ -641,21 +794,21 @@ End Sub
 
 
 
-Public Sub TEST_wez_pierwszy_element_kolekcji_i_pobierz_duzy_zasieg(ByRef Sh As StatusHandler)
+Public Sub TEST_wez_pierwszy_element_kolekcji_i_pobierz_duzy_zasieg(ByRef sh As StatusHandler)
     
     Me.test_dla_ExecuteExcel4Macro CStr(fileCollection.Item(1)), rep.Range("d1")
 End Sub
 
 Public Sub wyczysc_cfg_sheet_i_jej_tmp_list_na_name_i_phase()
 
-    With ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME)
+    With ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME)
     
         .Range("T3:U64000").Clear
     End With
     
 End Sub
 
-Public Sub lecimy_tutaj_jawne_otwieranie_pliku(s As String, ByRef r As Range, ByRef Sh As StatusHandler, ByRef kol As Collection)
+Public Sub lecimy_tutaj_jawne_otwieranie_pliku(s As String, ByRef r As Range, ByRef sh As StatusHandler, Optional ByRef kol As Collection)
 
     ' work template
     'strPath = "C:\Test\"
@@ -680,9 +833,9 @@ Public Sub lecimy_tutaj_jawne_otwieranie_pliku(s As String, ByRef r As Range, By
     
     ' DLA TESTU CALA SCIEZKA
     ' ID 123456789
-    If G_TEST_NA_DYSKU_LOKALNYM Then
-        s = Replace(s, XWiz.XWIZ_PATH_FOR_SEARCHING, "")
-    End If
+    'If G_TEST_NA_DYSKU_LOKALNYM Then
+    '    s = Replace(s, XWIZ.XWIZ_PATH_FOR_SEARCHING, "")
+    'End If
     
     
     
@@ -705,7 +858,7 @@ Public Sub lecimy_tutaj_jawne_otwieranie_pliku(s As String, ByRef r As Range, By
     ' ===================================================================
     Dim fh As FilterHandling
     Set fh = New FilterHandling
-    wrkbk.Sheets(XWiz.MASTER_SHEET_NAME).Activate
+    wrkbk.Sheets(XWIZ.MASTER_SHEET_NAME).Activate
     Set fh.r = ActiveSheet.Range("A1")
     
     fh.ustaw_swiezy_filtr
@@ -714,20 +867,21 @@ Public Sub lecimy_tutaj_jawne_otwieranie_pliku(s As String, ByRef r As Range, By
     ' ===================================================================
     ' ===================================================================
     
-    Set idfw = New ExternalReadOnlyWorkbook
+    If e_run_type < NEW_RUN_EXTENDED Then
+        Set idfw = New ExternalReadOnlyWorkbook
+        idfw.init wrkbk, e_fup, e_run_type
+        idfw.runMainLogic r, sampath, arr, sh, kol
+    ElseIf e_run_type = NEW_RUN_EXTENDED Then
+        Set idfw = New ExternalWorkbookForExtended
+        idfw.init wrkbk, e_fup, e_run_type
+        idfw.runMainLogic r, sampath, arr, sh
+    End If
     
-    'wrkbk.Parent.Visible = False
     
-    
-    idfw.init wrkbk, e_fup, e_run_type
-    idfw.runMainLogic r, sampath, arr, Sh, kol
-    
-    ' MsgBox kol.Count
-
-    
-    'wrkbk.Parent.Visible = True
+    Application.CutCopyMode = False
+    Application.DisplayAlerts = False
     wrkbk.Close False
-    
+    Application.DisplayAlerts = True
 End Sub
 
 
@@ -749,7 +903,7 @@ Public Sub test_dla_ExecuteExcel4Macro(s As String, ByRef r As Range)
     
     
     strRng = Range("A1:Z10000").Address(, , xlR1C1)
-    strRef = "'" & sampath & "[" & filename & "]" & XWiz.MASTER_SHEET_NAME & "'!" & strRng
+    strRef = "'" & sampath & "[" & filename & "]" & XWIZ.MASTER_SHEET_NAME & "'!" & strRng
     Result = ExecuteExcel4Macro(strRef)
     
     r = Result
@@ -791,7 +945,7 @@ Public Sub ZRepDoRepFup(rep As Worksheet, rep_fup As Worksheet)
     
     For x = 3 To Int(ost_wiersz)
         ' lecimy przez calego repa i kopiujemy bazujac na nim z sideowych arkuszy
-        Set r = rep_fup.Range("A" & CStr(x)).Offset(0, XWiz.CAPACITY_CHECK + 2)
+        Set r = rep_fup.Range("A" & CStr(x)).Offset(0, XWIZ.CAPACITY_CHECK + 2)
         
         podlicz_za_pomoca_dodatkowych_arkuszy_obok_repa_co_lezy_w_odpowiedzialnosci_fupa r, rep, rep_fup, True
         ' selektywne_przekopiowaywanie_danych_z_komorek_z_komentarzem r, rep, rep_fup
@@ -810,8 +964,8 @@ Public Sub extractDataFromRep()
 
 
     Dim rep_fup As Worksheet, rep As Worksheet
-    Set rep_fup = ThisWorkbook.Sheets(XWiz.REP_FUP_SHEET_NAME)
-    Set rep = ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
+    Set rep_fup = ThisWorkbook.Sheets(XWIZ.REP_FUP_SHEET_NAME)
+    Set rep = ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
     
     ' jako jedyny zewnetrzny range
     ' linijka_do_zaktualizowania
@@ -830,7 +984,7 @@ Public Sub extractDataFromRep()
             
             
             ' ten assign to nic innego jak przypisanie pierwszego pustego pola fma resp
-            Set r = rep_fup.Range("A" & CStr(ldz.Row)).Offset(0, XWiz.CAPACITY_CHECK + 2)
+            Set r = rep_fup.Range("A" & CStr(ldz.Row)).Offset(0, XWIZ.CAPACITY_CHECK + 2)
             ' Set r = rep_fup.Range("A3").Offset(0, XWiz.CAPACITY_CHECK + 2)
             
             
@@ -855,7 +1009,7 @@ Public Sub extractDataFromRep()
         ElseIf e_fup = E_FUP_FILTER_NO Then
             ' Result = XWiz.XWIZ_FLAGA
             ' ten assign to nic innego jak przypisanie pierwszego pustego pola fma resp
-            Set r = rep.Range("A" & CStr(ldz.Row)).Offset(0, XWiz.CAPACITY_CHECK + 2)
+            Set r = rep.Range("A" & CStr(ldz.Row)).Offset(0, XWIZ.CAPACITY_CHECK + 2)
             
             Set mySh = New StatusHandler
             mySh.init_statusbar Int(1)
@@ -887,7 +1041,7 @@ Private Function znajdz_arkusz_sideowy_dla_danej_iteracji(ByRef r As Range, _
             
             uid = ""
             On Error Resume Next
-            uid = Trim(r.Offset(0, XWiz.E_ACTIVE - 1))
+            uid = Trim(r.Offset(0, XWIZ.E_ACTIVE - 1))
             
             If uid <> "" Then
             
@@ -925,7 +1079,7 @@ Private Sub _
                 ' ===========================
 
                 If z_rep_do_rep Then
-                    Set wrk_sh = znajdz_arkusz_sideowy_dla_danej_iteracji(r.Offset(0, XWiz.plt - r.Column), rep, rep_fup)
+                    Set wrk_sh = znajdz_arkusz_sideowy_dla_danej_iteracji(r.Offset(0, XWIZ.plt - r.Column), rep, rep_fup)
                 Else
                     Set wrk_sh = ktory_side_ma_zostac_zaktualizowany
                 End If
@@ -966,7 +1120,7 @@ End Sub
 Private Sub podlicz_resp_i_noki(wrk_sh As Worksheet, ro As Range)
     
     podlicz_resp = 0
-    loop_to_fill_rh wrk_sh, podlicz_resp, UCase(ThisWorkbook.Sheets(XWiz.CONFIG_SHEET_NAME).Range("fup_code"))
+    loop_to_fill_rh wrk_sh, podlicz_resp, UCase(ThisWorkbook.Sheets(XWIZ.CONFIG_SHEET_NAME).Range("fup_code"))
     
     ro.Value = podlicz_resp
     
@@ -984,21 +1138,21 @@ Public Sub loop_to_fill_rh(ByRef wrk_sh As Worksheet, _
     Set rp = wrk_sh.Cells(3, 1)
     podlicz_resp = 0
     Do
-        If rp.Offset(0, XWiz.E_SIDE_TB_RESP - 1) Like XWiz.FMA_WITH_STARS Then
+        If rp.Offset(0, XWIZ.E_SIDE_TB_RESP - 1) Like XWIZ.FMA_WITH_STARS Then
         
-            If (UCase(rp.Offset(0, XWiz.E_CMNT_FUP - 1)) = CStr(fup_code)) Or _
+            If (UCase(rp.Offset(0, XWIZ.E_CMNT_FUP - 1)) = CStr(fup_code)) Or _
                 e_fup = E_FUP_FILTER_NO Or _
-                ((fup_code = XWiz.STR_BLANK) And (Trim(rp.Offset(0, XWiz.E_CMNT_FUP - 1)) = "")) Then
+                ((fup_code = XWIZ.STR_BLANK) And (Trim(rp.Offset(0, XWIZ.E_CMNT_FUP - 1)) = "")) Then
                 
                 
                     If (del_conf_string = "") Or _
-                        (del_conf_string = Trim(rp.Offset(0, XWiz.E_SIDE_TB_Delivery_confirmation - 1))) Or _
-                        (del_conf_string = XWiz.STR_BLANK And Trim(rp.Offset(0, XWiz.E_SIDE_TB_Delivery_confirmation - 1)) = "") Then
+                        (del_conf_string = Trim(rp.Offset(0, XWIZ.E_SIDE_TB_Delivery_confirmation - 1))) Or _
+                        (del_conf_string = XWIZ.STR_BLANK And Trim(rp.Offset(0, XWIZ.E_SIDE_TB_Delivery_confirmation - 1)) = "") Then
                         
                         
                         If (pn_string = "") Or _
-                            (pn_string = Trim(rp.Offset(0, XWiz.E_SIDE_TB_PN - 1))) Or _
-                            (pn_string = XWiz.STR_BLANK And Trim(rp.Offset(0, XWiz.E_SIDE_TB_PN - 1)) = "") Then
+                            (pn_string = Trim(rp.Offset(0, XWIZ.E_SIDE_TB_PN - 1))) Or _
+                            (pn_string = XWIZ.STR_BLANK And Trim(rp.Offset(0, XWIZ.E_SIDE_TB_PN - 1)) = "") Then
 
                             podlicz_resp = podlicz_resp + 1
                             
@@ -1007,23 +1161,23 @@ Public Sub loop_to_fill_rh(ByRef wrk_sh As Worksheet, _
                             ' nie moglem uzyc bezposrednio comments
                             ' poniewaz enum na komentarzu nie pokrywa sie na ostatnich 3 kolumnach - korzystam chwilowo poniewaz
                             ' zgadza sie do delivery confirmation
-                            rh.pn = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_PN)
-                            rh.pn_nm = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_PN_NM)
-                            rh.duns = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_DUNS)
-                            rh.supp_nm = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_SUPP_NM)
-                            rh.resp = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_RESP)
-                            rh.fup = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_FUP_CODE)
+                            rh.pn = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_PN)
+                            rh.pn_nm = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_PN_NM)
+                            rh.duns = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_DUNS)
+                            rh.supp_nm = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_SUPP_NM)
+                            rh.resp = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_RESP)
+                            rh.fup = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_FUP_CODE)
                             
-                            rh.Comments = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_Comments)
-                            rh.Delivery_confirmation = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_Delivery_confirmation)
+                            rh.Comments = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_Comments)
+                            rh.Delivery_confirmation = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_Delivery_confirmation)
                             ' w excelu ok nok - natomiast pole w klasie to boolean
                             ' rh.Delivery_confirmation_status = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_Delivery_Confirmation_STATUS)
                             
-                            rh.MRD1_Ordered_Date = wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD1_Ordered_Date)
+                            rh.MRD1_Ordered_Date = wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD1_Ordered_Date)
                             
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_Delivery_Confirmation_STATUS) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_Delivery_Confirmation_STATUS) = XWIZ.G_OK Then
                                 rh.Delivery_confirmation_status = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_Delivery_Confirmation_STATUS) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_Delivery_Confirmation_STATUS) = XWIZ.G_NOK Then
                                 rh.Delivery_confirmation_status = False
                             End If
                             
@@ -1034,59 +1188,59 @@ Public Sub loop_to_fill_rh(ByRef wrk_sh As Worksheet, _
                             
                             ' MRD1 Status
                             ' --------------------------------------------------------------------------
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD1_STATUS) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD1_STATUS) = XWIZ.G_OK Then
                                 rh.MRD1_Ordered_STATUS = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD1_STATUS) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD1_STATUS) = XWIZ.G_NOK Then
                                 rh.MRD1_Ordered_STATUS = False
                             End If
                             
                             ' MRD1 qty conf Status
                             ' --------------------------------------------------------------------------
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD1_CONF_QTY) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD1_CONF_QTY) = XWIZ.G_OK Then
                                 rh.MRD1_confirmed_qty_Status = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD1_CONF_QTY) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD1_CONF_QTY) = XWIZ.G_NOK Then
                                 rh.MRD1_confirmed_qty_Status = False
                             End If
                             
                             ' MRD1 PUS status
                             ' --------------------------------------------------------------------------
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD1_PUS_STATUS) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD1_PUS_STATUS) = XWIZ.G_OK Then
                                 rh.MRD1_PUS_STATUS = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD1_PUS_STATUS) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD1_PUS_STATUS) = XWIZ.G_NOK Then
                                 rh.MRD1_PUS_STATUS = False
                             End If
                             
                             
                             ' MRD2 Status
                             ' --------------------------------------------------------------------------
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD2_STATUS) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD2_STATUS) = XWIZ.G_OK Then
                                 rh.MRD2_Ordered_STATUS = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD2_STATUS) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD2_STATUS) = XWIZ.G_NOK Then
                                 rh.MRD2_Ordered_STATUS = False
                             End If
                             
                             ' MRD2 qty conf Status
                             ' --------------------------------------------------------------------------
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD2_CONF_QTY) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD2_CONF_QTY) = XWIZ.G_OK Then
                                 rh.MRD2_confirmed_qty_Status = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD2_CONF_QTY) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD2_CONF_QTY) = XWIZ.G_NOK Then
                                 rh.MRD2_confirmed_qty_Status = False
                             End If
                             
                             ' MRD2 PUS status
                             ' --------------------------------------------------------------------------
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD2_PUS_STATUS) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD2_PUS_STATUS) = XWIZ.G_OK Then
                                 rh.MRD2_PUS_STATUS = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_MRD2_PUS_STATUS) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_MRD2_PUS_STATUS) = XWIZ.G_NOK Then
                                 rh.MRD2_PUS_STATUS = False
                             End If
                             
                             
                             ' TOTAL PUS STATUS
                             ' --------------------------------------------------------------------------
-                            If wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_TOTAL_PUS_STATUS) = XWiz.G_OK Then
+                            If wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_TOTAL_PUS_STATUS) = XWIZ.G_OK Then
                                 rh.TOTAL_PUS_STATUS = True
-                            ElseIf wrk_sh.Cells(rp.Row, XWiz.E_SIDE_TB_TOTAL_PUS_STATUS) = XWiz.G_NOK Then
+                            ElseIf wrk_sh.Cells(rp.Row, XWIZ.E_SIDE_TB_TOTAL_PUS_STATUS) = XWIZ.G_NOK Then
                                 rh.TOTAL_PUS_STATUS = False
                             End If
                             
@@ -1178,30 +1332,30 @@ Public Sub jeden_item_komentarza(ByRef r As Range, ByRef rh As RecordsHandler)
     If Not r.Comment Is Nothing Then
     
     
-        rh_pn = dopelnij_spacjami(rh.pn, XWiz.G_PN_LEN)
-        rh_pn_nm = dopelnij_spacjami(rh.pn_nm, XWiz.G_PN_NM_LEN)
-        rh_duns = dopelnij_spacjami(Trim(rh.duns), XWiz.G_DUNS_LEN)
-        rh_supp_nm = dopelnij_spacjami(rh.supp_nm, XWiz.G_SUPP_NM_LEN)
-        rh_resp = dopelnij_spacjami(rh.resp, XWiz.G_RESP_LEN)
-        rh_fup = dopelnij_spacjami(rh.fup, XWiz.G_FUPCODE_LEN)
-        rh_del_conf = dopelnij_spacjami(rh.Delivery_confirmation, XWiz.G_DEL_CONF_LEN)
-        rh_ordered_date = dopelnij_spacjami(rh.MRD1_Ordered_Date, XWiz.G_DATES_CW_LEN)
+        rh_pn = dopelnij_spacjami(rh.pn, XWIZ.G_PN_LEN)
+        rh_pn_nm = dopelnij_spacjami(rh.pn_nm, XWIZ.G_PN_NM_LEN)
+        rh_duns = dopelnij_spacjami(Trim(rh.duns), XWIZ.G_DUNS_LEN)
+        rh_supp_nm = dopelnij_spacjami(rh.supp_nm, XWIZ.G_SUPP_NM_LEN)
+        rh_resp = dopelnij_spacjami(rh.resp, XWIZ.G_RESP_LEN)
+        rh_fup = dopelnij_spacjami(rh.fup, XWIZ.G_FUPCODE_LEN)
+        rh_del_conf = dopelnij_spacjami(rh.Delivery_confirmation, XWIZ.G_DEL_CONF_LEN)
+        rh_ordered_date = dopelnij_spacjami(rh.MRD1_Ordered_Date, XWIZ.G_DATES_CW_LEN)
         
         
     
         fcx = ""
         fcx = fcx & _
-            XWiz.XWIZ_TXT_CMNT_HASH & " | " & XWiz.XWIZ_TXT_CMNT_ROW & dopelnij_spacjami(CStr(x), 5) & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_PN_PREFIX & rh_pn & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_PN_NM_PREFIX & rh_pn_nm & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_DUNS_PREFIX & rh_duns & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_SUPP_NM_PREFIX & rh_supp_nm & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_RESP_PREFIX & rh_resp & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_FUP_PREFIX & rh_fup & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_DEL_CONF_PREFIX & rh_del_conf & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX & rh_ordered_date & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_CMNTS_PREFIX & rh.Comments & " | "
-        fcx = fcx & XWiz.XWIZ_TXT_CMNT_LINIA & Chr(10)
+            XWIZ.XWIZ_TXT_CMNT_HASH & " | " & XWIZ.XWIZ_TXT_CMNT_ROW & dopelnij_spacjami(CStr(x), 5) & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_PN_PREFIX & rh_pn & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_PN_NM_PREFIX & rh_pn_nm & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_DUNS_PREFIX & rh_duns & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_SUPP_NM_PREFIX & rh_supp_nm & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_RESP_PREFIX & rh_resp & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_FUP_PREFIX & rh_fup & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_DEL_CONF_PREFIX & rh_del_conf & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX & rh_ordered_date & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_CMNTS_PREFIX & rh.Comments & " | "
+        fcx = fcx & XWIZ.XWIZ_TXT_CMNT_LINIA & Chr(10)
         
         r.Comment.Text r.Comment.Text & fcx
         

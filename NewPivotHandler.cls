@@ -54,7 +54,7 @@ Public Sub init(sr As Range, pivot_sh_nm As String)
     On Error Resume Next
     Set pivot_cache = _
         ThisWorkbook.PivotCaches.Create(SourceType:=xlDatabase, _
-            SourceData:="pivotSource!R1C1:R" & CStr(source_range.Rows.Count) & "C" & CStr(OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+            SourceData:="allSource!R1C1:R" & CStr(source_range.Rows.Count) & "C" & CStr(OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
     
     If pivot_cache Is Nothing Then
@@ -62,7 +62,7 @@ Public Sub init(sr As Range, pivot_sh_nm As String)
         End
     Else
     
-        Set source_sh = ThisWorkbook.Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        Set source_sh = ThisWorkbook.Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
         
         Set pivot_sh = ThisWorkbook.Sheets(CStr(pivot_sh_nm))
     

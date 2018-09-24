@@ -27,7 +27,7 @@ Attribute VB_Exposed = False
 
 
 
-Private Sh As Worksheet
+Private sh As Worksheet
 
 Private uid As String
 
@@ -40,28 +40,28 @@ Public Function get_uid() As String
 End Function
 
 Public Function get_sh() As Worksheet
-    Set get_sh = Sh
+    Set get_sh = sh
 End Function
 
 Private Sub Class_Initialize()
-    Set Sh = ThisWorkbook.Sheets.Add
+    Set sh = ThisWorkbook.Sheets.Add
 End Sub
 
 
 Public Function remove_all_prefixes(txt) As String
     remove_all_prefixes = ""
     
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_HASH, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_ROW, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_PN_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_PN_NM_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_DUNS_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_SUPP_NM_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_RESP_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_FUP_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_DEL_CONF_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX, "")
-    txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_CMNTS_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_HASH, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_ROW, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_PN_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_PN_NM_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_DUNS_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_SUPP_NM_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_RESP_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_FUP_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_DEL_CONF_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX, "")
+    txt = Replace(txt, XWIZ.XWIZ_TXT_CMNT_CMNTS_PREFIX, "")
     
     ' txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_LINIA, "")
     
@@ -79,7 +79,7 @@ Public Sub create_array_and_put_in_it_data_from_(txt)
     prepare_labels
     
     Dim r As Range
-    Set r = Sh.Range("A3")
+    Set r = sh.Range("A3")
     
     i = 1
     For x = LBound(arr) To UBound(arr)
@@ -89,7 +89,7 @@ Public Sub create_array_and_put_in_it_data_from_(txt)
         
         i = i + 1
         
-        If i = XWiz.E_CMNT_LINIA Then
+        If i = XWIZ.E_CMNT_LINIA Then
             i = 1
             x = x + 1
             Set r = r.Offset(1, 0)
@@ -101,7 +101,7 @@ End Sub
 Private Sub prepare_labels()
     
     Dim r As Range
-    Set r = Sh.Range("A2")
+    Set r = sh.Range("A2")
     
     'txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_HASH, "")
     'txt = Replace(txt, XWiz.XWIZ_TXT_CMNT_ROW, "")
@@ -124,7 +124,7 @@ Private Sub prepare_labels()
     r.Offset(0, 7) = XWIZ_TXT_CMNT_FUP_PREFIX
     
     r.Offset(0, 8) = XWIZ_TXT_CMNT_DEL_CONF_PREFIX
-    r.Offset(0, 9) = XWiz.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX
+    r.Offset(0, 9) = XWIZ.XWIZ_TXT_CMNT_MRD1_Ordered_Date_PREFIX
     r.Offset(0, 10) = XWIZ_TXT_CMNT_CMNTS_PREFIX
 End Sub
 
@@ -134,14 +134,14 @@ End Sub
 
 
 Public Sub nazwa_kolumny(r)
-    Sh.Range("A1") = r
+    sh.Range("A1") = r
 End Sub
 
 
 Public Sub projekt(r)
-    Sh.Range("B1") = r
+    sh.Range("B1") = r
 End Sub
 
 Public Sub lokalizacja_pliku(r)
-    Sh.Range("C1") = r
+    sh.Range("C1") = r
 End Sub

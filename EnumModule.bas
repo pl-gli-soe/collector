@@ -40,6 +40,7 @@ Public Enum E_RUN_REP_TYPE
     RUN_DUNS
     RUN_PN
     NEW_RUN_ALL
+    NEW_RUN_EXTENDED = 100
 End Enum
 
 Public Enum E_COLLECTOR_SIDE_TABLE
@@ -167,15 +168,15 @@ End Enum
 Public Enum E_NEW_PROJECT_ITEM
     plt = 1
     PROJECT
-    BIW_GA ' BIW or GA
+    BIW_GA ' BIW or GA ' 3
     my
     PHAZE
     bom
     PICKUP_DATE
     ppap_gate
     mrd
-    BUILD_START
-    BUILD_END
+    build_start
+    build_end
     koordynator
     E_ACTIVE
     CAPACITY_CHECK

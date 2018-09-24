@@ -23,6 +23,7 @@ End Sub
 
 Public Sub clear_data_for_pivot_logic(ictrl As IRibbonControl)
     clear_sheet_named_all
+    clear_sheet_named_pivot_source
     clear_pivot_sheets
 End Sub
 
@@ -31,16 +32,16 @@ Public Sub clear_all_sides_and_custom_sheets(ictrl As IRibbonControl)
 End Sub
 
 Public Sub clear_rep_only(ictrl As IRibbonControl)
-    inner_clear_rep_type_sheet CStr(XWiz.REP_SHEET_NAME)
+    inner_clear_rep_type_sheet CStr(XWIZ.REP_SHEET_NAME)
 End Sub
 
 Public Sub clear_reps(ictrl As IRibbonControl)
-    inner_clear_rep_type_sheet CStr(XWiz.REP_SHEET_NAME)
-    inner_clear_rep_type_sheet CStr(XWiz.REP_FUP_SHEET_NAME)
+    inner_clear_rep_type_sheet CStr(XWIZ.REP_SHEET_NAME)
+    inner_clear_rep_type_sheet CStr(XWIZ.REP_FUP_SHEET_NAME)
 End Sub
 
 Public Sub clear_rep_fup_only(ictrl As IRibbonControl)
-    inner_clear_rep_type_sheet CStr(XWiz.REP_FUP_SHEET_NAME)
+    inner_clear_rep_type_sheet CStr(XWIZ.REP_FUP_SHEET_NAME)
 End Sub
 
 
@@ -49,9 +50,9 @@ End Sub
 Public Sub clear_pivot_sheets()
 
 
-    answer = MsgBox("Czy jestes pewien akcji pozbycia sie arkuszy pivotowych!?", vbYesNo, "!")
-    
-    If answer = vbYes Then
+    'answer = MsgBox("Czy jestes pewien akcji pozbycia sie arkuszy pivotowych!?", vbYesNo, "!")
+    '
+    'If answer = vbYes Then
     
         Application.DisplayAlerts = False
 
@@ -68,21 +69,21 @@ Public Sub clear_pivot_sheets()
         Next x
     
         Application.DisplayAlerts = True
-    Else
-        MsgBox "arkusze pivotowe nie zostaly usuniete"
-    End If
+    'Else
+    '    MsgBox "arkusze pivotowe nie zostaly usuniete"
+    'End If
 End Sub
 
 Public Sub clear_sheet_named_all()
 
 
     
-    answer = MsgBox("Czy jestes pewien akcji wyczyszczenia arkusza all!?", vbYesNo, "!")
+    'answer = MsgBox("Czy jestes pewien akcji wyczyszczenia arkusza all!?", vbYesNo, "!")
+    '
+    'If answer = vbYes Then
     
-    If answer = vbYes Then
     
-    
-        With ThisWorkbook.Sheets(XWiz.ALL_SHEET_NAME)
+        With ThisWorkbook.Sheets(XWIZ.ALL_SHEET_NAME)
             
             On Error Resume Next
             .ShowAllData
@@ -94,47 +95,73 @@ Public Sub clear_sheet_named_all()
             r.Clear
         
         End With
-    Else
-        MsgBox "arkusz all nie zostal wyczyszczony"
-    End If
+    'Else
+    '    MsgBox "arkusz all nie zostal wyczyszczony"
+    'End If
+End Sub
+
+Public Sub clear_sheet_named_pivot_source()
+
+
+    
+    'answer = MsgBox("Czy jestes pewien akcji wyczyszczenia arkusza pivot source!?", vbYesNo, "!")
+    '
+    'If answer = vbYes Then
+    
+    
+        With ThisWorkbook.Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
+            
+            On Error Resume Next
+            .ShowAllData
+        
+            Set r = .Range("a2")
+            Set r = .Range(r, r.Offset(100000, 1000))
+            
+            r.ClearComments
+            r.Clear
+        
+        End With
+    'Else
+    '    MsgBox "arkusz pivot source nie zostal wyczyszczony"
+    'End If
 End Sub
 
 
 
 
-Private Sub remove_side_sheets()
+Public Sub remove_side_sheets()
 
 
 
-    answer = MsgBox("Czy jestes pewien akcji usuniecia arkuszy sideowych!?", vbYesNo, "!")
-    
-    If answer = vbYes Then
+    'answer = MsgBox("Czy jestes pewien akcji usuniecia arkuszy sideowych!?", vbYesNo, "!")
+    '
+    'If answer = vbYes Then
     
         Application.DisplayAlerts = False
 
-        With ThisWorkbook.Sheets(XWiz.REP_SHEET_NAME)
-            For Each Sh In .Parent.Sheets
-                If Sh.Name <> XWiz.REP_SHEET_NAME And _
-                Sh.Name <> XWiz.CONFIG_SHEET_NAME And _
-                Sh.Name <> XWiz.REP_FUP_SHEET_NAME And _
-                Sh.Name <> XWiz.PIVOT_SOURCE_SHEET_NAME And _
-                Sh.Name <> XWiz.ALL_SHEET_NAME Then
-                    Sh.Delete
+        With ThisWorkbook.Sheets(XWIZ.REP_SHEET_NAME)
+            For Each sh In .Parent.Sheets
+                If sh.Name <> XWIZ.REP_SHEET_NAME And _
+                sh.Name <> XWIZ.CONFIG_SHEET_NAME And _
+                sh.Name <> XWIZ.REP_FUP_SHEET_NAME And _
+                sh.Name <> XWIZ.PIVOT_SOURCE_SHEET_NAME And _
+                sh.Name <> XWIZ.ALL_SHEET_NAME Then
+                    sh.Delete
                 End If
-            Next Sh
+            Next sh
         End With
         
         Application.DisplayAlerts = True
-    Else
-        MsgBox "arkusze sideowe nie zostana usuniete"
-    End If
+    'Else
+    '    MsgBox "arkusze sideowe nie zostana usuniete"
+    'End If
 End Sub
 
 Private Sub inner_clear_rep_type_sheet(worksheet_name As String)
 
-    answer = MsgBox("Czy jestes pewien akcji czyszczenia arkusza " & CStr(worksheet_name) & "!?", vbYesNo, "!")
-    
-    If answer = vbYes Then
+    'answer = MsgBox("Czy jestes pewien akcji czyszczenia arkusza " & CStr(worksheet_name) & "!?", vbYesNo, "!")
+    '
+    'If answer = vbYes Then
     
         Application.DisplayAlerts = False
     
@@ -159,37 +186,38 @@ Private Sub inner_clear_rep_type_sheet(worksheet_name As String)
     
     
         Application.DisplayAlerts = True
-    Else
-        MsgBox "arkusza " & CStr(worksheet_name) & " nie zostanie wyczyszczony"
-    End If
+    'Else
+    '    MsgBox "arkusza " & CStr(worksheet_name) & " nie zostanie wyczyszczony"
+    'End If
 End Sub
 
 Private Sub inner_clear_all_old_data()
 
 
 
-    answer = MsgBox("Czy jestes pewien!?", vbYesNo, "!")
-    
-    If answer = vbYes Then
+    'answer = MsgBox("Czy jestes pewien!?", vbYesNo, "!")
+    '
+    'If answer = vbYes Then
     
         Application.DisplayAlerts = False
         
-        inner_clear_rep_type_sheet CStr(XWiz.REP_SHEET_NAME)
+        inner_clear_rep_type_sheet CStr(XWIZ.REP_SHEET_NAME)
             
             
         remove_side_sheets
         
         
-        inner_clear_rep_type_sheet CStr(XWiz.REP_FUP_SHEET_NAME)
+        inner_clear_rep_type_sheet CStr(XWIZ.REP_FUP_SHEET_NAME)
         
         clear_sheet_named_all
+        clear_sheet_named_pivot_source
         
         
         clear_pivot_sheets
         
         
         Application.DisplayAlerts = True
-    Else
-        MsgBox "nic nie zostanie usuniete!"
-    End If
+    'Else
+    '    MsgBox "nic nie zostanie usuniete!"
+    'End If
 End Sub

@@ -53,11 +53,11 @@ Public Sub inner_resp_pivot()
     With ThisWorkbook
         Application.DisplayAlerts = False
         On Error Resume Next
-        .Sheets(XWiz.RESP_PIVOT_SHEET_NAME).Delete
+        .Sheets(XWIZ.RESP_PIVOT_SHEET_NAME).Delete
         Application.DisplayAlerts = True
         Set pivotsh = .Sheets.Add
-        pivotsh.Name = XWiz.RESP_PIVOT_SHEET_NAME
-        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        pivotsh.Name = XWIZ.RESP_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
         ActiveWindow.Zoom = 80
     End With
     
@@ -68,7 +68,7 @@ Public Sub inner_resp_pivot()
         Set k = k.Offset(1, 0)
     Loop Until k = ""
     
-    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWIZ.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
     
     
@@ -90,7 +90,7 @@ Public Sub inner_resp_pivot()
         
         Dim np As NewPivotHandler
         Set np = New NewPivotHandler
-        np.init source_range, XWiz.RESP_PIVOT_SHEET_NAME
+        np.init source_range, XWIZ.RESP_PIVOT_SHEET_NAME
         np.config_pivot ww, wk, wc, wp
         'np.add_slicers slajsers
         
@@ -117,11 +117,11 @@ Public Sub inner_ppap_pivot()
     With ThisWorkbook
         Application.DisplayAlerts = False
         On Error Resume Next
-        .Sheets(XWiz.PPAP_PIVOT_SHEET_NAME).Delete
+        .Sheets(XWIZ.PPAP_PIVOT_SHEET_NAME).Delete
         Application.DisplayAlerts = True
         Set pivotsh = .Sheets.Add
-        pivotsh.Name = XWiz.PPAP_PIVOT_SHEET_NAME
-        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        pivotsh.Name = XWIZ.PPAP_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
         ActiveWindow.Zoom = 80
     End With
     
@@ -132,7 +132,7 @@ Public Sub inner_ppap_pivot()
         Set k = k.Offset(1, 0)
     Loop Until k = ""
     
-    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWIZ.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
     
     
@@ -155,7 +155,7 @@ Public Sub inner_ppap_pivot()
         
         Dim np As NewPivotHandler
         Set np = New NewPivotHandler
-        np.init source_range, XWiz.PPAP_PIVOT_SHEET_NAME
+        np.init source_range, XWIZ.PPAP_PIVOT_SHEET_NAME
         np.config_pivot ww, wk, wc, wp
         ' np.add_slicers slajsers
         np.add_totals
@@ -180,11 +180,11 @@ Public Sub inner_fup_pivot()
     With ThisWorkbook
         Application.DisplayAlerts = False
         On Error Resume Next
-        .Sheets(XWiz.FUP_PIVOT_SHEET_NAME).Delete
+        .Sheets(XWIZ.FUP_PIVOT_SHEET_NAME).Delete
         Application.DisplayAlerts = True
         Set pivotsh = .Sheets.Add
-        pivotsh.Name = XWiz.FUP_PIVOT_SHEET_NAME
-        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        pivotsh.Name = XWIZ.FUP_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
         ActiveWindow.Zoom = 80
     End With
     
@@ -195,7 +195,7 @@ Public Sub inner_fup_pivot()
         Set k = k.Offset(1, 0)
     Loop Until k = ""
     
-    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWIZ.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
     
     
@@ -218,7 +218,7 @@ Public Sub inner_fup_pivot()
         
         Dim np As NewPivotHandler
         Set np = New NewPivotHandler
-        np.init source_range, XWiz.FUP_PIVOT_SHEET_NAME
+        np.init source_range, XWIZ.FUP_PIVOT_SHEET_NAME
         np.config_pivot ww, wk, wc, wp
         ' np.add_slicers slajsers
         np.add_totals
@@ -254,11 +254,11 @@ Public Sub inner_pn_pivot()
     With ThisWorkbook
         Application.DisplayAlerts = False
         On Error Resume Next
-        .Sheets(XWiz.PN_PIVOT_SHEET_NAME).Delete
+        .Sheets(XWIZ.PN_PIVOT_SHEET_NAME).Delete
         Application.DisplayAlerts = True
         Set pivotsh = .Sheets.Add
-        pivotsh.Name = XWiz.PN_PIVOT_SHEET_NAME
-        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        pivotsh.Name = XWIZ.PN_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
         ActiveWindow.Zoom = 80
     End With
     
@@ -269,7 +269,7 @@ Public Sub inner_pn_pivot()
         Set k = k.Offset(1, 0)
     Loop Until k = ""
     
-    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWIZ.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
     
     
@@ -291,7 +291,7 @@ Public Sub inner_pn_pivot()
         
         Dim np As NewPivotHandler
         Set np = New NewPivotHandler
-        np.init source_range, XWiz.PN_PIVOT_SHEET_NAME
+        np.init source_range, XWIZ.PN_PIVOT_SHEET_NAME
         np.config_pivot ww, wk, wc, wp
         np.add_slicers slajsers
         Set np = Nothing
@@ -317,11 +317,11 @@ Private Sub inner_del_conf_pivot()
     With ThisWorkbook
         Application.DisplayAlerts = False
         On Error Resume Next
-        .Sheets(XWiz.DEL_CONF_PIVOT_SHEET_NAME).Delete
+        .Sheets(XWIZ.DEL_CONF_PIVOT_SHEET_NAME).Delete
         Application.DisplayAlerts = True
         Set pivotsh = .Sheets.Add
-        pivotsh.Name = XWiz.DEL_CONF_PIVOT_SHEET_NAME
-        Set pivotsourcesh = .Sheets(XWiz.PIVOT_SOURCE_SHEET_NAME)
+        pivotsh.Name = XWIZ.DEL_CONF_PIVOT_SHEET_NAME
+        Set pivotsourcesh = .Sheets(XWIZ.PIVOT_SOURCE_SHEET_NAME)
         ActiveWindow.Zoom = 80
     End With
     
@@ -332,7 +332,7 @@ Private Sub inner_del_conf_pivot()
         Set k = k.Offset(1, 0)
     Loop Until k = ""
     
-    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWiz.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
+    Set source_range = pivotsourcesh.Range(p, k.Offset(-1, XWIZ.OSTATNIA_KOLUMNA_DLA_PIVOT_SOURCE))
     
     
     If source_range.Count > 1 Then
@@ -355,7 +355,7 @@ Private Sub inner_del_conf_pivot()
         
         Dim np As NewPivotHandler
         Set np = New NewPivotHandler
-        np.init source_range, XWiz.DEL_CONF_PIVOT_SHEET_NAME
+        np.init source_range, XWIZ.DEL_CONF_PIVOT_SHEET_NAME
         np.config_pivot ww, wk, wc, wp
         ' np.add_slicers slajsers
         Set np = Nothing
